@@ -1,0 +1,9 @@
+.idea
+.idea/*
+docker/app/apache/logs/*.log
+
+/docker/mysql/data/*
+!/docker/mysql/data/.gitkeep
+
+/docker/apache/logs/*
+!/docker/apache/logs/.gitkeep

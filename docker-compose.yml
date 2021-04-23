@@ -1,0 +1,28 @@
+version: "3.0"
+services:
+  app:
+    build: ./docker
+    ports:
+      - "8072:80"
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/apache/sites-enabled:/etc/apache2/sites-enabled
+      - ./docker/apache/logs:/var/log/apache2/
+    environment:
+      - APP_DEBUG=true
+    links:
+      - mysql:mysql
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 8073:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
+      - MYSQL_DATABASE=main_db
+    logging:
+      driver: none
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
