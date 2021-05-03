@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -47,5 +48,20 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             throw new \Exception("User not found");
         }
         return $user;
+    }
+
+    /**
+     * @param User $entity
+     * @throws \Exception
+     */
+    public function save(User $entity): void
+    {
+        try {
+            $this->_em->persist($entity);
+            $this->_em->flush();
+        } catch (ORMException $e) {
+            $this->_em->rollback();
+            throw new \Exception($e->getMessage());
+        }
     }
 }

@@ -149,4 +149,12 @@ class User implements UserInterface
     {
         return $this->createdAt;
     }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
 }
