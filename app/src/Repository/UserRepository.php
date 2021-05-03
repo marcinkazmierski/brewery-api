@@ -9,17 +9,23 @@ use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
 {
     /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    /**
      * UserRepository constructor.
      * @param ManagerRegistry $registry
+     * @param UserPasswordEncoderInterface $encoder
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, UserPasswordEncoderInterface $encoder)
     {
         parent::__construct($registry, User::class);
+        $this->passwordEncoder = $encoder;
     }
 
     /**
@@ -63,5 +69,20 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             $this->_em->rollback();
             throw new \Exception($e->getMessage());
         }
+    }
+
+    /**
+     * @param string $email
+     * @param string $password
+     * @return User
+     * @throws \Exception
+     */
+    public function getUserByEmailAndPassword(string $email, string $password): User
+    {
+        $user = $this->getUserByEmail($email);
+        if (!$this->passwordEncoder->isPasswordValid($user, $password)) {
+            throw new \Exception("Invalid password");
+        }
+        return $user;
     }
 }
