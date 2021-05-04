@@ -53,12 +53,18 @@ class User implements UserInterface
     private $reviews;
 
     /**
+     * @ORM\ManyToMany(targetEntity=Beer::class, inversedBy="allowedUsers")
+     */
+    private $unlockedBeers;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->reviews = new ArrayCollection();
+        $this->unlockedBeers = new ArrayCollection();
     }
 
     /**
@@ -192,6 +198,30 @@ class User implements UserInterface
                 $review->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Beer[]
+     */
+    public function getUnlockedBeers(): Collection
+    {
+        return $this->unlockedBeers;
+    }
+
+    public function addUnlockedBeer(Beer $unlockedBeer): self
+    {
+        if (!$this->unlockedBeers->contains($unlockedBeer)) {
+            $this->unlockedBeers[] = $unlockedBeer;
+        }
+
+        return $this;
+    }
+
+    public function removeUnlockedBeer(Beer $unlockedBeer): self
+    {
+        $this->unlockedBeers->removeElement($unlockedBeer);
 
         return $this;
     }

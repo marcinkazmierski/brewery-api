@@ -43,7 +43,7 @@ class Beer
     /**
      * @ORM\Column(type="integer")
      */
-    private $status;
+    private $status = 1;
 
     /**
      * @ORM\Column(type="array")
@@ -75,10 +75,16 @@ class Beer
      */
     private $backgroundImage;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="unlockedBeers")
+     */
+    private $allowedUsers;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->allowedUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -225,6 +231,33 @@ class Beer
     public function setBackgroundImage(string $backgroundImage): self
     {
         $this->backgroundImage = $backgroundImage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getAllowedUsers(): Collection
+    {
+        return $this->allowedUsers;
+    }
+
+    public function addAllowedUser(User $allowedUser): self
+    {
+        if (!$this->allowedUsers->contains($allowedUser)) {
+            $this->allowedUsers[] = $allowedUser;
+            $allowedUser->addUnlockedBeer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAllowedUser(User $allowedUser): self
+    {
+        if ($this->allowedUsers->removeElement($allowedUser)) {
+            $allowedUser->removeUnlockedBeer($this);
+        }
 
         return $this;
     }
