@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\BeerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,10 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=BeerRepository::class)
  * @ORM\Table(name="beers")
+ * @ApiResource(attributes={"security"="is_granted('ROLE_USER')"},collectionOperations={"get"={"normalization_context"={"groups"="beer:list"}}}, itemOperations={"get"={"normalization_context"={"groups"="beer:item"}}})
  */
 class Beer
 {
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -21,21 +25,25 @@ class Beer
     private $id;
 
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\Column(type="string", length=2048)
      */
     private $description;
 
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\Column(type="string", length=1024)
      */
     private $malts;
 
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\Column(type="string", length=1024)
      */
     private $hops;
@@ -46,31 +54,37 @@ class Beer
     private $status = 1;
 
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\Column(type="array")
      */
     private $tags = [];
 
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\Column(type="string", length=255)
      */
     private $icon;
 
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\Column(type="string", length=512)
      */
     private $code;
 
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="beer", orphanRemoval=true)
      */
     private $reviews;
 
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
+     * @Groups({"beer:list", "beer:item"})
      * @ORM\Column(type="string", length=255)
      */
     private $backgroundImage;

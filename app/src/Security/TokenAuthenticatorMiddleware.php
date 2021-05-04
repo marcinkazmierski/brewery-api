@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Security;
 
 
+use App\Repository\UserTokenRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,8 +17,22 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class TokenAuthenticatorMiddleware extends AbstractGuardAuthenticator
 {
+    /** @var UserTokenRepository */
+    private $userTokenRepository;
+
     /** @var LoggerInterface */
-    protected $logger;
+    private $logger;
+
+    /**
+     * TokenAuthenticatorMiddleware constructor.
+     * @param UserTokenRepository $userTokenRepository
+     * @param LoggerInterface $logger
+     */
+    public function __construct(UserTokenRepository $userTokenRepository, LoggerInterface $logger)
+    {
+        $this->userTokenRepository = $userTokenRepository;
+        $this->logger = $logger;
+    }
 
     /**
      * Called on every request to decide if this authenticator should be
@@ -45,11 +60,11 @@ class TokenAuthenticatorMiddleware extends AbstractGuardAuthenticator
             // Code 401 "Unauthorized"
             throw new AuthenticationException("Unauthorized: empty X-AUTH-TOKEN header field.");
         }
-
+        $token = $this->userTokenRepository->getTokenByTokenKey($credentials);
         // The "username" in this case is the apiToken, see the key `property`
         // of `your_db_provider` in `security.yaml`.
         // If this returns a user, checkCredentials() is called next:
-        return $userProvider->loadUserByUsername($credentials);
+        return $userProvider->loadUserByUsername($token->getUser()->getUsername());
     }
 
     public function checkCredentials($credentials, UserInterface $user): bool

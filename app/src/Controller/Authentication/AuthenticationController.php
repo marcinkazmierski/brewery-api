@@ -5,6 +5,7 @@ namespace App\Controller\Authentication;
 
 
 use App\Repository\UserRepository;
+use App\Repository\UserTokenRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * @Route("/api/v1/auth")
+ * @Route("/api/auth")
  *
  * Class AuthenticationController
  * @package App\Controller\Authentication
@@ -22,13 +23,18 @@ class AuthenticationController extends AbstractController
     /** @var UserRepository */
     private $userRepository;
 
+    /** @var UserTokenRepository */
+    private $userTokenRepository;
+
     /**
      * AuthenticationController constructor.
      * @param UserRepository $userRepository
+     * @param UserTokenRepository $userTokenRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, UserTokenRepository $userTokenRepository)
     {
         $this->userRepository = $userRepository;
+        $this->userTokenRepository = $userTokenRepository;
     }
 
     /**
@@ -40,6 +46,7 @@ class AuthenticationController extends AbstractController
      * )
      * @param Request $request
      * @return JsonResponse
+     * @throws \Exception
      */
     public function authenticate(
         Request $request
@@ -49,8 +56,8 @@ class AuthenticationController extends AbstractController
         $email = (string)($content['email'] ?? '');
         $password = (string)($content['password'] ?? '');
         $user = $this->userRepository->getUserByEmailAndPassword($email, $password);
-
-        $responseData = ['authenticate' => 'OK', 'userId' => $user->getId()];
+        $token = $this->userTokenRepository->generateToken($user);
+        $responseData = ['authenticate' => 'OK', 'userId' => $user->getId(), 'token' => $token->getTokenKey()];
         return new JsonResponse($responseData, JsonResponse::HTTP_OK);
     }
 }

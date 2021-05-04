@@ -9,6 +9,7 @@
 - `php bin/console debug:router` - wyświetla wszystkie ścieżki w aplikacji.
 - `php bin/console cache:clear` - czyszczenie cache
 - `php bin/console cache:pool:clear cache.app` - czyszczenie cache dla cache.app pool
+- `symfony console debug:autowiring NAZWA` - wyświetla wszystkie kontenety do DI z NAZWA
 
 ## Komendy [custom]
 - `php bin/console users:create EMAIL NICK PASSWORD` - Create new user in database.
@@ -28,3 +29,5 @@
 - migracje: 'symfony console make:migration' > Aktualizacja bazy danych, wgranie migracji: 'symfony console doctrine:migrations:migrate'
 - panel admina: 'symfony composer req "admin:^3"' 
 - generowanie CRUD dla wszystkich encji dla panelu: 'symfony console make:admin:crud'
+- do zarządzania stringami: https://packagist.org/packages/symfony/string
+- API: 'symfony composer req api' (https://api-platform.com/docs/distribution/)
