@@ -1,6 +1,6 @@
 # brewery-api
 
-## Komendy [Symfony4]
+## Komendy [Symfony]
 
 - `php bin/console doctrine:generate:entity` - dodatnie nowej encji
 - `php bin/console doctrine:schema:update --force` - aktualizacja bazy
@@ -10,5 +10,19 @@
 - `php bin/console cache:clear` - czyszczenie cache
 - `php bin/console cache:pool:clear cache.app` - czyszczenie cache dla cache.app pool
 
+## Komendy [custom]
+- `php bin/console users:create EMAIL NICK PASSWORD` - Create new user in database.
 
-
+## TODO: symfony 5 (https://symfony.com/doc/current/the-fast-track/pl/index.html)
+- php: 8.0
+- symfony CLI
+- Uruchomienie lokalnego serwera WWW > 'symfony server:start -d' > 'symfony open:local'
+- profiler: 'symfony composer req profiler --dev'
+- logger: 'symfony composer req logger'
+- narzędzie developerskie 'symfony composer req debug --dev'
+- logi w cli: 'symfony server:log'
+- instalacja zdebuga z phpstormem, w php.ini coś typu: "xdebug.file_link_format=vscode://file/%f:%l"
+- Maker Bundle > 'symfony composer req maker --dev' > 'symfony console list make'
+- generowanie controllera: 'symfony console make:controller ConferenceController'
+- tworzenie encji 'symfony console make:entity Conference'
+- migracje: 'symfony console make:migration' > Aktualizacja lokalnej bazy danych: 'symfony console doctrine:migrations:migrate'
