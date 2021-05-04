@@ -21,8 +21,10 @@
 - logger: 'symfony composer req logger'
 - narzędzie developerskie 'symfony composer req debug --dev'
 - logi w cli: 'symfony server:log'
-- instalacja zdebuga z phpstormem, w php.ini coś typu: "xdebug.file_link_format=vscode://file/%f:%l"
+- instalacja zdebuga z phpstormem, w php.ini coś typu: "xdebug.file_link_format=vscode://file/%f:%l"
 - Maker Bundle > 'symfony composer req maker --dev' > 'symfony console list make'
 - generowanie controllera: 'symfony console make:controller ConferenceController'
 - tworzenie encji 'symfony console make:entity Conference'
 - migracje: 'symfony console make:migration' > Aktualizacja lokalnej bazy danych: 'symfony console doctrine:migrations:migrate'
+- panel admina: 'symfony composer req "admin:^3"' 
+- generowanie CRUD dla wszystkich encji dla panelu: 'symfony console make:admin:crud'
