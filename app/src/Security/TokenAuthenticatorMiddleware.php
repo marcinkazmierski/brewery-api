@@ -17,6 +17,12 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class TokenAuthenticatorMiddleware extends AbstractGuardAuthenticator
 {
+    const AUTHENTICATION_WHITELIST = [
+        '#/api/auth/authenticate#',
+        '#/api/register#',
+        '#/api/register/activate/(.+)#',
+    ];
+
     /** @var UserTokenRepository */
     private $userTokenRepository;
 
@@ -41,6 +47,11 @@ class TokenAuthenticatorMiddleware extends AbstractGuardAuthenticator
      */
     public function supports(Request $request): bool
     {
+        foreach (self::AUTHENTICATION_WHITELIST as $item) {
+            if (preg_match_all($item, $request->getRequestUri(), $result)) {
+                return false;
+            }
+        }
         return true;
     }
 

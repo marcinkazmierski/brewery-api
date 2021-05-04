@@ -14,15 +14,16 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
-            pattern:            /api/(.*)
-            anonymous: ~
-            logout: ~
+        api:
+            pattern: ^/api/
+            stateless: true
+            anonymous: true
             provider: custom_user_provider
             guard:
-              authenticators:
-                - App\Security\TokenAuthenticatorMiddleware
-
+                authenticators:
+                    - App\Security\TokenAuthenticatorMiddleware
+        main:
+            anonymous: true
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
