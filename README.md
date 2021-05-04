@@ -25,6 +25,6 @@
 - Maker Bundle > 'symfony composer req maker --dev' > 'symfony console list make'
 - generowanie controllera: 'symfony console make:controller ConferenceController'
 - tworzenie encji 'symfony console make:entity Conference'
-- migracje: 'symfony console make:migration' > Aktualizacja lokalnej bazy danych: 'symfony console doctrine:migrations:migrate'
+- migracje: 'symfony console make:migration' > Aktualizacja bazy danych, wgranie migracji: 'symfony console doctrine:migrations:migrate'
 - panel admina: 'symfony composer req "admin:^3"' 
 - generowanie CRUD dla wszystkich encji dla panelu: 'symfony console make:admin:crud'
