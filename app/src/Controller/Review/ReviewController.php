@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Review;
 
 use App\Application\Domain\Entity\Beer;
 use App\Application\Domain\Entity\Review;
