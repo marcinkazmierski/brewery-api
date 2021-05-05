@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repository;
+namespace App\Application\Infrastructure\Repository;
 
-use App\Entity\User;
-use App\Entity\UserToken;
+use App\Application\Domain\Entity\User;
+use App\Application\Domain\Entity\UserToken;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -2,9 +2,9 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Beer;
-use App\Entity\Review;
-use App\Entity\User;
+use App\Application\Domain\Entity\Beer;
+use App\Application\Domain\Entity\Review;
+use App\Application\Domain\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -25,9 +25,6 @@ class UsersFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        // $product = new Product();
-        // $manager->persist($product);
-
         $user = new User();
         $user->setEmail("test@test.pl");
         $user->setNick("Testowy");

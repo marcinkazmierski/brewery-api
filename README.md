@@ -13,6 +13,7 @@
 
 ## Komendy [custom]
 - `php bin/console users:create EMAIL NICK PASSWORD` - Create new user in database.
+- `php bin/console code:generator:usecase MyUseCase` - generowanie nowego use case w strukturze Domain/Infrastructure
 
 ## TODO: symfony 5 (https://symfony.com/doc/current/the-fast-track/pl/index.html)
 - php: 8.0

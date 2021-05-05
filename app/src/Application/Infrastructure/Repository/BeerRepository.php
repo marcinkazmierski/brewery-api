@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Application\Infrastructure\Repository;
 
-use App\Entity\Beer;
+use App\Application\Domain\Entity\Beer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

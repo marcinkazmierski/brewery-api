@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Application\Domain\Entity;
 
 use App\Repository\UserTokenRepository;
 use Doctrine\ORM\Mapping as ORM;

@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Beer;
-use App\Entity\Review;
-use App\Entity\User;
+use App\Application\Domain\Entity\Beer;
+use App\Application\Domain\Entity\Review;
+use App\Application\Domain\Entity\User;
+use App\Application\Infrastructure\Repository\BeerRepository;
+use App\Application\Infrastructure\Repository\ReviewRepository;
 use App\Exceptions\ValidateException;
-use App\Repository\BeerRepository;
-use App\Repository\ReviewRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

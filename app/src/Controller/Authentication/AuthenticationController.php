@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Controller\Authentication;
 
 
-use App\Repository\UserRepository;
-use App\Repository\UserTokenRepository;
+use App\Application\Infrastructure\Repository\UserRepository;
+use App\Application\Infrastructure\Repository\UserTokenRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

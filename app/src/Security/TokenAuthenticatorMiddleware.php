@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Security;
 
 
-use App\Repository\UserTokenRepository;
+use App\Application\Infrastructure\Repository\UserTokenRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

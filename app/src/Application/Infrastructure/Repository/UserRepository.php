@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Application\Infrastructure\Repository;
 
-use App\Entity\User;
+use App\Application\Domain\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
