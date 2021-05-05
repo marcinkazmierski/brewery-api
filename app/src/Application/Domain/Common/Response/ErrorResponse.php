@@ -26,23 +26,16 @@ class ErrorResponse
     protected $userMessage;
 
     /**
-     * @var \stdClass
-     */
-    protected $additional;
-
-    /**
      * ErrorResponse constructor.
      * @param string $code
      * @param string $message
      * @param string $userMessage
-     * @param \stdClass|null $additional
      */
-    public function __construct(string $code, string $message, string $userMessage, \stdClass $additional = null)
+    public function __construct(string $code, string $message, string $userMessage)
     {
         $this->code = $code;
         $this->message = $message;
         $this->userMessage = $userMessage;
-        $this->additional = $additional ?? new \stdClass();
     }
 
     /**
@@ -69,25 +62,16 @@ class ErrorResponse
         return $this->userMessage;
     }
 
-    /**
-     * @return \stdClass
-     */
-    public function getAdditional(): \stdClass
-    {
-        return $this->additional;
-    }
-
 
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             ErrorResponseFieldMapper::CODE => $this->getCode(),
             ErrorResponseFieldMapper::MESSAGE => $this->getMessage(),
             ErrorResponseFieldMapper::USER_MESSAGE => $this->getUserMessage(),
-            ErrorResponseFieldMapper::ADDITIONAL => $this->getAdditional(),
         ];
     }
 }

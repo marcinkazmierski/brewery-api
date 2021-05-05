@@ -35,6 +35,11 @@ class UserToken
     private $user;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $appVersion;
+
+    /**
      * UserToken constructor.
      */
     public function __construct()
@@ -72,6 +77,19 @@ class UserToken
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+
+    public function getAppVersion(): ?string
+    {
+        return $this->appVersion;
+    }
+
+    public function setAppVersion(string $appVersion): self
+    {
+        $this->appVersion = $appVersion;
 
         return $this;
     }

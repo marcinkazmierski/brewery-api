@@ -6,6 +6,7 @@
 parameters:
 
 services:
+    Monolog\Formatter\JsonFormatter: ~
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -17,7 +18,7 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/Application/Domain/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 

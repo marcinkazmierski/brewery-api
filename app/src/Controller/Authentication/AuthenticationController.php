@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Controller\Authentication;
 
 
-use App\Application\Infrastructure\Repository\UserRepository;
-use App\Application\Infrastructure\Repository\UserTokenRepository;
+use App\Application\Domain\Common\Mapper\RequestFieldMapper;
+use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationToken;
+use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationTokenPresenterInterface;
+use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationTokenRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,22 +22,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AuthenticationController extends AbstractController
 {
-    /** @var UserRepository */
-    private $userRepository;
-
-    /** @var UserTokenRepository */
-    private $userTokenRepository;
-
-    /**
-     * AuthenticationController constructor.
-     * @param UserRepository $userRepository
-     * @param UserTokenRepository $userTokenRepository
-     */
-    public function __construct(UserRepository $userRepository, UserTokenRepository $userTokenRepository)
-    {
-        $this->userRepository = $userRepository;
-        $this->userTokenRepository = $userTokenRepository;
-    }
 
     /**
      * User authentication
@@ -49,15 +35,18 @@ class AuthenticationController extends AbstractController
      * @throws \Exception
      */
     public function authenticate(
-        Request $request
+        Request $request,
+        GenerateAuthenticationToken $authentication,
+        GenerateAuthenticationTokenPresenterInterface $presenter
     ): JsonResponse
     {
         $content = json_decode($request->getContent(), true);
-        $email = (string)($content['email'] ?? '');
-        $password = (string)($content['password'] ?? '');
-        $user = $this->userRepository->getUserByEmailAndPassword($email, $password);
-        $token = $this->userTokenRepository->generateToken($user);
-        $responseData = ['authenticate' => 'OK', 'userId' => $user->getId(), 'token' => $token->getTokenKey()];
-        return new JsonResponse($responseData, JsonResponse::HTTP_OK);
+        $email = (string)($content[RequestFieldMapper::EMAIL] ?? '');
+        $password = (string)($content[RequestFieldMapper::PASSWORD] ?? '');
+        $appVersion = (string)($content[RequestFieldMapper::APP_VERSION] ?? '');
+
+        $authenticationRequest = new GenerateAuthenticationTokenRequest($email, $password, $appVersion);
+        $authentication->execute($authenticationRequest, $presenter);
+        return $presenter->view();
     }
 }

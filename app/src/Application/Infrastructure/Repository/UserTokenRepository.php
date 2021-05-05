@@ -22,14 +22,17 @@ class UserTokenRepository extends ServiceEntityRepository
 
     /**
      * @param User $user
+     * @param string $appVersion
      * @return UserToken
-     * @throws \Exception
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function generateToken(User $user): UserToken
+    public function generateToken(User $user, string $appVersion): UserToken
     {
         $token = new UserToken();
         $token->setTokenKey(bin2hex(random_bytes(64)));
         $token->setUser($user);
+        $token->setAppVersion($appVersion);
         $this->_em->persist($token);
         $this->_em->flush();
         return $token;
