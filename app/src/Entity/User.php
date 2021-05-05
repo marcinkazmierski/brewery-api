@@ -27,7 +27,7 @@ class User implements UserInterface
     /**
      * @Groups({"review:list", "review:item", "beer:list", "beer:item"})
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      */
     private $nick;
 

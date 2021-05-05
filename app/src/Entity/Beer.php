@@ -66,8 +66,8 @@ class Beer
     private $icon;
 
     /**
-     * @Groups({"beer:list", "beer:item"})
-     * @ORM\Column(type="string", length=512)
+     * @Groups({"beer:list", "beer:item", "review:item:add"})
+     * @ORM\Column(type="string", length=512, unique=true)
      */
     private $code;
 

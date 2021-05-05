@@ -10,7 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ReviewRepository::class)
  * @ORM\Table(name="reviews")
- * @ApiResource(attributes={"security"="is_granted('ROLE_USER')"},collectionOperations={"get"={"normalization_context"={"groups"="review:list"}}}, itemOperations={"get"={"normalization_context"={"groups"="review:item"}}})
+ * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_USER')"},
+ *     collectionOperations={
+ *      "get"={"normalization_context"={"groups"="review:list"}}
+ *     },
+ *     itemOperations={
+ *      "get"={"normalization_context"={"groups"="review:item"}},
+ *      "add_new_review"={"route_name"="add_new_review", "method"="POST", "normalization_context"={"groups"="review:item:add"}}
+ *     }
+ * )
  */
 class Review
 {
@@ -23,13 +32,13 @@ class Review
     private $id;
 
     /**
-     * @Groups({"review:list", "review:item", "beer:list", "beer:item"})
+     * @Groups({"review:list", "review:item", "beer:list", "beer:item", "review:item:add"})
      * @ORM\Column(type="float")
      */
     private $rating;
 
     /**
-     * @Groups({"review:list", "review:item", "beer:list", "beer:item"})
+     * @Groups({"review:list", "review:item", "beer:list", "beer:item", "review:item:add"})
      * @ORM\Column(type="string", length=2048)
      */
     private $text;
@@ -42,7 +51,7 @@ class Review
     private $owner;
 
     /**
-     * @Groups({"review:list", "review:item"})
+     * @Groups({"review:list", "review:item", "review:item:add"})
      * @ORM\ManyToOne(targetEntity=Beer::class, inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
