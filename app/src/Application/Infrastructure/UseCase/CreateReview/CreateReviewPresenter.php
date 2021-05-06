@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
+
 namespace App\Application\Infrastructure\UseCase\CreateReview;
 
+use App\Application\Domain\Common\Mapper\EntityFieldMapper;
 use App\Application\Domain\UseCase\CreateReview\CreateReviewPresenterInterface;
 use App\Application\Domain\UseCase\CreateReview\CreateReviewResponse;
 use App\Application\Infrastructure\Common\AbstractPresenter;
@@ -35,7 +37,10 @@ class CreateReviewPresenter extends AbstractPresenter implements CreateReviewPre
             $statusCode = JsonResponse::HTTP_BAD_REQUEST;
             return $this->viewErrorResponse($this->response->getError(), $statusCode);
         }
-        
-        return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
+
+        $data = [
+            EntityFieldMapper::REVIEW_ID => $this->response->getReview()->getId()
+        ];
+        return new JsonResponse($data, JsonResponse::HTTP_OK);
     }
 }

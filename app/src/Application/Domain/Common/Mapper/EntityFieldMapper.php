@@ -10,4 +10,5 @@ abstract class EntityFieldMapper
     const USER_TOKEN = 'token';
     const USER_ID = 'userId';
     const USER_EMAIL = 'email';
+    const REVIEW_ID = 'reviewId';
 }

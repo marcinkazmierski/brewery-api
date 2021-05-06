@@ -71,7 +71,7 @@ class CreateReview
             /** @var Review $review */
             $review = $this->reviewRepository->findOneBy(['owner' => $request->getUser(), 'beer' => $beer]);
             if (!empty($review)) {
-              //  throw new ValidateException("Review exist!");
+                throw new ValidateException("Review exist!");
             }
             $review = new Review();
             $review->setRating($request->getRating());
@@ -79,6 +79,7 @@ class CreateReview
             $review->setBeer($beer);
             $review->setText($request->getText());
             $this->reviewRepository->save($review);
+            $response->setReview($review);
         } catch (\Throwable $e) {
             $error = $this->errorResponseFromExceptionFactory->create($e);
             $response->setError($error);
