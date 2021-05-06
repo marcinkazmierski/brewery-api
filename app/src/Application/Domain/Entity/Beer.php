@@ -2,13 +2,12 @@
 
 namespace App\Application\Domain\Entity;
 
-use App\Repository\BeerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=BeerRepository::class)
+ * @ORM\Entity(repositoryClass="App\Application\Infrastructure\Repository\BeerRepository")
  * @ORM\Table(name="beers")
  */
 class Beer

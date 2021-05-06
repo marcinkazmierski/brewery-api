@@ -2,11 +2,10 @@
 
 namespace App\Application\Domain\Entity;
 
-use App\Repository\UserTokenRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=UserTokenRepository::class)
+ * @ORM\Entity(repositoryClass="App\Application\Infrastructure\Repository\UserTokenRepository")
  * @ORM\Table(name="user_tokens")
  */
 class UserToken
