@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Application\Infrastructure\Repository;
 
 use App\Application\Domain\Entity\Review;
+use App\Application\Domain\Repository\ReviewRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Review[]    findAll()
  * @method Review[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ReviewRepository extends ServiceEntityRepository
+class ReviewRepository extends ServiceEntityRepository implements ReviewRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

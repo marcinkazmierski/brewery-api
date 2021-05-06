@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Application\Infrastructure\Repository;
 
 use App\Application\Domain\Entity\Beer;
+use App\Application\Domain\Repository\BeerRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Beer[]    findAll()
  * @method Beer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BeerRepository extends ServiceEntityRepository
+class BeerRepository extends ServiceEntityRepository implements BeerRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

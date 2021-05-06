@@ -4,6 +4,7 @@ namespace App\Application\Infrastructure\Repository;
 
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\Entity\UserToken;
+use App\Application\Domain\Repository\UserTokenRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method UserToken[]    findAll()
  * @method UserToken[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserTokenRepository extends ServiceEntityRepository
+class UserTokenRepository extends ServiceEntityRepository implements UserTokenRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

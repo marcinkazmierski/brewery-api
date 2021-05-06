@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
+
 namespace App\Application\Domain\UseCase\GenerateAuthenticationToken;
 
 use App\Application\Domain\Common\Factory\ErrorResponseFactory\ErrorResponseFromExceptionFactoryInterface;
-use App\Application\Infrastructure\Repository\UserRepository;
-use App\Application\Infrastructure\Repository\UserTokenRepository;
+use App\Application\Domain\Repository\UserRepositoryInterface;
+use App\Application\Domain\Repository\UserTokenRepositoryInterface;
 
 /**
  * Class GenerateAuthenticationToken
@@ -12,10 +13,10 @@ use App\Application\Infrastructure\Repository\UserTokenRepository;
  */
 class GenerateAuthenticationToken
 {
-    /** @var UserRepository */
+    /** @var UserRepositoryInterface */
     private $userRepository;
 
-    /** @var UserTokenRepository */
+    /** @var UserTokenRepositoryInterface */
     private $userTokenRepository;
 
     /** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
@@ -23,11 +24,11 @@ class GenerateAuthenticationToken
 
     /**
      * GenerateAuthenticationToken constructor.
-     * @param UserRepository $userRepository
-     * @param UserTokenRepository $userTokenRepository
+     * @param UserRepositoryInterface $userRepository
+     * @param UserTokenRepositoryInterface $userTokenRepository
      * @param ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory
      */
-    public function __construct(UserRepository $userRepository, UserTokenRepository $userTokenRepository, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
+    public function __construct(UserRepositoryInterface $userRepository, UserTokenRepositoryInterface $userTokenRepository, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
     {
         $this->userRepository = $userRepository;
         $this->userTokenRepository = $userTokenRepository;
