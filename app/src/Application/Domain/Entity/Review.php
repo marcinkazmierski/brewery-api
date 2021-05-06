@@ -3,10 +3,16 @@
 namespace App\Application\Domain\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * @ORM\Entity(repositoryClass="App\Application\Infrastructure\Repository\ReviewRepository")
- * @ORM\Table(name="reviews")
+ * @ORM\Table(name="reviews",
+ *    uniqueConstraints={
+ *        @UniqueConstraint(name="vreview_unique",
+ *            columns={"owner_id", "beer_id"})
+ *    }
+ * )
  */
 class Review
 {

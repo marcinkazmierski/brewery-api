@@ -36,4 +36,10 @@ interface ReviewRepositoryInterface
      * @return Review[]
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+
+    /**
+     * @param Review $entity
+     * @throws \Exception
+     */
+    public function save(Review $entity): void;
 }
