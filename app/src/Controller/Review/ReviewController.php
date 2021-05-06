@@ -3,20 +3,15 @@
 namespace App\Controller\Review;
 
 use App\Application\Domain\Common\Mapper\RequestFieldMapper;
-use App\Application\Domain\Entity\Beer;
-use App\Application\Domain\Entity\Review;
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\UseCase\CreateReview\CreateReview;
 use App\Application\Domain\UseCase\CreateReview\CreateReviewPresenterInterface;
 use App\Application\Domain\UseCase\CreateReview\CreateReviewRequest;
-use App\Application\Infrastructure\Repository\BeerRepository;
-use App\Application\Infrastructure\Repository\ReviewRepository;
-use App\Exceptions\ValidateException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use OpenApi\Annotations as OA;
 
 /**
  * @Route("/api/review")
@@ -26,26 +21,26 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ReviewController extends AbstractController
 {
-    /** @var ReviewRepository */
-    private $reviewRepository;
-
-    /** @var BeerRepository */
-    private $beerRepository;
-
-    /**
-     * ReviewController constructor.
-     * @param ReviewRepository $reviewRepository
-     * @param BeerRepository $beerRepository
-     */
-    public function __construct(ReviewRepository $reviewRepository, BeerRepository $beerRepository)
-    {
-        $this->reviewRepository = $reviewRepository;
-        $this->beerRepository = $beerRepository;
-    }
-
-
     /**
      * Create new review.
+     * @OA\Post(
+     *     path="/api/review/add",
+     *     description="Create new review.",
+     *     tags = {"Review"},
+     *     @OA\Parameter(ref="#/components/parameters/X-AUTH-TOKEN"),
+     *     @OA\RequestBody(
+     *      required=true,
+     *      @OA\JsonContent(
+     *          type = "object",
+     *          @OA\Property(property="reviewRating", ref="#/components/schemas/rating"),
+     *          @OA\Property(property="reviewText", ref="#/components/schemas/text"),
+     *          @OA\Property(property="beerId", ref="#/components/schemas/id")
+     *      ),
+     *     ),
+     *     @OA\Response(response="201", ref="#/components/responses/noContent"),
+     *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
+     *     @OA\Response(response="500", ref="#/components/responses/generalError"),
+     * ),
      *
      * @Route(
      *     "/add",

@@ -128,6 +128,13 @@ class DocumentationController extends AbstractController
  *     example="Lorem ipsum dolor sit amet...",
  * ),
  *
+ * @OA\Schema(
+ *     schema="rating",
+ *     format="float",
+ *     type="number",
+ *     example="4.5",
+ * ),
+ *
  * @OA\Parameter(
  *      name="X-AUTH-TOKEN",
  *      in="header",
