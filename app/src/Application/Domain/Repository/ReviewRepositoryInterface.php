@@ -42,4 +42,10 @@ interface ReviewRepositoryInterface
      * @throws \Exception
      */
     public function save(Review $entity): void;
+
+    /**
+     * @param Review $entity
+     * @throws \Exception
+     */
+    public function remove(Review $entity): void;
 }

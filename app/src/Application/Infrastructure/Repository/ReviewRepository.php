@@ -37,6 +37,22 @@ class ReviewRepository extends ServiceEntityRepository implements ReviewReposito
         }
     }
 
+
+    /**
+     * @param Review $entity
+     * @throws \Exception
+     */
+    public function remove(Review $entity): void
+    {
+        try {
+            $this->_em->remove($entity);
+            $this->_em->flush();
+        } catch (ORMException $e) {
+            $this->_em->rollback();
+            throw new \Exception($e->getMessage());
+        }
+    }
+
     // /**
     //  * @return Review[] Returns an array of Review objects
     //  */
