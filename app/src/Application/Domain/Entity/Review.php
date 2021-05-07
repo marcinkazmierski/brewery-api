@@ -21,34 +21,34 @@ class Review
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $rating;
+    private float $rating;
 
     /**
      * @ORM\Column(type="string", length=2048)
      */
-    private $text;
+    private string $text;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $owner;
+    private User $owner;
 
     /**
      * @ORM\ManyToOne(targetEntity=Beer::class, inversedBy="reviews")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $beer;
+    private Beer $beer;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private \DateTime $createdAt;
 
     /**
      * Review constructor.
@@ -58,14 +58,14 @@ class Review
         $this->createdAt = new \DateTime();
     }
 
-    public function getId(): ?int
+    public function getId(): int
     {
-        return $this->id;
+        return (int)$this->id;
     }
 
-    public function getRating(): ?float
+    public function getRating(): float
     {
-        return $this->rating;
+        return (float)$this->rating;
     }
 
     public function setRating(float $rating): self
@@ -75,9 +75,9 @@ class Review
         return $this;
     }
 
-    public function getText(): ?string
+    public function getText(): string
     {
-        return $this->text;
+        return (string)$this->text;
     }
 
     public function setText(string $text): self
@@ -87,31 +87,31 @@ class Review
         return $this;
     }
 
-    public function getOwner(): ?User
+    public function getOwner(): User
     {
         return $this->owner;
     }
 
-    public function setOwner(?User $owner): self
+    public function setOwner(User $owner): self
     {
         $this->owner = $owner;
 
         return $this;
     }
 
-    public function getBeer(): ?Beer
+    public function getBeer(): Beer
     {
         return $this->beer;
     }
 
-    public function setBeer(?Beer $beer): self
+    public function setBeer(Beer $beer): self
     {
         $this->beer = $beer;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
     }

@@ -16,6 +16,29 @@ use OpenApi\Annotations as OA;
 #[Route('/api/beers')]
 class BeerController extends AbstractController
 {
+    /**
+     * Get list of beers.
+     * @OA\Get(
+     *     path="/api/beers",
+     *     description="Get list of beers.",
+     *     tags = {"Beer"},
+     *     @OA\Parameter(ref="#/components/parameters/X-AUTH-TOKEN"),
+     *     @OA\Response(
+     *          response="200",
+     *          description="Array of beers",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="unlockedBeers", type="array", @OA\Items(ref="#/components/schemas/Beer")),
+     *              @OA\Property(property="allBeers", type="array", @OA\Items(ref="#/components/schemas/Beer")),
+     *          ),
+     *     ),
+     *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
+     *     @OA\Response(response="500", ref="#/components/responses/generalError"),
+     * ),
+     * @param GetBeers $useCase
+     * @param GetBeersPresenterInterface $presenter
+     * @return Response
+     */
     #[Route('', name: 'beer-list', methods: ['GET'])]
     public function list(  GetBeers $useCase, GetBeersPresenterInterface $presenter): Response
     {

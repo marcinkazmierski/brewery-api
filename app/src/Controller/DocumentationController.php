@@ -143,6 +143,38 @@ class DocumentationController extends AbstractController
  *      @OA\Schema(ref="#/components/schemas/token"),
  * ),
  *
+ * @OA\Schema(
+ *     schema="Beer",
+ *     type = "object",
+ *     @OA\Property(property="beerId", ref="#/components/schemas/id"),
+ *     @OA\Property(property="beerName", ref="#/components/schemas/text"),
+ *     @OA\Property(property="beerBackgroundImage", ref="#/components/schemas/text"),
+ *     @OA\Property(property="beerCreatedAt", ref="#/components/schemas/text"),
+ *     @OA\Property(property="beerDescription", ref="#/components/schemas/text"),
+ *     @OA\Property(property="beerHops", ref="#/components/schemas/text"),
+ *     @OA\Property(property="beerIcon", ref="#/components/schemas/text"),
+ *     @OA\Property(property="beerMalts", ref="#/components/schemas/text"),
+ *     @OA\Property(property="beerTags", type="array", @OA\Items(ref="#/components/schemas/text")),
+ *     @OA\Property(property="beerReviews", type="array", @OA\Items(ref="#/components/schemas/Review")),
+ * ),
+ *
+ * @OA\Schema(
+ *     schema="Review",
+ *     type = "object",
+ *     @OA\Property(property="reviewId", ref="#/components/schemas/id"),
+ *     @OA\Property(property="reviewText", ref="#/components/schemas/text"),
+ *     @OA\Property(property="reviewRating", ref="#/components/schemas/rating"),
+ *     @OA\Property(property="reviewCreatedAt", ref="#/components/schemas/text"),
+ *     @OA\Property(property="reviewOwner", ref="#/components/schemas/User"),
+ * ),
+ *
+ * @OA\Schema(
+ *     schema="User",
+ *     type = "object",
+ *     @OA\Property(property="userId", ref="#/components/schemas/id"),
+ *     @OA\Property(property="userNick", ref="#/components/schemas/text"),
+ * ),
+ *
  * @OA\Components(
  *     @OA\Response(
  *         response="generalError",

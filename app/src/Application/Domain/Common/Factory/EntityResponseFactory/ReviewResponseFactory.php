@@ -20,6 +20,10 @@ class ReviewResponseFactory
         $this->userResponseFactory = $userResponseFactory;
     }
 
+    /**
+     * @param Review $entity
+     * @return array
+     */
     public function create(Review $entity): array
     {
         return [
