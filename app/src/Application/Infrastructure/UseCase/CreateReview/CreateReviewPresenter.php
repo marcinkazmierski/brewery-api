@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Infrastructure\UseCase\CreateReview;
 
-use App\Application\Domain\Common\Mapper\EntityFieldMapper;
+use App\Application\Domain\Common\Mapper\ResponseFieldMapper;
 use App\Application\Domain\UseCase\CreateReview\CreateReviewPresenterInterface;
 use App\Application\Domain\UseCase\CreateReview\CreateReviewResponse;
 use App\Application\Infrastructure\Common\AbstractPresenter;
@@ -39,7 +39,7 @@ class CreateReviewPresenter extends AbstractPresenter implements CreateReviewPre
         }
 
         $data = [
-            EntityFieldMapper::REVIEW_ID => $this->response->getReview()->getId()
+            ResponseFieldMapper::REVIEW_ID => $this->response->getReview()->getId()
         ];
         return new JsonResponse($data, JsonResponse::HTTP_OK);
     }
