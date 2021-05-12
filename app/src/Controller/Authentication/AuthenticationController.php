@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Authentication;
 
-
 use App\Application\Domain\Common\Mapper\RequestFieldMapper;
 use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationToken;
 use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationTokenPresenterInterface;
@@ -15,11 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
 
 /**
- * @Route("/api/auth")
- *
  * Class AuthenticationController
  * @package App\Controller\Authentication
  */
+#[Route('/api/auth')]
 class AuthenticationController extends AbstractController
 {
 
@@ -51,16 +49,12 @@ class AuthenticationController extends AbstractController
      *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
      *     @OA\Response(response="500", ref="#/components/responses/generalError"),
      * ),
-     *
-     * @Route(
-     *     "/authenticate",
-     *     methods={"POST"},
-     *     name="authenticate"
-     * )
      * @param Request $request
+     * @param GenerateAuthenticationToken $authentication
+     * @param GenerateAuthenticationTokenPresenterInterface $presenter
      * @return JsonResponse
-     * @throws \Exception
      */
+    #[Route('/authenticate', name: 'authenticate', methods: ['POST'])]
     public function authenticate(
         Request $request,
         GenerateAuthenticationToken $authentication,

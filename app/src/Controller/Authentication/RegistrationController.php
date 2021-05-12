@@ -10,22 +10,17 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class RegistrationController
  * @package App\Controller\Authentication
- *
- * @Route("/api/register")
  */
+#[Route('/api/register')]
 class RegistrationController
 {
     /**
      * Register user account.
-     * @Route(
-     *     "",
-     *     methods={"POST"},
-     *     name="register-new-user"
-     * )
      *
      * @param Request $request
      * @return JsonResponse
      */
+    #[Route('', name: 'register-new-user', methods: ['POST'])]
     public function register(
         Request $request
     ): JsonResponse
@@ -37,14 +32,10 @@ class RegistrationController
 
     /**
      * Activate user account
-     * @Route(
-     *     "/confirm/{hash}",
-     *     methods={"PUT"},
-     *     name="confirm-user-account"
-     * )
      * @param string $hash
      * @return JsonResponse
      */
+    #[Route('/confirm/{hash}', name: 'confirm-user-account', methods: ['PUT'])]
     public function confirm(
         string $hash
     ): JsonResponse
