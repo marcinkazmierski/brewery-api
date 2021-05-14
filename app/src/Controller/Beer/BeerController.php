@@ -3,6 +3,9 @@
 namespace App\Controller\Beer;
 
 use App\Application\Domain\Entity\User;
+use App\Application\Domain\UseCase\CollectBeer\CollectBeer;
+use App\Application\Domain\UseCase\CollectBeer\CollectBeerPresenterInterface;
+use App\Application\Domain\UseCase\CollectBeer\CollectBeerRequest;
 use App\Application\Domain\UseCase\GetBeers\GetBeers;
 use App\Application\Domain\UseCase\GetBeers\GetBeersPresenterInterface;
 use App\Application\Domain\UseCase\GetBeers\GetBeersRequest;
@@ -40,13 +43,25 @@ class BeerController extends AbstractController
      * @return Response
      */
     #[Route('', name: 'beer-list', methods: ['GET'])]
-    public function list(  GetBeers $useCase, GetBeersPresenterInterface $presenter): Response
+    public function list(GetBeers $useCase, GetBeersPresenterInterface $presenter): Response
     {
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
         $authenticationRequest = new GetBeersRequest($currentUser);
         $useCase->execute($authenticationRequest, $presenter);
+        return $presenter->view();
+    }
+
+    #[Route('', name: 'collect-beer', methods: ['POST'])]
+    public function collectBeer(Request $request, CollectBeer $useCase, CollectBeerPresenterInterface $presenter)
+    {
+        /** @var User $currentUser */
+        $currentUser = $this->getUser();
+        $content = json_decode($request->getContent(), true);
+        // todo: get beer code
+        $input = new CollectBeerRequest();
+        $useCase->execute($input, $presenter);
         return $presenter->view();
     }
 }
