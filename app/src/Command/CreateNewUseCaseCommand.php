@@ -100,8 +100,7 @@ use App\\Application\\Domain\\Common\\Factory\\ErrorResponseFactory\\ErrorRespon
  */
 class {$name}
 {
-    /** @var ErrorResponseFromExceptionFactoryInterface \$errorResponseFromExceptionFactory */
-    private \$errorResponseFromExceptionFactory;
+    private ErrorResponseFromExceptionFactoryInterface \$errorResponseFromExceptionFactory;
 
     /**
      * {$name} constructor.

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Beer;
 
+use App\Application\Domain\Common\Mapper\RequestFieldMapper;
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\UseCase\CollectBeer\CollectBeer;
 use App\Application\Domain\UseCase\CollectBeer\CollectBeerPresenterInterface;
@@ -61,8 +62,9 @@ class BeerController extends AbstractController
         /** @var User $currentUser */
         $currentUser = $this->getUser();
         $content = json_decode($request->getContent(), true);
-        // todo: get beer code
-        $input = new CollectBeerRequest();
+
+        $beerCode = (string)($content[RequestFieldMapper::BEER_CODE] ?? '');
+        $input = new CollectBeerRequest($currentUser, $beerCode);
         $useCase->execute($input, $presenter);
         return $presenter->view();
     }
