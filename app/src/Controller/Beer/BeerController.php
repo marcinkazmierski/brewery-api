@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
 
-
 #[Route('/api/beers')]
 class BeerController extends AbstractController
 {
@@ -53,6 +52,9 @@ class BeerController extends AbstractController
         return $presenter->view();
     }
 
+    /**
+     * @todo: swagger
+     */
     #[Route('', name: 'collect-beer', methods: ['POST'])]
     public function collectBeer(Request $request, CollectBeer $useCase, CollectBeerPresenterInterface $presenter)
     {

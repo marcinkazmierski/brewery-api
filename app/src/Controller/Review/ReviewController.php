@@ -20,11 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
 
 /**
- * @Route("/api/review")
- *
  * Class ReviewController
  * @package App\Controller
  */
+#[Route('/api/review')]
 class ReviewController extends AbstractController
 {
     /**
@@ -48,16 +47,12 @@ class ReviewController extends AbstractController
      *     @OA\Response(response="500", ref="#/components/responses/generalError"),
      * ),
      *
-     * @Route(
-     *     "/add",
-     *     methods={"POST"},
-     *     name="add_new_review"
-     * )
      * @param Request $request
      * @param CreateReview $useCase
      * @param CreateReviewPresenterInterface $presenter
      * @return Response
      */
+    #[Route('/add', name: 'add-new-review', methods: ['POST'])]
     public function add(Request $request, CreateReview $useCase, CreateReviewPresenterInterface $presenter): Response
     {
         /** @var User $currentUser */
@@ -92,18 +87,13 @@ class ReviewController extends AbstractController
      *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
      *     @OA\Response(response="500", ref="#/components/responses/generalError"),
      * ),
-     * @Route(
-     *     "/{reviewId}",
-     *     requirements={"reviewId": "\d+"},
-     *     methods={"PATCH"},
-     *     name="update_review"
-     * )
      * @param Request $request
      * @param int $reviewId
      * @param UpdateReview $useCase
      * @param UpdateReviewPresenterInterface $presenter
      * @return Response
      */
+    #[Route('/{reviewId}', name: 'update-review', requirements: ['reviewId' => '\d+'], methods: ['PATCH'])]
     public function update(Request $request, int $reviewId, UpdateReview $useCase, UpdateReviewPresenterInterface $presenter): Response
     {
         /** @var User $currentUser */
@@ -135,18 +125,13 @@ class ReviewController extends AbstractController
      *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
      *     @OA\Response(response="500", ref="#/components/responses/generalError"),
      * ),
-     * @Route(
-     *     "/{reviewId}",
-     *     requirements={"reviewId": "\d+"},
-     *     methods={"DELETE"},
-     *     name="delete_review"
-     * )
      * @param Request $request
      * @param int $reviewId
      * @param DeleteReview $useCase
      * @param DeleteReviewPresenterInterface $presenter
      * @return Response
      */
+    #[Route('/{reviewId}', name: 'delete-review', requirements: ['reviewId' => '\d+'], methods: ['DELETE'])]
     public function delete(Request $request, int $reviewId, DeleteReview $useCase, DeleteReviewPresenterInterface $presenter): Response
     {
         /** @var User $currentUser */
