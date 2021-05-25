@@ -13,26 +13,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @OA\Info(title="Brewery REST API", version="0.1")
- *
- * @Route("/documentation")
  */
+#[Route('/documentation')]
 class DocumentationController extends AbstractController
 {
     /**
-     * @Route(
-     *     "/yaml",
-     *     methods={"GET"},
-     *     name="documentation_api_yaml"
-     * )
-     *
      * @param GetApiDocumentation $getApiDocumentation
      * @param GetApiDocumentationPresenterInterface $presenter
-     * @return mixed
+     * @return Response
      */
+    #[Route('/yaml', name: 'documentation-api-yaml', methods: ['GET'])]
     public function generateDocsYaml(
         GetApiDocumentation $getApiDocumentation,
         GetApiDocumentationPresenterInterface $presenter
-    )
+    ): Response
     {
         $getApiDocumentation->execute(new GetApiDocumentationRequest(), $presenter);
         return $presenter->view();
@@ -47,7 +41,8 @@ class DocumentationController extends AbstractController
      *
      * @return Response
      */
-    public function api()
+    #[Route('/api', name: 'documentation-api', methods: ['GET'])]
+    public function api(): Response
     {
         return $this->render('documentation/api.html.twig', []);
     }
