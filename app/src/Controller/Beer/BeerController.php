@@ -54,7 +54,23 @@ class BeerController extends AbstractController
     }
 
     /**
-     * @todo: swagger
+     * Collect beer.
+     * @OA\Post(
+     *     path="/api/beers",
+     *     description="Add new beer to user set.",
+     *     tags = {"Beer"},
+     *     @OA\Parameter(ref="#/components/parameters/X-AUTH-TOKEN"),
+     *     @OA\RequestBody(
+     *      required=true,
+     *      @OA\JsonContent(
+     *          type = "object",
+     *          @OA\Property(property="beerCode", ref="#/components/schemas/text")
+     *      ),
+     *     ),
+     *     @OA\Response(response="201", ref="#/components/responses/noContent"),
+     *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
+     *     @OA\Response(response="500", ref="#/components/responses/generalError"),
+     * ),
      */
     #[Route('', name: 'collect-beer', methods: ['POST'])]
     public function collectBeer(Request $request, CollectBeer $useCase, CollectBeerPresenterInterface $presenter)
