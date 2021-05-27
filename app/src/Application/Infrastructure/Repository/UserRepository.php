@@ -87,7 +87,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     public function getUserByEmailAndPassword(string $email, string $password): User
     {
         $user = $this->getUserByEmail($email);
-        if (!$this->passwordEncoder->isPasswordValid($user, $password)) {
+        if (empty($password) || !$this->passwordEncoder->isPasswordValid($user, $password)) {
             throw new \Exception("Invalid password");
         }
         return $user;

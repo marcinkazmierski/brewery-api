@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Application\Domain\Common\Constants\UserStatusConstants;
 use App\Application\Domain\Entity\User;
 use App\Application\Infrastructure\Repository\UserRepository;
 use Symfony\Component\Console\Command\Command;
@@ -94,6 +95,7 @@ class CreateNewUserCommand extends Command
                 $user = new User();
                 $user->setEmail($email);
                 $user->setNick($nick);
+                $user->setStatus(UserStatusConstants::ACTIVE);
                 $encodedPassword = $this->passwordEncoder->encodePassword($user, $password);
                 $user->setPassword($encodedPassword);
                 $this->userRepository->save($user);

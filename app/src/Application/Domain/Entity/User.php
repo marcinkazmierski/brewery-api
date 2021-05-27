@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Domain\Entity;
 
+use App\Application\Domain\Common\Constants\UserStatusConstants;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,41 +22,47 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
      */
-    private $nick;
+    private string $nick;
 
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
      */
-    private $email;
+    private string $email;
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
+     * @var ?string
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $password;
+    private ?string $password;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime", options={"default" = "CURRENT_TIMESTAMP"})
      */
-    private $createdAt;
+    private \DateTime $createdAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="owner", orphanRemoval=true)
      */
-    private $reviews;
+    private Collection $reviews;
 
     /**
      * @ORM\ManyToMany(targetEntity=Beer::class, inversedBy="allowedUsers")
      */
-    private $unlockedBeers;
+    private Collection $unlockedBeers;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private int $status = UserStatusConstants::NEW;
 
     /**
      * User constructor.
@@ -80,7 +87,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return $this->password;
+        return (string)$this->password;
     }
 
     /**
@@ -224,5 +231,21 @@ class User implements UserInterface
         $this->unlockedBeers->removeElement($unlockedBeer);
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
     }
 }

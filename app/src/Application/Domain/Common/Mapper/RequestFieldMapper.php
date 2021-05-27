@@ -14,4 +14,5 @@ abstract class RequestFieldMapper
     const REVIEW_ID = 'reviewId';
     const REVIEW_TEXT = 'reviewText';
     const REVIEW_RATING = 'reviewRating';
+    const USER_NICK = 'nick';
 }

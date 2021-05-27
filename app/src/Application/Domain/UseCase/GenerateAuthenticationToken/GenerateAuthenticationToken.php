@@ -14,13 +14,13 @@ use App\Application\Domain\Repository\UserTokenRepositoryInterface;
 class GenerateAuthenticationToken
 {
     /** @var UserRepositoryInterface */
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
 
     /** @var UserTokenRepositoryInterface */
-    private $userTokenRepository;
+    private UserTokenRepositoryInterface $userTokenRepository;
 
     /** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
-    private $errorResponseFromExceptionFactory;
+    private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
 
     /**
      * GenerateAuthenticationToken constructor.
