@@ -45,7 +45,7 @@ class EmailNotificationGateway implements NotificationGatewayInterface
         try {
             $email = (new TemplatedEmail())
                 ->from(new Address('zdalny-browar@kazmierski.com.pl', 'Zdalny Browar'))
-                ->to('marcin@kazmierski.com.pl')
+                ->to('test@test.com.pl')
                 ->subject('Time for Symfony Mailer!')
                 ->htmlTemplate('emails/registration.html.twig')
                 ->context([
