@@ -9,6 +9,7 @@ use App\Application\Domain\Exception\GatewayException;
 use App\Application\Domain\Exception\ValidateException;
 use App\Application\Domain\Gateway\NotificationGatewayInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -23,15 +24,19 @@ class EmailNotificationGateway implements NotificationGatewayInterface
     /** @var UrlGeneratorInterface */
     private UrlGeneratorInterface $router;
 
+    private ContainerBagInterface $params;
+
     /**
      * EmailNotificationGateway constructor.
      * @param MailerInterface $mailer
      * @param UrlGeneratorInterface $router
+     * @param ContainerBagInterface $params
      */
-    public function __construct(MailerInterface $mailer, UrlGeneratorInterface $router)
+    public function __construct(MailerInterface $mailer, UrlGeneratorInterface $router, ContainerBagInterface $params)
     {
         $this->mailer = $mailer;
         $this->router = $router;
+        $this->params = $params;
     }
 
 
@@ -43,9 +48,11 @@ class EmailNotificationGateway implements NotificationGatewayInterface
     public function userRegister(User $user, string $confirmHash): void
     {
         try {
+            $sender = $this->params->get('mailer_sender');
+
             $email = (new TemplatedEmail())
-                ->from(new Address('zdalny-browar@kazmierski.com.pl', 'Zdalny Browar'))
-                ->to('test@test.com.pl')
+                ->from(new Address($sender, 'Zdalny Browar'))
+                ->to($user->getEmail())
                 ->subject('Time for Symfony Mailer!')
                 ->htmlTemplate('emails/registration.html.twig')
                 ->context([
