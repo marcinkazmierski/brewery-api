@@ -1,5 +1,11 @@
-<h1>Welcome {{ user.nick }}!</h1>
+<h1>{{ 'Welcome'|trans }} {{ user.nick }}!</h1>
 <p>
-    You signed up as {{ user.nick }} your code:
+    {{ 'Your account will be activated after you confirm it by clicking the link below'|trans }}: <br/>
+    <a href="{{ link }}">{{ link }}</a>
 </p>
-<p><code>xyx</code></p>
+
+<p>
+    --<br>
+    {{ 'Thanks a lot,'|trans }}<br>
+    {{ 'Zdalny Browar'|trans }}
+</p>

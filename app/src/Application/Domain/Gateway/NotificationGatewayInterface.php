@@ -5,13 +5,14 @@ namespace App\Application\Domain\Gateway;
 
 
 use App\Application\Domain\Entity\User;
-use App\Application\Domain\Exception\ValidateException;
+use App\Application\Domain\Exception\GatewayException;
 
 interface NotificationGatewayInterface
 {
     /**
      * @param User $user
-     * @throws ValidateException
+     * @param string $confirmHash
+     * @throws GatewayException
      */
-    public function userRegister(User $user): void;
+    public function userRegister(User $user, string $confirmHash): void;
 }

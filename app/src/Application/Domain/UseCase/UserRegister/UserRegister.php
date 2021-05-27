@@ -7,6 +7,7 @@ use App\Application\Domain\Common\Factory\ErrorResponseFactory\ErrorResponseFrom
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\Exception\ValidateException;
 use App\Application\Domain\Gateway\NotificationGatewayInterface;
+use App\Application\Domain\Gateway\UserRegistrationConfirmHashGeneratorGatewayInterface;
 use App\Application\Domain\Repository\UserRepositoryInterface;
 
 /**
@@ -21,6 +22,9 @@ class UserRegister
     /** @var NotificationGatewayInterface */
     private NotificationGatewayInterface $notificationGateway;
 
+    /** @var UserRegistrationConfirmHashGeneratorGatewayInterface */
+    private UserRegistrationConfirmHashGeneratorGatewayInterface $confirmHashGeneratorGateway;
+
     /** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
     private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
 
@@ -28,15 +32,16 @@ class UserRegister
      * UserRegister constructor.
      * @param UserRepositoryInterface $userRepository
      * @param NotificationGatewayInterface $notificationGateway
+     * @param UserRegistrationConfirmHashGeneratorGatewayInterface $confirmHashGeneratorGateway
      * @param ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory
      */
-    public function __construct(UserRepositoryInterface $userRepository, NotificationGatewayInterface $notificationGateway, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
+    public function __construct(UserRepositoryInterface $userRepository, NotificationGatewayInterface $notificationGateway, UserRegistrationConfirmHashGeneratorGatewayInterface $confirmHashGeneratorGateway, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
     {
         $this->userRepository = $userRepository;
         $this->notificationGateway = $notificationGateway;
+        $this->confirmHashGeneratorGateway = $confirmHashGeneratorGateway;
         $this->errorResponseFromExceptionFactory = $errorResponseFromExceptionFactory;
     }
-
 
     /**
      * @param UserRegisterRequest $request
@@ -67,7 +72,8 @@ class UserRegister
             $user->setEmail($request->getEmail());
             $user->setNick($request->getNick());
             $this->userRepository->save($user);
-            $this->notificationGateway->userRegister($user);
+            $hash = $this->confirmHashGeneratorGateway->generate($user);
+            $this->notificationGateway->userRegister($user, $hash);
             $response->setUser($user);
         } catch (\Throwable $e) {
             $error = $this->errorResponseFromExceptionFactory->create($e);
