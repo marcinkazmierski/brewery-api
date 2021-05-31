@@ -22,7 +22,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    private int $id = 0;
 
     /**
      * @var string
@@ -41,6 +41,12 @@ class User implements UserInterface
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $password;
+
+    /**
+     * @var ?string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $registrationHash;
 
     /**
      * @var \DateTime
@@ -177,6 +183,22 @@ class User implements UserInterface
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRegistrationHash(): ?string
+    {
+        return $this->registrationHash;
+    }
+
+    /**
+     * @param string|null $registrationHash
+     */
+    public function setRegistrationHash(?string $registrationHash): void
+    {
+        $this->registrationHash = $registrationHash;
     }
 
     /**

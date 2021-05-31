@@ -16,11 +16,4 @@ interface UserRegistrationConfirmHashGeneratorGatewayInterface
      * @throws GatewayException
      */
     public function generate(User $user): string;
-
-    /**
-     * @param User $user
-     * @param string $hash
-     * @return bool
-     */
-    public function validate(User $user, string $hash): bool;
 }

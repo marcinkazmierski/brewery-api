@@ -71,8 +71,9 @@ class UserRegister
             $user = new User();
             $user->setEmail($request->getEmail());
             $user->setNick($request->getNick());
-            $this->userRepository->save($user);
             $hash = $this->confirmHashGeneratorGateway->generate($user);
+            $user->setRegistrationHash($hash);
+            $this->userRepository->save($user);
             $this->notificationGateway->userRegister($user, $hash);
             $response->setUser($user);
         } catch (\Throwable $e) {
