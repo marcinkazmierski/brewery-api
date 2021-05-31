@@ -3,17 +3,13 @@ declare(strict_types=1);
 
 namespace App\Application\Infrastructure\Gateway;
 
-
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\Exception\GatewayException;
-use App\Application\Domain\Exception\ValidateException;
 use App\Application\Domain\Gateway\NotificationGatewayInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Message;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EmailNotificationGateway implements NotificationGatewayInterface
@@ -53,7 +49,7 @@ class EmailNotificationGateway implements NotificationGatewayInterface
             $email = (new TemplatedEmail())
                 ->from(new Address($sender, 'Zdalny Browar'))
                 ->to($user->getEmail())
-                ->subject('Time for Symfony Mailer!')
+                ->subject('Confirm your account!')
                 ->htmlTemplate('emails/registration.html.twig')
                 ->context([
                     'user' => $user,

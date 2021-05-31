@@ -44,7 +44,7 @@ class RegistrationController
      * @param string $hash
      * @return JsonResponse
      */
-    #[Route('/confirm/{hash}', name: 'confirm-user-account', methods: ['PUT'])]
+    #[Route('/confirm/{hash}', name: 'confirm-user-account-api', methods: ['PUT'])]
     public function confirm(
         string $hash
     ): JsonResponse
