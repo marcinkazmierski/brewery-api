@@ -70,4 +70,14 @@ class AuthenticationController extends AbstractController
         $authentication->execute($authenticationRequest, $presenter);
         return $presenter->view();
     }
+
+    #[Route('/logout', name: 'logout', methods: ['POST'])]
+    public function logout(
+        Request $request): JsonResponse
+    {
+        // @todo: remove all tokens
+        return new JsonResponse(null, JsonResponse::HTTP_OK);
+    }
+
+
 }
