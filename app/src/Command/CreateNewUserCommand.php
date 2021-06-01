@@ -27,10 +27,10 @@ class CreateNewUserCommand extends Command
     protected static $defaultName = 'users:create';
 
     /** @var UserRepository */
-    private $userRepository;
+    private UserRepository $userRepository;
 
     /** @var UserPasswordEncoderInterface */
-    private $passwordEncoder;
+    private UserPasswordEncoderInterface $passwordEncoder;
 
     /**
      * CreateNewUserCommand constructor.

@@ -9,6 +9,7 @@ use App\Application\Domain\Exception\ValidateException;
 use App\Application\Domain\Gateway\NotificationGatewayInterface;
 use App\Application\Domain\Gateway\UserRegistrationConfirmHashGeneratorGatewayInterface;
 use App\Application\Domain\Repository\UserRepositoryInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserRegister
@@ -25,6 +26,9 @@ class UserRegister
     /** @var UserRegistrationConfirmHashGeneratorGatewayInterface */
     private UserRegistrationConfirmHashGeneratorGatewayInterface $confirmHashGeneratorGateway;
 
+    /** @var UserPasswordEncoderInterface */
+    private UserPasswordEncoderInterface $passwordEncoder;
+
     /** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
     private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
 
@@ -33,13 +37,15 @@ class UserRegister
      * @param UserRepositoryInterface $userRepository
      * @param NotificationGatewayInterface $notificationGateway
      * @param UserRegistrationConfirmHashGeneratorGatewayInterface $confirmHashGeneratorGateway
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @param ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory
      */
-    public function __construct(UserRepositoryInterface $userRepository, NotificationGatewayInterface $notificationGateway, UserRegistrationConfirmHashGeneratorGatewayInterface $confirmHashGeneratorGateway, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
+    public function __construct(UserRepositoryInterface $userRepository, NotificationGatewayInterface $notificationGateway, UserRegistrationConfirmHashGeneratorGatewayInterface $confirmHashGeneratorGateway, UserPasswordEncoderInterface $passwordEncoder, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
     {
         $this->userRepository = $userRepository;
         $this->notificationGateway = $notificationGateway;
         $this->confirmHashGeneratorGateway = $confirmHashGeneratorGateway;
+        $this->passwordEncoder = $passwordEncoder;
         $this->errorResponseFromExceptionFactory = $errorResponseFromExceptionFactory;
     }
 
@@ -62,6 +68,9 @@ class UserRegister
             if (!filter_var($request->getEmail(), FILTER_VALIDATE_EMAIL)) {
                 throw new ValidateException("Invalid email field");
             }
+            if (empty($request->getPassword()) || strlen($request->getPassword()) < 8) {
+                throw new ValidateException("Invalid password field. Minimum password length: 8");
+            }
             if ($this->userRepository->findOneBy(['nick' => $request->getNick()])) {
                 throw new ValidateException("Nick exists");
             }
@@ -73,6 +82,8 @@ class UserRegister
             $user->setNick($request->getNick());
             $hash = $this->confirmHashGeneratorGateway->generate($user);
             $user->setRegistrationHash($hash);
+            $encodedPassword = $this->passwordEncoder->encodePassword($user, $request->getPassword());
+            $user->setPassword($encodedPassword);
             $this->userRepository->save($user);
             $this->notificationGateway->userRegister($user, $hash);
             $response->setUser($user);

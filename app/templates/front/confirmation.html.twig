@@ -7,12 +7,15 @@
             <p class="lead mb-4">
                 Potwierdzenie konta e-mail.
             </p>
-            <div class="alert alert-success" role="alert">
-                Dzięki za potwierdzenie! <br> Możesz się teraz zalogować z Twojej aplikacji mobilnej ;)
-            </div>
-            <div class="alert alert-danger" role="alert">
-                Nieprawidłowy link albo konto jest już aktywne!
-            </div>
+            {% if error is defined and error is not empty %}
+                <div class="alert alert-danger" role="alert">
+                    Nieprawidłowy link albo konto jest już aktywne!
+                </div>
+            {% else %}
+                <div class="alert alert-success" role="alert">
+                    Dzięki za potwierdzenie! <br> Twoje konto zostało aktywowane! Możesz się teraz zalogować z Swojej aplikacji mobilnej ;)
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

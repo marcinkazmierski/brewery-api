@@ -22,6 +22,8 @@ class RegistrationController
      * Register user account.
      *
      * @param Request $request
+     * @param UserRegister $useCase
+     * @param UserRegisterPresenterInterface $presenter
      * @return JsonResponse
      */
     #[Route('', name: 'register-new-user', methods: ['POST'])]
@@ -30,11 +32,11 @@ class RegistrationController
     ): JsonResponse
     {
         $content = json_decode($request->getContent(), true);
-        $content = json_decode($request->getContent(), true);
 
         $nick = (string)($content[RequestFieldMapper::USER_NICK] ?? '');
         $email = (string)($content[RequestFieldMapper::EMAIL] ?? '');
-        $input = new UserRegisterRequest($nick, $email);
+        $password = (string)($content[RequestFieldMapper::PASSWORD] ?? '');
+        $input = new UserRegisterRequest($nick, $email, $password);
         $useCase->execute($input, $presenter);
         return $presenter->view();
     }

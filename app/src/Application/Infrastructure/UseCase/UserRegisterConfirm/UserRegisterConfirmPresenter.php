@@ -6,7 +6,6 @@ namespace App\Application\Infrastructure\UseCase\UserRegisterConfirm;
 use App\Application\Domain\UseCase\UserRegisterConfirm\UserRegisterConfirmPresenterInterface;
 use App\Application\Domain\UseCase\UserRegisterConfirm\UserRegisterConfirmResponse;
 use App\Application\Infrastructure\Common\AbstractPresenter;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
@@ -46,16 +45,13 @@ class UserRegisterConfirmPresenter extends AbstractPresenter implements UserRegi
     public function view()
     {
         $response = new Response();
-
+        $content = $this->twig->render("front/confirmation.html.twig", []);
         if ($this->response->hasError()) {
-            $statusCode = JsonResponse::HTTP_BAD_REQUEST;
-            // @todo
-            return $this->viewErrorResponse($this->response->getError(), $statusCode);
+            $content = $this->twig->render("front/confirmation.html.twig", [
+                'error' => $this->response->getError()->getMessage()
+            ]);
         }
 
-        $content = $this->twig->render("front/confirmation.html.twig", [
-
-        ]);
         $response->setContent($content);
         return $response;
     }

@@ -11,16 +11,19 @@ class UserRegisterRequest
 {
     private string $nick;
     private string $email;
+    private string $password;
 
     /**
      * UserRegisterRequest constructor.
      * @param string $nick
      * @param string $email
+     * @param string $password
      */
-    public function __construct(string $nick, string $email)
+    public function __construct(string $nick, string $email, string $password)
     {
         $this->nick = $nick;
         $this->email = $email;
+        $this->password = $password;
     }
 
     /**
@@ -39,4 +42,11 @@ class UserRegisterRequest
         return $this->email;
     }
 
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
 }

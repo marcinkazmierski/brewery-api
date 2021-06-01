@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Application\Domain\UseCase\GenerateAuthenticationToken;
 
+use App\Application\Domain\Common\Constants\UserStatusConstants;
 use App\Application\Domain\Common\Factory\ErrorResponseFactory\ErrorResponseFromExceptionFactoryInterface;
+use App\Application\Domain\Exception\ValidateException;
 use App\Application\Domain\Repository\UserRepositoryInterface;
 use App\Application\Domain\Repository\UserTokenRepositoryInterface;
 
@@ -47,6 +49,9 @@ class GenerateAuthenticationToken
         $response = new GenerateAuthenticationTokenResponse();
         try {
             $user = $this->userRepository->getUserByEmailAndPassword($request->getEmail(), $request->getPassword());
+            if ($user->getStatus() !== UserStatusConstants::ACTIVE) {
+                throw new ValidateException("Invalid user status");
+            }
             $token = $this->userTokenRepository->generateToken($user, $request->getAppVersion());
             $response->setTokenKey($token->getTokenKey());
             $response->setUser($user);
