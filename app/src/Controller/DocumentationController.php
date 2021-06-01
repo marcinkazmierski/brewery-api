@@ -99,7 +99,7 @@ class DocumentationController extends AbstractController
  *     schema="email",
  *     description="User email",
  *     type="string",
- *     example="test@codeall.pl",
+ *     example="test@test.pl",
  * ),
  *
  * @OA\Schema(

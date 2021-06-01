@@ -10,6 +10,7 @@ use App\Application\Domain\UseCase\UserRegister\UserRegisterRequest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use OpenApi\Annotations as OA;
 
 /**
  * Class RegistrationController
@@ -20,7 +21,23 @@ class RegistrationController
 {
     /**
      * Register user account.
-     *
+     * @OA\Post(
+     *     path="/api/register",
+     *     description="Register user account.",
+     *     tags = {"User"},
+     *     @OA\RequestBody(
+     *      required=true,
+     *      @OA\JsonContent(
+     *          type = "object",
+     *          @OA\Property(property="nick", ref="#/components/schemas/text"),
+     *          @OA\Property(property="email", ref="#/components/schemas/email"),
+     *          @OA\Property(property="password", ref="#/components/schemas/password"),
+     *      ),
+     *     ),
+     *     @OA\Response(response="201", ref="#/components/responses/noContent"),
+     *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
+     *     @OA\Response(response="500", ref="#/components/responses/generalError"),
+     * ),
      * @param Request $request
      * @param UserRegister $useCase
      * @param UserRegisterPresenterInterface $presenter
@@ -51,7 +68,7 @@ class RegistrationController
         string $hash
     ): JsonResponse
     {
-        // TODO
+        // TODO ?
         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
     }
 }
