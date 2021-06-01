@@ -1,32 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                <h2>
-                    Zdalny browar
-                </h2>
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold">Zdalny browar</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">
+                Potwierdzenie konta e-mail.
+            </p>
+            <div class="alert alert-success" role="alert">
+                Dzięki za potwierdzenie! <br> Możesz się teraz zalogować z Twojej aplikacji mobilnej ;)
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                <p>
-                    Dzięki za potwierdzenie! Możesz się teraz zalogować z Twojej aplikacji mobilnej!
-                </p>
+            <div class="alert alert-danger" role="alert">
+                Nieprawidłowy link albo konto jest już aktywne!
             </div>
         </div>
     </div>
 {% endblock %}
 
 
-{% block stylesheets %}
-    {{ parent() }}
-
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-
-{% endblock %}
 
