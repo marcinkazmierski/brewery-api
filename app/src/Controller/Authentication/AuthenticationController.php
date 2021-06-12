@@ -7,6 +7,9 @@ use App\Application\Domain\Common\Mapper\RequestFieldMapper;
 use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationToken;
 use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationTokenPresenterInterface;
 use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationTokenRequest;
+use App\Application\Domain\UseCase\UserResetPassword\UserResetPassword;
+use App\Application\Domain\UseCase\UserResetPassword\UserResetPasswordPresenterInterface;
+use App\Application\Domain\UseCase\UserResetPassword\UserResetPasswordRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,5 +82,18 @@ class AuthenticationController extends AbstractController
         return new JsonResponse(null, JsonResponse::HTTP_OK);
     }
 
+    #[Route('/reset-password', name: 'reset-password', methods: ['POST'])]
+    public function resetPassword(
+        Request $request,
+        UserResetPassword  $useCase,
+        UserResetPasswordPresenterInterface $presenter
+    ): JsonResponse
+    {
+        $content = json_decode($request->getContent(), true);
+        $email = (string)($content[RequestFieldMapper::EMAIL] ?? '');
 
+        $input = new UserResetPasswordRequest($email);
+        $useCase->execute($input, $presenter);
+        return $presenter->view();
+    }
 }

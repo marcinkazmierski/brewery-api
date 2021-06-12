@@ -68,7 +68,7 @@ class RegistrationController
         string $hash
     ): JsonResponse
     {
-        // TODO ?
+        // TODO: @see: FrontController::confirm
         return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
     }
 }

@@ -12,17 +12,17 @@ class GenerateAuthenticationTokenRequest
     /**
      * @var string
      */
-    protected $email;
+    protected string $email;
 
     /**
      * @var string
      */
-    protected $password;
+    protected string $password;
 
     /**
      * @var string
      */
-    protected $appVersion;
+    protected string $appVersion;
 
     /**
      * GenerateAuthenticationTokenRequest constructor.
