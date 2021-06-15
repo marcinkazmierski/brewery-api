@@ -61,4 +61,15 @@ class EmailNotificationGateway implements NotificationGatewayInterface
             throw new GatewayException($e->getMessage());
         }
     }
+
+    /**
+     * @param User $user
+     * @param string $confirmHash
+     * @throws GatewayException
+     */
+    public function userResetPassword(User $user, string $confirmHash): void
+    {
+        // TODO: Implement userResetPassword() method.
+        throw new GatewayException("TODO: Implement userResetPassword() method.");
+    }
 }

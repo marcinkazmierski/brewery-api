@@ -15,4 +15,11 @@ interface NotificationGatewayInterface
      * @throws GatewayException
      */
     public function userRegister(User $user, string $confirmHash): void;
+
+    /**
+     * @param User $user
+     * @param string $confirmHash
+     * @throws GatewayException
+     */
+    public function userResetPassword(User $user, string $confirmHash): void;
 }

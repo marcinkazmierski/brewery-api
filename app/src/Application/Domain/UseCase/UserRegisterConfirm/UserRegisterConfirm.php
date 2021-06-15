@@ -52,7 +52,7 @@ class UserRegisterConfirm
                 throw new ValidateException("Invalid user status");
             }
             $user->setStatus(UserStatusConstants::ACTIVE);
-            $user->setRegistrationHash(null);
+            $user->setHash(null);
             $this->userRepository->save($user);
         } catch (\Throwable $e) {
             $error = $this->errorResponseFromExceptionFactory->create($e);

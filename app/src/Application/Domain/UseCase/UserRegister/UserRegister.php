@@ -7,7 +7,7 @@ use App\Application\Domain\Common\Factory\ErrorResponseFactory\ErrorResponseFrom
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\Exception\ValidateException;
 use App\Application\Domain\Gateway\NotificationGatewayInterface;
-use App\Application\Domain\Gateway\UserRegistrationConfirmHashGeneratorGatewayInterface;
+use App\Application\Domain\Gateway\UserHashGeneratorGatewayInterface;
 use App\Application\Domain\Repository\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -23,8 +23,8 @@ class UserRegister
     /** @var NotificationGatewayInterface */
     private NotificationGatewayInterface $notificationGateway;
 
-    /** @var UserRegistrationConfirmHashGeneratorGatewayInterface */
-    private UserRegistrationConfirmHashGeneratorGatewayInterface $confirmHashGeneratorGateway;
+    /** @var UserHashGeneratorGatewayInterface */
+    private UserHashGeneratorGatewayInterface $confirmHashGeneratorGateway;
 
     /** @var UserPasswordEncoderInterface */
     private UserPasswordEncoderInterface $passwordEncoder;
@@ -36,11 +36,11 @@ class UserRegister
      * UserRegister constructor.
      * @param UserRepositoryInterface $userRepository
      * @param NotificationGatewayInterface $notificationGateway
-     * @param UserRegistrationConfirmHashGeneratorGatewayInterface $confirmHashGeneratorGateway
+     * @param UserHashGeneratorGatewayInterface $confirmHashGeneratorGateway
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory
      */
-    public function __construct(UserRepositoryInterface $userRepository, NotificationGatewayInterface $notificationGateway, UserRegistrationConfirmHashGeneratorGatewayInterface $confirmHashGeneratorGateway, UserPasswordEncoderInterface $passwordEncoder, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
+    public function __construct(UserRepositoryInterface $userRepository, NotificationGatewayInterface $notificationGateway, UserHashGeneratorGatewayInterface $confirmHashGeneratorGateway, UserPasswordEncoderInterface $passwordEncoder, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
     {
         $this->userRepository = $userRepository;
         $this->notificationGateway = $notificationGateway;
@@ -81,7 +81,7 @@ class UserRegister
             $user->setEmail($request->getEmail());
             $user->setNick($request->getNick());
             $hash = $this->confirmHashGeneratorGateway->generate($user);
-            $user->setRegistrationHash($hash);
+            $user->setHash($hash);
             $encodedPassword = $this->passwordEncoder->encodePassword($user, $request->getPassword());
             $user->setPassword($encodedPassword);
             $this->userRepository->save($user);

@@ -7,9 +7,9 @@ namespace App\Application\Infrastructure\Gateway;
 use App\Application\Domain\Common\Constants\UserStatusConstants;
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\Exception\GatewayException;
-use App\Application\Domain\Gateway\UserRegistrationConfirmHashGeneratorGatewayInterface;
+use App\Application\Domain\Gateway\UserHashGeneratorGatewayInterface;
 
-class UserRegistrationConfirmHashGeneratorGateway implements UserRegistrationConfirmHashGeneratorGatewayInterface
+class UserHashGeneratorGateway implements UserHashGeneratorGatewayInterface
 {
 
     /**

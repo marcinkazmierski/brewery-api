@@ -46,7 +46,7 @@ class User implements UserInterface
      * @var ?string
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $registrationHash;
+    private ?string $hash;
 
     /**
      * @var \DateTime
@@ -188,17 +188,17 @@ class User implements UserInterface
     /**
      * @return string|null
      */
-    public function getRegistrationHash(): ?string
+    public function getHash(): ?string
     {
-        return $this->registrationHash;
+        return $this->hash;
     }
 
     /**
-     * @param string|null $registrationHash
+     * @param string|null $hash
      */
-    public function setRegistrationHash(?string $registrationHash): void
+    public function setHash(?string $hash): void
     {
-        $this->registrationHash = $registrationHash;
+        $this->hash = $hash;
     }
 
     /**

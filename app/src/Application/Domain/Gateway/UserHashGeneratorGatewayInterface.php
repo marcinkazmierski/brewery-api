@@ -8,7 +8,7 @@ namespace App\Application\Domain\Gateway;
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\Exception\GatewayException;
 
-interface UserRegistrationConfirmHashGeneratorGatewayInterface
+interface UserHashGeneratorGatewayInterface
 {
     /**
      * @param User $user

@@ -21,13 +21,14 @@ class TokenAuthenticatorMiddleware extends AbstractGuardAuthenticator
         '#/api/auth/authenticate#',
         '#/api/register#',
         '#/api/register/activate/(.+)#',
+        '#/api/auth/reset-password#',
     ];
 
     /** @var UserTokenRepository */
-    private $userTokenRepository;
+    private UserTokenRepository $userTokenRepository;
 
     /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
      * TokenAuthenticatorMiddleware constructor.
