@@ -30,3 +30,21 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # custom aliases:
+    domain.gateway.user_register_hash_generator_gateway:
+        class: App\Application\Infrastructure\Gateway\UserRegisterHashGeneratorGateway
+        public: true
+    domain.gateway.user_reset_password_hash_generator_gateway:
+        class: App\Application\Infrastructure\Gateway\UserResetPasswordHashGeneratorGateway
+        public: true
+
+    # custom DI:
+    App\Application\Domain\Gateway\UserHashGeneratorGatewayInterface: '@domain.gateway.user_register_hash_generator_gateway'
+
+    # custom DI with bind
+    App\Application\Domain\UseCase\UserResetPassword\UserResetPassword:
+        public: true
+        bind:
+            App\Application\Domain\Gateway\UserHashGeneratorGatewayInterface: '@domain.gateway.user_reset_password_hash_generator_gateway'
+
