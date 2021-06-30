@@ -49,6 +49,12 @@ class User implements UserInterface
     private ?string $hash;
 
     /**
+     * @var ?\DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private ?\DateTime $hashExpiryDate;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime", options={"default" = "CURRENT_TIMESTAMP"})
      */
@@ -199,6 +205,22 @@ class User implements UserInterface
     public function setHash(?string $hash): void
     {
         $this->hash = $hash;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getHashExpiryDate(): ?\DateTime
+    {
+        return $this->hashExpiryDate;
+    }
+
+    /**
+     * @param \DateTime|null $hashExpiryDate
+     */
+    public function setHashExpiryDate(?\DateTime $hashExpiryDate): void
+    {
+        $this->hashExpiryDate = $hashExpiryDate;
     }
 
     /**

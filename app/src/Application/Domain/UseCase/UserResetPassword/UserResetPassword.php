@@ -62,6 +62,7 @@ class UserResetPassword
             }
             $hash = $this->hashGeneratorGateway->generate($user);
             $user->setHash($hash);
+            $user->setHashExpiryDate(new \DateTime('+1 hour'));
             $this->userRepository->save($user);
             $this->notificationGateway->userResetPassword($user, $hash);
         } catch (\Throwable $e) {
