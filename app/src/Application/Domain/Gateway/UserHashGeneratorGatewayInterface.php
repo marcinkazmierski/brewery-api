@@ -12,8 +12,9 @@ interface UserHashGeneratorGatewayInterface
 {
     /**
      * @param User $user
+     * @param int $length
      * @return string
      * @throws GatewayException
      */
-    public function generate(User $user): string;
+    public function generate(User $user, int $length = 32): string;
 }

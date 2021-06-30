@@ -64,12 +64,27 @@ class EmailNotificationGateway implements NotificationGatewayInterface
 
     /**
      * @param User $user
-     * @param string $confirmHash
+     * @param string $resetPasswordTemporaryCode
      * @throws GatewayException
      */
-    public function userResetPassword(User $user, string $confirmHash): void
+    public function userResetPassword(User $user, string $resetPasswordTemporaryCode): void
     {
-        // TODO: Implement userResetPassword() method.
-        throw new GatewayException("TODO: Implement userResetPassword() method.");
+        try {
+            $sender = $this->params->get('mailer_sender');
+
+            $email = (new TemplatedEmail())
+                ->from(new Address($sender, 'Zdalny Browar'))
+                ->to($user->getEmail())
+                ->subject('Reset your password!')
+                ->htmlTemplate('emails/reset-password.html.twig')
+                ->context([
+                    'user' => $user,
+                    'code' => $resetPasswordTemporaryCode,
+                ]);
+
+            $this->mailer->send($email);
+        } catch (\Throwable $e) {
+            throw new GatewayException($e->getMessage());
+        }
     }
 }

@@ -18,8 +18,8 @@ interface NotificationGatewayInterface
 
     /**
      * @param User $user
-     * @param string $confirmHash
+     * @param string $resetPasswordTemporaryCode
      * @throws GatewayException
      */
-    public function userResetPassword(User $user, string $confirmHash): void;
+    public function userResetPassword(User $user, string $resetPasswordTemporaryCode): void;
 }

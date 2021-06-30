@@ -32,3 +32,6 @@
 - generowanie CRUD dla wszystkich encji dla panelu: 'symfony console make:admin:crud'
 - do zarządzania stringami: https://packagist.org/packages/symfony/string
 - API: 'symfony composer req api' (https://api-platform.com/docs/distribution/)
+
+## Ficzery do zrobienia:
+- kolekkowanie asynchroniczne maili

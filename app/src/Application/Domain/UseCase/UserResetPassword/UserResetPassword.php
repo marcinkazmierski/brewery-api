@@ -60,7 +60,8 @@ class UserResetPassword
             if (!$user) {
                 throw new ValidateException("Email not exists");
             }
-            $hash = $this->hashGeneratorGateway->generate($user); //todo: add UserHashGeneratorGateway for reset password, check user status
+            $hash = $this->hashGeneratorGateway->generate($user);
+            $user->setHash($hash);
             $this->userRepository->save($user);
             $this->notificationGateway->userResetPassword($user, $hash);
         } catch (\Throwable $e) {

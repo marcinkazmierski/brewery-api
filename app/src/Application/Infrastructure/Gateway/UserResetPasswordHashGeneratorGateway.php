@@ -14,15 +14,16 @@ class UserResetPasswordHashGeneratorGateway extends UserHashGeneratorGateway imp
 
     /**
      * @param User $user
+     * @param int $length
      * @return string
      * @throws GatewayException
      */
-    public function generate(User $user): string
+    public function generate(User $user, int $length = 8): string
     {
         if ($user->getStatus() != UserStatusConstants::ACTIVE) {
             throw new GatewayException("Invalid user status [expect ACTIVE]");
         }
 
-        return parent::generate($user);
+        return parent::generate($user, $length);
     }
 }
