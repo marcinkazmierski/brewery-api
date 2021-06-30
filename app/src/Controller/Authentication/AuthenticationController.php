@@ -10,6 +10,9 @@ use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthentic
 use App\Application\Domain\UseCase\UserResetPassword\UserResetPassword;
 use App\Application\Domain\UseCase\UserResetPassword\UserResetPasswordPresenterInterface;
 use App\Application\Domain\UseCase\UserResetPassword\UserResetPasswordRequest;
+use App\Application\Domain\UseCase\UserResetPasswordConfirm\UserResetPasswordConfirm;
+use App\Application\Domain\UseCase\UserResetPasswordConfirm\UserResetPasswordConfirmPresenterInterface;
+use App\Application\Domain\UseCase\UserResetPasswordConfirm\UserResetPasswordConfirmRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,6 +77,7 @@ class AuthenticationController extends AbstractController
         return $presenter->view();
     }
 
+    //todo: swagger
     #[Route('/logout', name: 'logout', methods: ['POST'])]
     public function logout(
         Request $request): JsonResponse
@@ -82,10 +86,11 @@ class AuthenticationController extends AbstractController
         return new JsonResponse(null, JsonResponse::HTTP_OK);
     }
 
+    //todo: swagger
     #[Route('/reset-password', name: 'reset-password', methods: ['POST'])]
     public function resetPassword(
         Request $request,
-        UserResetPassword  $useCase,
+        UserResetPassword $useCase,
         UserResetPasswordPresenterInterface $presenter
     ): JsonResponse
     {
@@ -93,6 +98,24 @@ class AuthenticationController extends AbstractController
         $email = (string)($content[RequestFieldMapper::EMAIL] ?? '');
 
         $input = new UserResetPasswordRequest($email);
+        $useCase->execute($input, $presenter);
+        return $presenter->view();
+    }
+
+    //todo: swagger
+    #[Route('/reset-password-confirm', name: 'reset-password', methods: ['POST'])]
+    public function resetPasswordConfirm(
+        Request $request,
+        UserResetPasswordConfirm $useCase,
+        UserResetPasswordConfirmPresenterInterface $presenter
+    ): JsonResponse
+    {
+        $content = json_decode($request->getContent(), true);
+        $email = (string)($content[RequestFieldMapper::EMAIL] ?? '');
+        $code = (string)($content[RequestFieldMapper::CODE] ?? '');
+        $newPassword = (string)($content[RequestFieldMapper::NEW_PASSWORD] ?? '');
+
+        $input = new UserResetPasswordConfirmRequest($email, $code, $newPassword);
         $useCase->execute($input, $presenter);
         return $presenter->view();
     }

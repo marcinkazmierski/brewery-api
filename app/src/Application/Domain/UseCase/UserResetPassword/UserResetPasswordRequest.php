@@ -12,7 +12,7 @@ class UserResetPasswordRequest
     /**
      * @var string
      */
-    protected string $email;
+    private string $email;
 
     /**
      * UserResetPasswordRequest constructor.
