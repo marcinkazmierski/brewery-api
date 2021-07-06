@@ -48,8 +48,6 @@ class UserResetPasswordConfirm
     {
         $response = new UserResetPasswordConfirmResponse();
         try {
-            //TODO
-            // todo: validate HashExpiryDate
             if (empty($request->getEmail())) {
                 throw new ValidateException("Empty email field");
             }
@@ -59,7 +57,7 @@ class UserResetPasswordConfirm
             if (!($user = $this->userRepository->findOneBy(['hash' => $request->getHash()]))) {
                 throw new ValidateException("Invalid hash");
             }
-            if ($user->getHashExpiryDate() && $user->getHashExpiryDate()->getTimestamp() > (new \DateTime('now'))->getTimestamp()){
+            if ($user->getHashExpiryDate() && $user->getHashExpiryDate()->getTimestamp() > (new \DateTime('now'))->getTimestamp()) {
                 throw new ValidateException("Hash has expired");
             }
             if ($user->getStatus() !== UserStatusConstants::NEW) {

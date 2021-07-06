@@ -86,7 +86,28 @@ class AuthenticationController extends AbstractController
         return new JsonResponse(null, JsonResponse::HTTP_OK);
     }
 
-    //todo: swagger
+    /**
+     * Reset password.
+     * @OA\Post(
+     *     path="/api/auth/reset-password",
+     *     description="Reset password",
+     *     tags = {"Authentication"},
+     *     @OA\RequestBody(
+     *      required=true,
+     *      @OA\JsonContent(
+     *          type = "object",
+     *          @OA\Property(property="email", ref="#/components/schemas/email")
+     *      ),
+     *     ),
+     *     @OA\Response(response="204", ref="#/components/responses/noContent"),
+     *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
+     *     @OA\Response(response="500", ref="#/components/responses/generalError"),
+     * ),
+     * @param Request $request
+     * @param UserResetPassword $useCase
+     * @param UserResetPasswordPresenterInterface $presenter
+     * @return JsonResponse
+     */
     #[Route('/reset-password', name: 'reset-password', methods: ['POST'])]
     public function resetPassword(
         Request $request,
@@ -102,7 +123,30 @@ class AuthenticationController extends AbstractController
         return $presenter->view();
     }
 
-    //todo: swagger
+    /**
+     * Reset password confirm.
+     * @OA\Post(
+     *     path="/api/auth/reset-password-confirm",
+     *     description="Reset password confirm",
+     *     tags = {"Authentication"},
+     *     @OA\RequestBody(
+     *      required=true,
+     *      @OA\JsonContent(
+     *          type = "object",
+     *          @OA\Property(property="email", ref="#/components/schemas/email"),
+     *          @OA\Property(property="newPassword", ref="#/components/schemas/password"),
+     *          @OA\Property(property="code", ref="#/components/schemas/text")
+     *      ),
+     *     ),
+     *     @OA\Response(response="204", ref="#/components/responses/noContent"),
+     *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
+     *     @OA\Response(response="500", ref="#/components/responses/generalError"),
+     * ),
+     * @param Request $request
+     * @param UserResetPasswordConfirm $useCase
+     * @param UserResetPasswordConfirmPresenterInterface $presenter
+     * @return JsonResponse
+     */
     #[Route('/reset-password-confirm', name: 'reset-password', methods: ['POST'])]
     public function resetPasswordConfirm(
         Request $request,
