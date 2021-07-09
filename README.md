@@ -1,7 +1,6 @@
 # brewery-api
 
 ## Komendy [Symfony]
-
 - `php bin/console doctrine:generate:entity` - dodatnie nowej encji
 - `php bin/console doctrine:schema:update --force` - aktualizacja bazy
 - `php bin/console doctrine:fixtures:load` - wczytanie danych do bazy (nadpisuje wszystkie dane)
