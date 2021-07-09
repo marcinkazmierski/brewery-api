@@ -41,6 +41,8 @@ class GenerateAuthenticationTokenPresenter extends AbstractPresenter implements 
         $responseData = [
             ResponseFieldMapper::USER_TOKEN => $this->response->getTokenKey(),
             ResponseFieldMapper::USER_ID => $this->response->getUser()->getId(),
+            ResponseFieldMapper::USER_NICK => $this->response->getUser()->getNick(),
+            ResponseFieldMapper::USER_EMAIL => $this->response->getUser()->getEmail(),
         ];
 
         return new JsonResponse($responseData, JsonResponse::HTTP_OK);
