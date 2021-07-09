@@ -34,4 +34,4 @@
 - API: 'symfony composer req api' (https://api-platform.com/docs/distribution/)
 
 ## Ficzery do zrobienia:
-- kolejkowanie asynchroniczne maili
+- kolejkowanie asynchroniczne emaili
