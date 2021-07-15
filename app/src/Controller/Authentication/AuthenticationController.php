@@ -51,7 +51,7 @@ class AuthenticationController extends AbstractController
      *          @OA\Property(property="token", description="User auth access token", ref="#/components/schemas/token"),
      *          @OA\Property(property="userId", description="User ID", ref="#/components/schemas/userId"),
      *          @OA\Property(property="email", description="User ID", ref="#/components/schemas/email"),
-     *          @OA\Property(property="userNick", description="User ID", ref="#/components/schemas/nick")
+     *          @OA\Property(property="userNick", description="User ID", ref="#/components/schemas/text")
      *      )
      *     ),
      *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
