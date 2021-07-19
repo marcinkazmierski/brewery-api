@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Infrastructure\UseCase\GetBeers;
 
+use App\Application\Domain\Common\Constants\UserBeerStatusConstants;
 use App\Application\Domain\Common\Factory\EntityResponseFactory\BeerResponseFactory;
 use App\Application\Domain\Common\Mapper\ResponseFieldMapper;
 use App\Application\Domain\UseCase\GetBeers\GetBeersPresenterInterface;
@@ -49,19 +50,17 @@ class GetBeersPresenter extends AbstractPresenter implements GetBeersPresenterIn
             return $this->viewErrorResponse($this->response->getError(), $statusCode);
         }
 
-        $unlockedBeers = [];
-        foreach ($this->response->getUnlockedBeers() as $beer) {
-            $unlockedBeers[] = $this->beerResponseFactory->create($beer);
-        }
-
-        $allBeers = [];
+        $beers = [];
         foreach ($this->response->getAllBeers() as $beer) {
-            $allBeers[] = $this->beerResponseFactory->create($beer);
+            $raw = $this->beerResponseFactory->create($beer);
+            if ($this->response->getUnlockedBeers()->contains($beer)) {
+                $raw[ResponseFieldMapper::BEER_STATUS] = UserBeerStatusConstants::UNLOCKED;
+            }
+            $beers[] = $raw;
         }
 
         $data = [
-            ResponseFieldMapper::UNLOCKED_BEERS => $unlockedBeers,
-            ResponseFieldMapper::ALL_BEERS => $allBeers,
+            ResponseFieldMapper::BEERS => $beers,
         ];
         return new JsonResponse($data, JsonResponse::HTTP_OK);
     }

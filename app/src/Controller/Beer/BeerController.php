@@ -31,8 +31,7 @@ class BeerController extends AbstractController
      *          description="Array of beers",
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="unlockedBeers", type="array", @OA\Items(ref="#/components/schemas/Beer")),
-     *              @OA\Property(property="allBeers", type="array", @OA\Items(ref="#/components/schemas/Beer")),
+     *              @OA\Property(property="beers", type="array", @OA\Items(ref="#/components/schemas/Beer")),
      *          ),
      *     ),
      *     @OA\Response(response="400", ref="#/components/responses/badRequest"),

@@ -40,7 +40,7 @@ class GetBeers
         try {
             $beers = $this->beerRepository->findBy(['status' => 1]);
             $response->setAllBeers($beers);
-            $response->setUnlockedBeers($request->getUser()->getUnlockedBeers()->toArray());
+            $response->setUnlockedBeers($request->getUser()->getUnlockedBeers());
         } catch (\Throwable $e) {
             $error = $this->errorResponseFromExceptionFactory->create($e);
             $response->setError($error);

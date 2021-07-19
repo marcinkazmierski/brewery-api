@@ -4,6 +4,7 @@
 namespace App\Application\Domain\Common\Factory\EntityResponseFactory;
 
 
+use App\Application\Domain\Common\Constants\UserBeerStatusConstants;
 use App\Application\Domain\Common\Mapper\ResponseFieldMapper;
 use App\Application\Domain\Entity\Beer;
 
@@ -42,6 +43,7 @@ class BeerResponseFactory
             ResponseFieldMapper::BEER_MALTS => $entity->getMalts(),
             ResponseFieldMapper::BEER_TAGS => $entity->getTags(),
             ResponseFieldMapper::BEER_REVIEWS => $reviews,
+            ResponseFieldMapper::BEER_STATUS => UserBeerStatusConstants::DISABLED,
         ];
     }
 }

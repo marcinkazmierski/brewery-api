@@ -5,6 +5,7 @@ namespace App\Application\Domain\UseCase\GetBeers;
 
 use App\Application\Domain\Common\Response\AbstractResponse;
 use App\Application\Domain\Entity\Beer;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Class GetBeersResponse
@@ -13,7 +14,7 @@ use App\Application\Domain\Entity\Beer;
 class GetBeersResponse extends AbstractResponse
 {
     /** @var Beer[] */
-    private array $unlockedBeers;
+    private Collection $unlockedBeers;
 
     /** @var Beer[] */
     private array $allBeers;
@@ -21,7 +22,7 @@ class GetBeersResponse extends AbstractResponse
     /**
      * @return Beer[]
      */
-    public function getUnlockedBeers(): array
+    public function getUnlockedBeers(): Collection
     {
         return $this->unlockedBeers;
     }
@@ -29,7 +30,7 @@ class GetBeersResponse extends AbstractResponse
     /**
      * @param Beer[] $unlockedBeers
      */
-    public function setUnlockedBeers(array $unlockedBeers): void
+    public function setUnlockedBeers(Collection $unlockedBeers): void
     {
         $this->unlockedBeers = $unlockedBeers;
     }
