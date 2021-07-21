@@ -17,68 +17,74 @@ class Beer
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name = "";
+
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $title = "";
 
     /**
      * @ORM\Column(type="string", length=2048)
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\Column(type="string", length=1024)
      */
-    private $malts;
+    private string $malts;
 
     /**
      * @ORM\Column(type="string", length=1024)
      */
-    private $hops;
+    private string $hops;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $status = 1;
+    private int $status = 1;
 
     /**
      * @ORM\Column(type="array")
      */
-    private $tags = [];
+    private array $tags = [];
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $icon;
+    private string $icon;
 
     /**
      * @ORM\Column(type="string", length=512, unique=true)
      */
-    private $code;
+    private string $code;
 
     /**
      * @ORM\OneToMany(targetEntity=Review::class, mappedBy="beer", orphanRemoval=true)
      * @ORM\OrderBy({"createdAt" = "DESC"})
      */
-    private $reviews;
+    private Collection $reviews;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private \DateTime $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $backgroundImage;
+    private string $backgroundImage;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="unlockedBeers")
      */
-    private $allowedUsers;
+    private Collection $allowedUsers;
 
     public function __construct()
     {
@@ -92,7 +98,7 @@ class Beer
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -103,6 +109,23 @@ class Beer
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
 
     public function getDescription(): ?string
     {

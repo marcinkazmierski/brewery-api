@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Security;
 
 
+use App\Application\Domain\Common\Factory\ErrorResponseFactory\ErrorResponseFromExceptionFactoryInterface;
 use App\Application\Infrastructure\Repository\UserTokenRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,19 +28,25 @@ class TokenAuthenticatorMiddleware extends AbstractGuardAuthenticator
     /** @var UserTokenRepository */
     private UserTokenRepository $userTokenRepository;
 
+    /** @var ErrorResponseFromExceptionFactoryInterface */
+    private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
+
     /** @var LoggerInterface */
     private LoggerInterface $logger;
 
     /**
      * TokenAuthenticatorMiddleware constructor.
      * @param UserTokenRepository $userTokenRepository
+     * @param ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory
      * @param LoggerInterface $logger
      */
-    public function __construct(UserTokenRepository $userTokenRepository, LoggerInterface $logger)
+    public function __construct(UserTokenRepository $userTokenRepository, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory, LoggerInterface $logger)
     {
         $this->userTokenRepository = $userTokenRepository;
+        $this->errorResponseFromExceptionFactory = $errorResponseFromExceptionFactory;
         $this->logger = $logger;
     }
+
 
     /**
      * Called on every request to decide if this authenticator should be
@@ -96,15 +103,8 @@ class TokenAuthenticatorMiddleware extends AbstractGuardAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        $data = [
-            // you may want to customize or obfuscate the message first
-            'message' => $exception->getMessage()
-
-            // or to translate this message
-            // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
-        ];
-
-        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
+        $error = $this->errorResponseFromExceptionFactory->create($exception);
+        return new JsonResponse($error->toArray(), Response::HTTP_UNAUTHORIZED);
     }
 
     /**

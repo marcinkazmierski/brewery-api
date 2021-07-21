@@ -35,6 +35,7 @@ class BeerResponseFactory
         return [
             ResponseFieldMapper::BEER_ID => $entity->getId(),
             ResponseFieldMapper::BEER_NAME => $entity->getName(),
+            ResponseFieldMapper::BEER_TITLE => $entity->getTitle(),
             ResponseFieldMapper::BEER_BACKGROUND_IMAGE => $entity->getBackgroundImage(),
             ResponseFieldMapper::BEER_CREATED_AT => $entity->getCreatedAt()->format('H:i d-m-Y'),
             ResponseFieldMapper::BEER_DESCRIPTION => $entity->getDescription(),
@@ -44,6 +45,7 @@ class BeerResponseFactory
             ResponseFieldMapper::BEER_TAGS => $entity->getTags(),
             ResponseFieldMapper::BEER_REVIEWS => $reviews,
             ResponseFieldMapper::BEER_STATUS => UserBeerStatusConstants::DISABLED,
+            ResponseFieldMapper::BEER_RATING => 4.45, //todo!!!
         ];
     }
 }

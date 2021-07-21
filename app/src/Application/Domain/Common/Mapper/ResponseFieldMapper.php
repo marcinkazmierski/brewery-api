@@ -18,6 +18,7 @@ abstract class ResponseFieldMapper
 
     const BEER_ID = 'beerId';
     const BEER_NAME = 'beerName';
+    const BEER_TITLE = 'beerTitle';
     const BEER_CODE = 'beerCode';
     const BEER_BACKGROUND_IMAGE = 'beerBackgroundImage';
     const BEER_CREATED_AT = 'beerCreatedAt';
@@ -28,6 +29,7 @@ abstract class ResponseFieldMapper
     const BEER_TAGS = 'beerTags';
     const BEER_REVIEWS = 'beerReviews';
     const BEER_STATUS = 'beerStatus';
+    const BEER_RATING = 'beerRating';
 
     const REVIEW_ID = 'reviewId';
     const REVIEW_TEXT = 'reviewText';
