@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Infrastructure\UseCase\CreateReview;
 
+use App\Application\Domain\Common\Factory\EntityResponseFactory\BeerResponseFactory;
 use App\Application\Domain\Common\Mapper\ResponseFieldMapper;
 use App\Application\Domain\UseCase\CreateReview\CreateReviewPresenterInterface;
 use App\Application\Domain\UseCase\CreateReview\CreateReviewResponse;
@@ -15,10 +16,23 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class CreateReviewPresenter extends AbstractPresenter implements CreateReviewPresenterInterface
 {
+    /** @var BeerResponseFactory */
+    protected BeerResponseFactory $beerResponseFactory;
+
     /**
      * @var CreateReviewResponse $response
      */
     private $response;
+
+
+    /**
+     * GetBeersPresenter constructor.
+     * @param BeerResponseFactory $beerResponseFactory
+     */
+    public function __construct(BeerResponseFactory $beerResponseFactory)
+    {
+        $this->beerResponseFactory = $beerResponseFactory;
+    }
 
     /**
      * @param CreateReviewResponse $response
@@ -39,7 +53,8 @@ class CreateReviewPresenter extends AbstractPresenter implements CreateReviewPre
         }
 
         $data = [
-            ResponseFieldMapper::REVIEW_ID => $this->response->getReview()->getId()
+            ResponseFieldMapper::REVIEW_ID => $this->response->getReview()->getId(),
+            ResponseFieldMapper::BEER => $this->beerResponseFactory->create($this->response->getReview()->getBeer()),
         ];
         return new JsonResponse($data, JsonResponse::HTTP_OK);
     }

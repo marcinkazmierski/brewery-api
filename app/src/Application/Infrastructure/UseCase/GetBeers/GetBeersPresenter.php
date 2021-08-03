@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class GetBeersPresenter extends AbstractPresenter implements GetBeersPresenterInterface
 {
+    /** @var BeerResponseFactory  */
     protected BeerResponseFactory $beerResponseFactory;
     /**
      * @var GetBeersResponse $response

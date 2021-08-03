@@ -15,7 +15,7 @@ abstract class ResponseFieldMapper
     const UNLOCKED_BEERS = 'unlockedBeers';
     const ALL_BEERS = 'allBeers';
     const BEERS = 'beers';
-
+    const BEER = 'beer';
     const BEER_ID = 'beerId';
     const BEER_NAME = 'beerName';
     const BEER_TITLE = 'beerTitle';
