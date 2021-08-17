@@ -11,6 +11,7 @@ abstract class ResponseFieldMapper
     const USER_ID = 'userId';
     const USER_EMAIL = 'email';
     const USER_NICK = 'userNick';
+    const PROFILE = 'profile';
 
     const UNLOCKED_BEERS = 'unlockedBeers';
     const ALL_BEERS = 'allBeers';
