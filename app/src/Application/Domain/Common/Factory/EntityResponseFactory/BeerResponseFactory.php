@@ -29,9 +29,17 @@ class BeerResponseFactory
     public function create(Beer $entity): array
     {
         $reviews = [];
+        $ratingSum = 0;
         foreach ($entity->getReviews() as $review) {
+            $ratingSum += $review->getRating();
             $reviews[] = $this->reviewResponseFactory->create($review);
         }
+
+        $rating = 0;
+        if ($entity->getReviews()->count() > 0) {
+            $rating = round($ratingSum / $entity->getReviews()->count(), 2);
+        }
+
         return [
             ResponseFieldMapper::BEER_ID => $entity->getId(),
             ResponseFieldMapper::BEER_NAME => $entity->getName(),
@@ -45,7 +53,7 @@ class BeerResponseFactory
             ResponseFieldMapper::BEER_TAGS => $entity->getTags(),
             ResponseFieldMapper::BEER_REVIEWS => $reviews,
             ResponseFieldMapper::BEER_STATUS => UserBeerStatusConstants::DISABLED,
-            ResponseFieldMapper::BEER_RATING => 4.45, //todo!!!
+            ResponseFieldMapper::BEER_RATING => $rating,
         ];
     }
 }
