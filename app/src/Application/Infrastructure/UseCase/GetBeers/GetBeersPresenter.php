@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class GetBeersPresenter extends AbstractPresenter implements GetBeersPresenterInterface
 {
-    /** @var BeerResponseFactory  */
+    /** @var BeerResponseFactory */
     protected BeerResponseFactory $beerResponseFactory;
     /**
      * @var GetBeersResponse $response
@@ -53,7 +53,7 @@ class GetBeersPresenter extends AbstractPresenter implements GetBeersPresenterIn
 
         $beers = [];
         foreach ($this->response->getAllBeers() as $beer) {
-            $raw = $this->beerResponseFactory->create($beer);
+            $raw = $this->beerResponseFactory->create($beer, $this->response->getOwner());
             if ($this->response->getUnlockedBeers()->contains($beer)) {
                 $raw[ResponseFieldMapper::BEER_STATUS] = UserBeerStatusConstants::UNLOCKED;
             }

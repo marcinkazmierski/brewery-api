@@ -29,6 +29,7 @@ abstract class ResponseFieldMapper
     const BEER_MALTS = 'beerMalts';
     const BEER_TAGS = 'beerTags';
     const BEER_REVIEWS = 'beerReviews';
+    const USER_BEER_REVIEW = 'userBeerReview';
     const BEER_STATUS = 'beerStatus';
     const BEER_RATING = 'beerRating';
 

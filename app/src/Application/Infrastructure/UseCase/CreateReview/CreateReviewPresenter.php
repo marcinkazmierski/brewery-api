@@ -54,7 +54,7 @@ class CreateReviewPresenter extends AbstractPresenter implements CreateReviewPre
 
         $data = [
             ResponseFieldMapper::REVIEW_ID => $this->response->getReview()->getId(),
-            ResponseFieldMapper::BEER => $this->beerResponseFactory->create($this->response->getReview()->getBeer()),
+            ResponseFieldMapper::BEER => $this->beerResponseFactory->create($this->response->getReview()->getBeer(), $this->response->getReview()->getOwner()),
         ];
         return new JsonResponse($data, JsonResponse::HTTP_OK);
     }

@@ -5,6 +5,7 @@ namespace App\Application\Domain\UseCase\GetBeers;
 
 use App\Application\Domain\Common\Response\AbstractResponse;
 use App\Application\Domain\Entity\Beer;
+use App\Application\Domain\Entity\User;
 use Doctrine\Common\Collections\Collection;
 
 /**
@@ -18,6 +19,9 @@ class GetBeersResponse extends AbstractResponse
 
     /** @var Beer[] */
     private array $allBeers;
+
+    /** @var User */
+    private User $owner;
 
     /**
      * @return Beer[]
@@ -51,5 +55,19 @@ class GetBeersResponse extends AbstractResponse
         $this->allBeers = $allBeers;
     }
 
+    /**
+     * @return User
+     */
+    public function getOwner(): User
+    {
+        return $this->owner;
+    }
 
+    /**
+     * @param User $owner
+     */
+    public function setOwner(User $owner): void
+    {
+        $this->owner = $owner;
+    }
 }

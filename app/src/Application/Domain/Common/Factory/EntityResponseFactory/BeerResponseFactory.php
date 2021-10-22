@@ -1,32 +1,39 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Application\Domain\Common\Factory\EntityResponseFactory;
-
 
 use App\Application\Domain\Common\Constants\UserBeerStatusConstants;
 use App\Application\Domain\Common\Mapper\ResponseFieldMapper;
 use App\Application\Domain\Entity\Beer;
+use App\Application\Domain\Entity\Review;
+use App\Application\Domain\Entity\User;
+use App\Application\Domain\Repository\ReviewRepositoryInterface;
 
 class BeerResponseFactory
 {
+    /** @var ReviewResponseFactory */
     protected ReviewResponseFactory $reviewResponseFactory;
 
+    /** @var ReviewRepositoryInterface */
+    protected ReviewRepositoryInterface $reviewRepository;
+
     /**
-     * BeerResponseFactory constructor.
      * @param ReviewResponseFactory $reviewResponseFactory
+     * @param ReviewRepositoryInterface $reviewRepository
      */
-    public function __construct(ReviewResponseFactory $reviewResponseFactory)
+    public function __construct(ReviewResponseFactory $reviewResponseFactory, ReviewRepositoryInterface $reviewRepository)
     {
         $this->reviewResponseFactory = $reviewResponseFactory;
+        $this->reviewRepository = $reviewRepository;
     }
-
 
     /**
      * @param Beer $entity
+     * @param User $owner
      * @return array
      */
-    public function create(Beer $entity): array
+    public function create(Beer $entity, User $owner): array
     {
         $reviews = [];
         $ratingSum = 0;
@@ -40,6 +47,9 @@ class BeerResponseFactory
             $rating = round($ratingSum / $entity->getReviews()->count(), 2);
         }
 
+        /** @var Review $review */
+        $userReview = $this->reviewRepository->findOneBy(['owner' => $owner, 'beer' => $entity]);
+
         return [
             ResponseFieldMapper::BEER_ID => $entity->getId(),
             ResponseFieldMapper::BEER_NAME => $entity->getName(),
@@ -52,6 +62,7 @@ class BeerResponseFactory
             ResponseFieldMapper::BEER_MALTS => $entity->getMalts(),
             ResponseFieldMapper::BEER_TAGS => $entity->getTags(),
             ResponseFieldMapper::BEER_REVIEWS => $reviews,
+            ResponseFieldMapper::USER_BEER_REVIEW => $this->reviewResponseFactory->create($userReview),
             ResponseFieldMapper::BEER_STATUS => UserBeerStatusConstants::DISABLED,
             ResponseFieldMapper::BEER_RATING => $rating,
         ];

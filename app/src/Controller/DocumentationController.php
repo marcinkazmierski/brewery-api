@@ -151,6 +151,7 @@ class DocumentationController extends AbstractController
  *     @OA\Property(property="beerMalts", ref="#/components/schemas/text"),
  *     @OA\Property(property="beerTags", type="array", @OA\Items(ref="#/components/schemas/text")),
  *     @OA\Property(property="beerReviews", type="array", @OA\Items(ref="#/components/schemas/Review")),
+ *     @OA\Property(property="userBeerReview", ref="#/components/schemas/Review"),
  * ),
  *
  * @OA\Schema(

@@ -33,12 +33,13 @@ class GetBeers
      * @param GetBeersPresenterInterface $presenter
      */
     public function execute(
-        GetBeersRequest $request,
+        GetBeersRequest            $request,
         GetBeersPresenterInterface $presenter)
     {
         $response = new GetBeersResponse();
         try {
             $beers = $this->beerRepository->findBy(['status' => 1]);
+            $response->setOwner($request->getUser());
             $response->setAllBeers($beers);
             $response->setUnlockedBeers($request->getUser()->getUnlockedBeers());
         } catch (\Throwable $e) {

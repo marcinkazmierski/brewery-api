@@ -17,13 +17,13 @@ use App\Application\Domain\Repository\ReviewRepositoryInterface;
 class CreateReview
 {
     /** @var BeerRepositoryInterface */
-    private $beerRepository;
+    private BeerRepositoryInterface $beerRepository;
 
     /** @var ReviewRepositoryInterface */
-    private $reviewRepository;
+    private ReviewRepositoryInterface $reviewRepository;
 
     /** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
-    private $errorResponseFromExceptionFactory;
+    private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
 
     /**
      * CreateReview constructor.
@@ -44,7 +44,7 @@ class CreateReview
      * @param CreateReviewPresenterInterface $presenter
      */
     public function execute(
-        CreateReviewRequest $request,
+        CreateReviewRequest            $request,
         CreateReviewPresenterInterface $presenter)
     {
         $response = new CreateReviewResponse();
