@@ -62,7 +62,7 @@ class BeerResponseFactory
             ResponseFieldMapper::BEER_MALTS => $entity->getMalts(),
             ResponseFieldMapper::BEER_TAGS => $entity->getTags(),
             ResponseFieldMapper::BEER_REVIEWS => $reviews,
-            ResponseFieldMapper::USER_BEER_REVIEW => $this->reviewResponseFactory->create($userReview),
+            ResponseFieldMapper::USER_BEER_REVIEW => $userReview ? $this->reviewResponseFactory->create($userReview) : null,
             ResponseFieldMapper::BEER_STATUS => UserBeerStatusConstants::DISABLED,
             ResponseFieldMapper::BEER_RATING => $rating,
         ];
