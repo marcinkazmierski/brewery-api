@@ -1,11 +1,15 @@
 <?php
 declare(strict_types=1);
+
 namespace App\Application\Infrastructure\UseCase\DeleteReview;
 
+use App\Application\Domain\Common\Factory\EntityResponseFactory\BeerResponseFactory;
+use App\Application\Domain\Common\Mapper\ResponseFieldMapper;
 use App\Application\Domain\UseCase\DeleteReview\DeleteReviewPresenterInterface;
 use App\Application\Domain\UseCase\DeleteReview\DeleteReviewResponse;
 use App\Application\Infrastructure\Common\AbstractPresenter;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class DeleteReviewPresenter
@@ -13,10 +17,22 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class DeleteReviewPresenter extends AbstractPresenter implements DeleteReviewPresenterInterface
 {
+    /** @var BeerResponseFactory */
+    protected BeerResponseFactory $beerResponseFactory;
+
     /**
      * @var DeleteReviewResponse $response
      */
-    private $response;
+    private DeleteReviewResponse $response;
+
+    /**
+     * DeleteReviewPresenter constructor.
+     * @param BeerResponseFactory $beerResponseFactory
+     */
+    public function __construct(BeerResponseFactory $beerResponseFactory)
+    {
+        $this->beerResponseFactory = $beerResponseFactory;
+    }
 
     /**
      * @param DeleteReviewResponse $response
@@ -32,10 +48,13 @@ class DeleteReviewPresenter extends AbstractPresenter implements DeleteReviewPre
     public function view()
     {
         if ($this->response->hasError()) {
-            $statusCode = JsonResponse::HTTP_BAD_REQUEST;
+            $statusCode = Response::HTTP_BAD_REQUEST;
             return $this->viewErrorResponse($this->response->getError(), $statusCode);
         }
-        
-        return new JsonResponse(null, JsonResponse::HTTP_NO_CONTENT);
+
+        $data = [
+            ResponseFieldMapper::BEER => $this->beerResponseFactory->create($this->response->getBeer(), $this->response->getOwner()),
+        ];
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 }

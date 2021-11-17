@@ -14,9 +14,10 @@ use App\Application\Domain\Repository\ReviewRepositoryInterface;
 class DeleteReview
 {
     /** @var ReviewRepositoryInterface */
-    private $reviewRepository;
-    /** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
-    private $errorResponseFromExceptionFactory;
+    private ReviewRepositoryInterface $reviewRepository;
+
+    /** @var ErrorResponseFromExceptionFactoryInterface */
+    private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
 
     /**
      * DeleteReview constructor.
@@ -34,7 +35,7 @@ class DeleteReview
      * @param DeleteReviewPresenterInterface $presenter
      */
     public function execute(
-        DeleteReviewRequest $request,
+        DeleteReviewRequest            $request,
         DeleteReviewPresenterInterface $presenter)
     {
         $response = new DeleteReviewResponse();
@@ -46,6 +47,8 @@ class DeleteReview
             if ($review->getOwner()->getId() !== $request->getUser()->getId()) {
                 throw new ValidateException("Invalid owner");
             }
+            $response->setOwner($review->getOwner());
+            $response->setBeer($review->getBeer());
 
             $this->reviewRepository->remove($review);
         } catch (\Throwable $e) {
