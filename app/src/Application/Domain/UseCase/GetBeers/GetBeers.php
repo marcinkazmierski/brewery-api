@@ -41,7 +41,6 @@ class GetBeers
             $beers = $this->beerRepository->findBy(['status' => 1]);
             $response->setOwner($request->getUser());
             $response->setAllBeers($beers);
-            $response->setUnlockedBeers($request->getUser()->getUnlockedBeers());
         } catch (\Throwable $e) {
             $error = $this->errorResponseFromExceptionFactory->create($e);
             $response->setError($error);

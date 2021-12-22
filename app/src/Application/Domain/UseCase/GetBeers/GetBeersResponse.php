@@ -15,29 +15,10 @@ use Doctrine\Common\Collections\Collection;
 class GetBeersResponse extends AbstractResponse
 {
     /** @var Beer[] */
-    private Collection $unlockedBeers;
-
-    /** @var Beer[] */
     private array $allBeers;
 
     /** @var User */
     private User $owner;
-
-    /**
-     * @return Beer[]
-     */
-    public function getUnlockedBeers(): Collection
-    {
-        return $this->unlockedBeers;
-    }
-
-    /**
-     * @param Beer[] $unlockedBeers
-     */
-    public function setUnlockedBeers(Collection $unlockedBeers): void
-    {
-        $this->unlockedBeers = $unlockedBeers;
-    }
 
     /**
      * @return Beer[]

@@ -53,11 +53,7 @@ class GetBeersPresenter extends AbstractPresenter implements GetBeersPresenterIn
 
         $beers = [];
         foreach ($this->response->getAllBeers() as $beer) {
-            $raw = $this->beerResponseFactory->create($beer, $this->response->getOwner());
-            if ($this->response->getUnlockedBeers()->contains($beer)) {
-                $raw[ResponseFieldMapper::BEER_STATUS] = UserBeerStatusConstants::UNLOCKED;
-            }
-            $beers[] = $raw;
+            $beers[] = $this->beerResponseFactory->create($beer, $this->response->getOwner());
         }
 
         $data = [

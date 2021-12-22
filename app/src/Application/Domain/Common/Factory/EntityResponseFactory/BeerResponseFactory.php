@@ -50,6 +50,11 @@ class BeerResponseFactory
         /** @var Review $review */
         $userReview = $this->reviewRepository->findOneBy(['owner' => $owner, 'beer' => $entity]);
 
+        $status = UserBeerStatusConstants::DISABLED;
+        if ($owner->getUnlockedBeers()->contains($entity)) {
+            $status = UserBeerStatusConstants::UNLOCKED;
+        }
+
         return [
             ResponseFieldMapper::BEER_ID => $entity->getId(),
             ResponseFieldMapper::BEER_NAME => $entity->getName(),
@@ -63,7 +68,7 @@ class BeerResponseFactory
             ResponseFieldMapper::BEER_TAGS => $entity->getTags(),
             ResponseFieldMapper::BEER_REVIEWS => $reviews,
             ResponseFieldMapper::USER_BEER_REVIEW => $userReview ? $this->reviewResponseFactory->create($userReview) : null,
-            ResponseFieldMapper::BEER_STATUS => UserBeerStatusConstants::DISABLED,
+            ResponseFieldMapper::BEER_STATUS => $status,
             ResponseFieldMapper::BEER_RATING => $rating,
         ];
     }
