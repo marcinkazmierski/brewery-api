@@ -54,7 +54,7 @@ class CollectBeer
             }
             $user = $request->getUser();
             if ($user->getUnlockedBeers()->contains($beer)) {
-                throw new ValidateException("Already contains");
+                throw new ValidateException("Beer already contains");
             }
 
             $user->getUnlockedBeers()->add($beer);

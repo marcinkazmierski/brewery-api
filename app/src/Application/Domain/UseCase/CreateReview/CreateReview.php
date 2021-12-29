@@ -52,9 +52,6 @@ class CreateReview
             if (empty($request->getRating()) || $request->getRating() < 1 || $request->getRating() > 5) {
                 throw new ValidateException("Invalid rating field");
             }
-            if (empty($request->getText())) {
-                throw new ValidateException("Empty text field");
-            }
             if (empty($request->getBeerId())) {
                 throw new ValidateException("Empty beerId field");
             }

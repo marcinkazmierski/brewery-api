@@ -21,8 +21,8 @@ services:
       - MYSQL_USER=test
       - MYSQL_PASSWORD=test
       - MYSQL_DATABASE=main_db
-    logging:
-      driver: none
+#    logging:
+#      driver: none
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']

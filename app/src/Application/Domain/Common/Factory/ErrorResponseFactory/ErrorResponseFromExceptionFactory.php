@@ -4,20 +4,25 @@ namespace App\Application\Domain\Common\Factory\ErrorResponseFactory;
 
 use App\Application\Domain\Common\Response\ErrorResponse;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ErrorResponseFromExceptionFactory implements ErrorResponseFromExceptionFactoryInterface
 {
+    /** @var TranslatorInterface */
+    private TranslatorInterface $translator;
     /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     /**
-     * ErrorResponseFromExceptionFactory constructor.
+     * @param TranslatorInterface $translator
      * @param LoggerInterface $logger
      */
-    public function __construct(LoggerInterface $logger)
+    public function __construct(TranslatorInterface $translator, LoggerInterface $logger)
     {
+        $this->translator = $translator;
         $this->logger = $logger;
     }
+
 
     /**
      * @param \Throwable $exception
@@ -34,7 +39,7 @@ class ErrorResponseFromExceptionFactory implements ErrorResponseFromExceptionFac
         $message = $exception->getMessage();
 
         $errorCode = 1000; //todo
-        //todo: translate user message!
-        return new ErrorResponse($errorCode, $message, $message);
+
+        return new ErrorResponse($errorCode, $message, $this->translator->trans($message));
     }
 }
