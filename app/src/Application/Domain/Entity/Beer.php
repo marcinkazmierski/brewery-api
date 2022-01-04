@@ -46,9 +46,9 @@ class Beer
     private string $hops;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean")
      */
-    private int $status = 1;
+    private bool $status = true;
 
     /**
      * @ORM\Column(type="array")
@@ -163,12 +163,12 @@ class Beer
         return $this;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(bool $status): self
     {
         $this->status = $status;
 
