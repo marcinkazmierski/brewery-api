@@ -39,8 +39,16 @@ services:
         class: App\Application\Infrastructure\Gateway\UserResetPasswordHashGeneratorGateway
         public: true
 
+    domain.presenter.collect_beer_presenter:
+        class: App\Application\Infrastructure\UseCase\CollectBeer\CollectBeerPresenter
+        public: true
+    domain.presenter.collect_beer_console_presenter:
+        class: App\Application\Infrastructure\UseCase\CollectBeer\CollectBeerConsolePresenter
+        public: true
+
     # custom DI:
     App\Application\Domain\Gateway\UserHashGeneratorGatewayInterface: '@domain.gateway.user_register_hash_generator_gateway'
+    App\Application\Domain\UseCase\CollectBeer\CollectBeerPresenterInterface: '@domain.presenter.collect_beer_presenter'
 
     # custom DI with bind
     App\Application\Domain\UseCase\UserResetPassword\UserResetPassword:
@@ -48,3 +56,7 @@ services:
         bind:
             App\Application\Domain\Gateway\UserHashGeneratorGatewayInterface: '@domain.gateway.user_reset_password_hash_generator_gateway'
 
+    App\Command\CollectBeerCommand:
+        public: true
+        bind:
+            App\Application\Domain\UseCase\CollectBeer\CollectBeerPresenterInterface: '@domain.presenter.collect_beer_console_presenter'
