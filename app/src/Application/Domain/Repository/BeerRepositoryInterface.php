@@ -36,4 +36,10 @@ interface BeerRepositoryInterface
      * @return Beer[]
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+
+    /**
+     * @param Beer $entity
+     * @throws \Exception
+     */
+    public function save(Beer $entity): void;
 }
