@@ -9,6 +9,7 @@
 - `php bin/console cache:clear` - czyszczenie cache
 - `php bin/console cache:pool:clear cache.app` - czyszczenie cache dla cache.app pool
 - `symfony console debug:autowiring NAZWA` - wyświetla wszystkie kontenety do DI z NAZWA
+- `php bin/console make:controller` - stwórz automatycznie kontroler 
 
 ## Komendy [custom]
 - `php bin/console users:create EMAIL NICK PASSWORD` - Create new user in database.

@@ -6,6 +6,7 @@ namespace App\Application\Infrastructure\Repository;
 use App\Application\Domain\Entity\Beer;
 use App\Application\Domain\Repository\BeerRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,22 @@ class BeerRepository extends ServiceEntityRepository implements BeerRepositoryIn
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Beer::class);
+    }
+
+    /**
+     * @param Beer $entity
+     * @return void
+     * @throws \Exception
+     */
+    public function save(Beer $entity): void
+    {
+        try {
+            $this->_em->persist($entity);
+            $this->_em->flush();
+        } catch (ORMException $e) {
+            $this->_em->rollback();
+            throw new \Exception($e->getMessage());
+        }
     }
 
     // /**
