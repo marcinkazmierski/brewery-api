@@ -51,6 +51,11 @@ class Beer
     private bool $status = true;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $activeForAllUsers = false;
+
+    /**
      * @ORM\Column(type="array")
      */
     private array $tags = [];
@@ -283,5 +288,21 @@ class Beer
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActiveForAllUsers(): bool
+    {
+        return $this->activeForAllUsers;
+    }
+
+    /**
+     * @param bool $activeForAllUsers
+     */
+    public function setActiveForAllUsers(bool $activeForAllUsers): void
+    {
+        $this->activeForAllUsers = $activeForAllUsers;
     }
 }
