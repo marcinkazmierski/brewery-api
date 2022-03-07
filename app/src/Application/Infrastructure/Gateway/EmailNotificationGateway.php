@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EmailNotificationGateway implements NotificationGatewayInterface
 {
@@ -22,17 +23,21 @@ class EmailNotificationGateway implements NotificationGatewayInterface
 
     private ContainerBagInterface $params;
 
+    /** @var TranslatorInterface */
+    private TranslatorInterface $translator;
+
     /**
-     * EmailNotificationGateway constructor.
      * @param MailerInterface $mailer
      * @param UrlGeneratorInterface $router
      * @param ContainerBagInterface $params
+     * @param TranslatorInterface $translator
      */
-    public function __construct(MailerInterface $mailer, UrlGeneratorInterface $router, ContainerBagInterface $params)
+    public function __construct(MailerInterface $mailer, UrlGeneratorInterface $router, ContainerBagInterface $params, TranslatorInterface $translator)
     {
         $this->mailer = $mailer;
         $this->router = $router;
         $this->params = $params;
+        $this->translator = $translator;
     }
 
 
@@ -49,7 +54,7 @@ class EmailNotificationGateway implements NotificationGatewayInterface
             $email = (new TemplatedEmail())
                 ->from(new Address($sender, 'Zdalny Browar'))
                 ->to($user->getEmail())
-                ->subject('Confirm your account!')
+                ->subject($this->translator->trans('Confirm your account!'))
                 ->htmlTemplate('emails/registration.html.twig')
                 ->context([
                     'user' => $user,
@@ -75,7 +80,7 @@ class EmailNotificationGateway implements NotificationGatewayInterface
             $email = (new TemplatedEmail())
                 ->from(new Address($sender, 'Zdalny Browar'))
                 ->to($user->getEmail())
-                ->subject('Reset your password!')
+                ->subject($this->translator->trans('Reset your password!'))
                 ->htmlTemplate('emails/reset-password.html.twig')
                 ->context([
                     'user' => $user,

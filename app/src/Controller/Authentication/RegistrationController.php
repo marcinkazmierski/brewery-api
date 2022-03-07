@@ -51,7 +51,7 @@ class RegistrationController
         $content = json_decode($request->getContent(), true);
 
         $nick = (string)($content[RequestFieldMapper::USER_NICK] ?? '');
-        $email = (string)($content[RequestFieldMapper::EMAIL] ?? '');
+        $email = mb_strtolower(trim((string)($content[RequestFieldMapper::EMAIL] ?? '')));
         $password = (string)($content[RequestFieldMapper::PASSWORD] ?? '');
         $input = new UserRegisterRequest($nick, $email, $password);
         $useCase->execute($input, $presenter);

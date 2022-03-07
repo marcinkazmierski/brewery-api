@@ -53,7 +53,7 @@ class UserRegisterConfirm
                 throw new ValidateException("Invalid hash");
             }
             if ($user->getStatus() !== UserStatusConstants::NEW) {
-                throw new ValidateException("Invalid user status");
+                throw new ValidateException("Invalid user status - account activated");
             }
             $user->setStatus(UserStatusConstants::ACTIVE);
             $user->setHash(null);

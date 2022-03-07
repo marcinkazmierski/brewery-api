@@ -64,13 +64,13 @@ class AuthenticationController extends AbstractController
      */
     #[Route('/authenticate', name: 'authenticate', methods: ['POST'])]
     public function authenticate(
-        Request $request,
-        GenerateAuthenticationToken $authentication,
+        Request                                       $request,
+        GenerateAuthenticationToken                   $authentication,
         GenerateAuthenticationTokenPresenterInterface $presenter
     ): JsonResponse
     {
         $content = json_decode($request->getContent(), true);
-        $email = (string)($content[RequestFieldMapper::EMAIL] ?? '');
+        $email = mb_strtolower(trim((string)($content[RequestFieldMapper::EMAIL] ?? '')));
         $password = (string)($content[RequestFieldMapper::PASSWORD] ?? '');
         $appVersion = (string)($content[RequestFieldMapper::APP_VERSION] ?? '');
 
@@ -112,13 +112,13 @@ class AuthenticationController extends AbstractController
      */
     #[Route('/reset-password', name: 'reset-password', methods: ['POST'])]
     public function resetPassword(
-        Request $request,
-        UserResetPassword $useCase,
+        Request                             $request,
+        UserResetPassword                   $useCase,
         UserResetPasswordPresenterInterface $presenter
     ): JsonResponse
     {
         $content = json_decode($request->getContent(), true);
-        $email = (string)($content[RequestFieldMapper::EMAIL] ?? '');
+        $email = mb_strtolower(trim((string)($content[RequestFieldMapper::EMAIL] ?? '')));
 
         $input = new UserResetPasswordRequest($email);
         $useCase->execute($input, $presenter);
@@ -151,13 +151,13 @@ class AuthenticationController extends AbstractController
      */
     #[Route('/reset-password-confirm', name: 'reset-password', methods: ['POST'])]
     public function resetPasswordConfirm(
-        Request $request,
-        UserResetPasswordConfirm $useCase,
+        Request                                    $request,
+        UserResetPasswordConfirm                   $useCase,
         UserResetPasswordConfirmPresenterInterface $presenter
     ): JsonResponse
     {
         $content = json_decode($request->getContent(), true);
-        $email = (string)($content[RequestFieldMapper::EMAIL] ?? '');
+        $email = mb_strtolower(trim((string)($content[RequestFieldMapper::EMAIL] ?? '')));
         $code = (string)($content[RequestFieldMapper::CODE] ?? '');
         $newPassword = (string)($content[RequestFieldMapper::NEW_PASSWORD] ?? '');
 

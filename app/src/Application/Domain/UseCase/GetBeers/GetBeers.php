@@ -38,7 +38,7 @@ class GetBeers
     {
         $response = new GetBeersResponse();
         try {
-            $beers = $this->beerRepository->findBy(['status' => 1]);
+            $beers = $this->beerRepository->findBy(['status' => 1], ['createdAt' => 'DESC']);
             $response->setOwner($request->getUser());
             $response->setAllBeers($beers);
         } catch (\Throwable $e) {

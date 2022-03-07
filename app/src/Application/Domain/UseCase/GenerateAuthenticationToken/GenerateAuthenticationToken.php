@@ -50,7 +50,7 @@ class GenerateAuthenticationToken
         try {
             $user = $this->userRepository->getUserByEmailAndPassword($request->getEmail(), $request->getPassword());
             if ($user->getStatus() !== UserStatusConstants::ACTIVE) {
-                throw new ValidateException("Invalid user status");
+                throw new ValidateException("Invalid user status - inactive account");
             }
             $token = $this->userTokenRepository->generateToken($user, $request->getAppVersion());
             $response->setTokenKey($token->getTokenKey());
