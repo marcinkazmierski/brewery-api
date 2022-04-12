@@ -149,7 +149,7 @@ class AuthenticationController extends AbstractController
      * @param UserResetPasswordConfirmPresenterInterface $presenter
      * @return JsonResponse
      */
-    #[Route('/reset-password-confirm', name: 'reset-password', methods: ['POST'])]
+    #[Route('/reset-password-confirm', name: 'reset-password-confirm', methods: ['POST'])]
     public function resetPasswordConfirm(
         Request                                    $request,
         UserResetPasswordConfirm                   $useCase,

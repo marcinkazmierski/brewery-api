@@ -57,10 +57,10 @@ class UserResetPasswordConfirm
             if (!($user = $this->userRepository->findOneBy(['hash' => $request->getHash()]))) {
                 throw new ValidateException("Invalid hash");
             }
-            if ($user->getHashExpiryDate() && $user->getHashExpiryDate()->getTimestamp() > (new \DateTime('now'))->getTimestamp()) {
+            if ($user->getHashExpiryDate() && $user->getHashExpiryDate()->getTimestamp() < (new \DateTime('now'))->getTimestamp()) {
                 throw new ValidateException("Hash has expired");
             }
-            if ($user->getStatus() !== UserStatusConstants::NEW) {
+            if ($user->getStatus() !== UserStatusConstants::ACTIVE) {
                 throw new ValidateException("Invalid user status");
             }
             $encodedPassword = $this->passwordEncoder->encodePassword($user, $request->getNewPassword());
