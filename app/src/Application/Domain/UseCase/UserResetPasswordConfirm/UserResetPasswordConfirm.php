@@ -43,7 +43,7 @@ class UserResetPasswordConfirm
      * @param UserResetPasswordConfirmPresenterInterface $presenter
      */
     public function execute(
-        UserResetPasswordConfirmRequest $request,
+        UserResetPasswordConfirmRequest            $request,
         UserResetPasswordConfirmPresenterInterface $presenter)
     {
         $response = new UserResetPasswordConfirmResponse();
@@ -51,11 +51,11 @@ class UserResetPasswordConfirm
             if (empty($request->getEmail())) {
                 throw new ValidateException("Empty email field");
             }
+            if (empty($request->getHash()) || !($user = $this->userRepository->findOneBy(['hash' => $request->getHash()]))) {
+                throw new ValidateException("Invalid hash");
+            }
             if (empty($request->getNewPassword()) || strlen($request->getNewPassword()) < 8) {
                 throw new ValidateException("Invalid password field. Minimum password length: 8");
-            }
-            if (!($user = $this->userRepository->findOneBy(['hash' => $request->getHash()]))) {
-                throw new ValidateException("Invalid hash");
             }
             if ($user->getHashExpiryDate() && $user->getHashExpiryDate()->getTimestamp() < (new \DateTime('now'))->getTimestamp()) {
                 throw new ValidateException("Hash has expired");

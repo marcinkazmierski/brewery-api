@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace App\Controller\Authentication;
 
 use App\Application\Domain\Common\Mapper\RequestFieldMapper;
+use App\Application\Domain\UseCase\GenerateAuthenticationGuestToken\GenerateAuthenticationGuestToken;
+use App\Application\Domain\UseCase\GenerateAuthenticationGuestToken\GenerateAuthenticationGuestTokenPresenterInterface;
+use App\Application\Domain\UseCase\GenerateAuthenticationGuestToken\GenerateAuthenticationGuestTokenRequest;
 use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationToken;
 use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationTokenPresenterInterface;
 use App\Application\Domain\UseCase\GenerateAuthenticationToken\GenerateAuthenticationTokenRequest;
@@ -75,6 +78,24 @@ class AuthenticationController extends AbstractController
         $appVersion = (string)($content[RequestFieldMapper::APP_VERSION] ?? '');
 
         $authenticationRequest = new GenerateAuthenticationTokenRequest($email, $password, $appVersion);
+        $authentication->execute($authenticationRequest, $presenter);
+        return $presenter->view();
+    }
+
+    //todo: swagger
+    #[Route('/authenticate-guest', name: 'authenticate-guest', methods: ['POST'])]
+    public function authenticateGuest(
+        Request                                            $request,
+        GenerateAuthenticationGuestToken                   $authentication,
+        GenerateAuthenticationGuestTokenPresenterInterface $presenter
+    ): JsonResponse
+    {
+        $content = json_decode($request->getContent(), true);
+        $email = trim((string)($content[RequestFieldMapper::USER_NICK] ?? ''));
+        $deviceId = (string)($content[RequestFieldMapper::DEVICE_ID] ?? '');
+        $appVersion = (string)($content[RequestFieldMapper::APP_VERSION] ?? '');
+
+        $authenticationRequest = new GenerateAuthenticationGuestTokenRequest($email, $deviceId, $appVersion);
         $authentication->execute($authenticationRequest, $presenter);
         return $presenter->view();
     }

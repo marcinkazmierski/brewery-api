@@ -44,7 +44,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         try {
             return $this->getUserByEmail($username);
         } catch (\Exception $e) {
-            return null;
+            try {
+                return $this->getUserByNick($username);
+            } catch (\Exception $e) {
+                return null;
+            }
         }
     }
 
@@ -57,6 +61,21 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         /** @var User $user */
         $user = $this->findOneBy(['email' => $email]);
+        if (!$user) {
+            throw new \Exception("User not found");
+        }
+        return $user;
+    }
+
+    /**
+     * @param string $nick
+     * @return User
+     * @throws \Exception
+     */
+    public function getUserByNick(string $nick): User
+    {
+        /** @var User $user */
+        $user = $this->findOneBy(['nick' => $nick]);
         if (!$user) {
             throw new \Exception("User not found");
         }

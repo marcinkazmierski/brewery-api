@@ -19,10 +19,10 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 class TokenAuthenticatorMiddleware extends AbstractGuardAuthenticator
 {
     const AUTHENTICATION_WHITELIST = [
-        '#/api/auth/authenticate#',
-        '#/api/register#',
+        '#/api/auth/authenticate$#',
+        '#/api/register$#',
         '#/api/register/activate/(.+)#',
-        '#/api/auth/reset-password#',
+        '#/api/auth/reset-password$#',
     ];
 
     /** @var UserTokenRepository */

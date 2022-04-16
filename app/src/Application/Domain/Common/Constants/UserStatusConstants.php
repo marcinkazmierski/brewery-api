@@ -8,5 +8,6 @@ final class UserStatusConstants
 {
     const NEW = 0;
     const ACTIVE = 1;
-    const BLOCKED = 0;
+    const GUEST = 2;
+    const BLOCKED = 99;
 }

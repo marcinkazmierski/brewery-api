@@ -19,8 +19,8 @@ class UserRegisterHashGeneratorGateway extends UserHashGeneratorGateway implemen
      */
     public function generate(User $user, int $length = 40): string
     {
-        if ($user->getStatus() != UserStatusConstants::NEW) {
-            throw new GatewayException("Invalid user status [expect NEW]");
+        if (!in_array($user->getStatus(), [UserStatusConstants::NEW, UserStatusConstants::GUEST])) {
+            throw new GatewayException("Invalid user status");
         }
 
         return parent::generate($user, $length);

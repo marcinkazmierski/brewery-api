@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace App\Controller\Authentication;
 
 use App\Application\Domain\Common\Mapper\RequestFieldMapper;
+use App\Application\Domain\Entity\User;
 use App\Application\Domain\UseCase\UserRegister\UserRegister;
 use App\Application\Domain\UseCase\UserRegister\UserRegisterPresenterInterface;
 use App\Application\Domain\UseCase\UserRegister\UserRegisterRequest;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +19,7 @@ use OpenApi\Annotations as OA;
  * @package App\Controller\Authentication
  */
 #[Route('/api/register')]
-class RegistrationController
+class RegistrationController extends AbstractController
 {
     /**
      * Register user account.
@@ -53,7 +55,28 @@ class RegistrationController
         $nick = (string)($content[RequestFieldMapper::USER_NICK] ?? '');
         $email = mb_strtolower(trim((string)($content[RequestFieldMapper::EMAIL] ?? '')));
         $password = (string)($content[RequestFieldMapper::PASSWORD] ?? '');
-        $input = new UserRegisterRequest($nick, $email, $password);
+
+        $input = new UserRegisterRequest($nick, $email, $password, null);
+        $useCase->execute($input, $presenter);
+        return $presenter->view();
+    }
+
+    // @todo swagger
+    #[Route('/guest', name: 'register-guest', methods: ['POST'])]
+    public function registerGuest(
+        Request $request, UserRegister $useCase, UserRegisterPresenterInterface $presenter
+    ): JsonResponse
+    {
+        $content = json_decode($request->getContent(), true);
+
+        $nick = (string)($content[RequestFieldMapper::USER_NICK] ?? '');
+        $email = mb_strtolower(trim((string)($content[RequestFieldMapper::EMAIL] ?? '')));
+        $password = (string)($content[RequestFieldMapper::PASSWORD] ?? '');
+
+        /** @var ?User $currentUser */
+        $currentUser = $this->getUser();
+
+        $input = new UserRegisterRequest($nick, $email, $password, $currentUser);
         $useCase->execute($input, $presenter);
         return $presenter->view();
     }

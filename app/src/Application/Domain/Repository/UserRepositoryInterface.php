@@ -51,6 +51,13 @@ interface UserRepositoryInterface
     public function getUserByEmail(string $email): User;
 
     /**
+     * @param string $nick
+     * @return User
+     * @throws \Exception
+     */
+    public function getUserByNick(string $nick): User;
+
+    /**
      * @param User $entity
      * @throws \Exception
      */

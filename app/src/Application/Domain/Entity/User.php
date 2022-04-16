@@ -31,10 +31,10 @@ class User implements UserInterface
     private string $nick;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", unique=true)
+     * @var ?string
+     * @ORM\Column(type="string", unique=true, nullable=true)
      */
-    private string $email;
+    private ?string $email;
 
     /**
      * @var ?string
@@ -121,7 +121,7 @@ class User implements UserInterface
      */
     public function getUsername(): string // interface
     {
-        return (string)$this->email;
+        return (string)$this->nick;
     }
 
     /**
@@ -160,12 +160,14 @@ class User implements UserInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
+
+
 
     /**
      * @param string $email
