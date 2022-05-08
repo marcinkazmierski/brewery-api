@@ -20,7 +20,7 @@ class TokenAuthenticatorMiddleware extends AbstractGuardAuthenticator
 {
     const AUTHENTICATION_WHITELIST = [
         '#/api/auth/authenticate$#',
-        '#/api/auth/authenticate-guest$#',
+        '#/api/auth/authenticate/guest$#',
         '#/api/register$#',
         '#/api/register/activate/(.+)#',
         '#/api/auth/reset-password$#',

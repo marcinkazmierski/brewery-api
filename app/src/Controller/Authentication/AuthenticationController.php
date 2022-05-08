@@ -83,7 +83,7 @@ class AuthenticationController extends AbstractController
      * User guest authentication
      *
      * @OA\Post(
-     *     path="/api/auth/authenticate-guest",
+     *     path="/api/auth/authenticate/guest",
      *     description="User authentication. Receive access token for further auth.",
      *     tags = {"Authentication"},
      *     @OA\RequestBody(
@@ -111,7 +111,7 @@ class AuthenticationController extends AbstractController
      * @return JsonResponse
      */
     //todo: swagger
-    #[Route('/authenticate-guest', name: 'authenticate-guest', methods: ['POST'])]
+    #[Route('/authenticate/guest', name: 'authenticate-guest', methods: ['POST'])]
     public function authenticateGuest(
         Request                                            $request,
         GenerateAuthenticationGuestToken                   $authentication,
