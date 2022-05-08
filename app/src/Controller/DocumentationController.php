@@ -12,7 +12,7 @@ use OpenApi\Annotations as OA;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @OA\Info(title="Brewery REST API", version="0.1")
+ * @OA\Info(title="Brewery REST API", version="0.2")
  */
 #[Route('/documentation')]
 class DocumentationController extends AbstractController
@@ -24,7 +24,7 @@ class DocumentationController extends AbstractController
      */
     #[Route('/yaml', name: 'documentation-api-yaml', methods: ['GET'])]
     public function generateDocsYaml(
-        GetApiDocumentation $getApiDocumentation,
+        GetApiDocumentation                   $getApiDocumentation,
         GetApiDocumentationPresenterInterface $presenter
     ): Response
     {
@@ -46,7 +46,6 @@ class DocumentationController extends AbstractController
     {
         return $this->render('documentation/api.html.twig', []);
     }
-
 }
 
 

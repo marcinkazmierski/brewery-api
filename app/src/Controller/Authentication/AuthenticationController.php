@@ -52,9 +52,6 @@ class AuthenticationController extends AbstractController
      *      @OA\JsonContent(
      *          type = "object",
      *          @OA\Property(property="token", description="User auth access token", ref="#/components/schemas/token"),
-     *          @OA\Property(property="userId", description="User ID", ref="#/components/schemas/userId"),
-     *          @OA\Property(property="email", description="User ID", ref="#/components/schemas/email"),
-     *          @OA\Property(property="userNick", description="User ID", ref="#/components/schemas/text")
      *      )
      *     ),
      *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
@@ -82,6 +79,37 @@ class AuthenticationController extends AbstractController
         return $presenter->view();
     }
 
+    /**
+     * User guest authentication
+     *
+     * @OA\Post(
+     *     path="/api/auth/authenticate-guest",
+     *     description="User authentication. Receive access token for further auth.",
+     *     tags = {"Authentication"},
+     *     @OA\RequestBody(
+     *      required=true,
+     *      @OA\JsonContent(
+     *          type = "object",
+     *          @OA\Property(property="nick", ref="#/components/schemas/text"),
+     *          @OA\Property(property="appVersion", ref="#/components/schemas/text")
+     *      ),
+     *     ),
+     *     @OA\Response(
+     *      response="200",
+     *      description="Return user X-AUTH-TOKEN",
+     *      @OA\JsonContent(
+     *          type = "object",
+     *          @OA\Property(property="token", description="User auth access token", ref="#/components/schemas/token"),
+     *      )
+     *     ),
+     *     @OA\Response(response="400", ref="#/components/responses/badRequest"),
+     *     @OA\Response(response="500", ref="#/components/responses/generalError"),
+     * ),
+     * @param Request $request
+     * @param GenerateAuthenticationGuestToken $authentication
+     * @param GenerateAuthenticationGuestTokenPresenterInterface $presenter
+     * @return JsonResponse
+     */
     //todo: swagger
     #[Route('/authenticate-guest', name: 'authenticate-guest', methods: ['POST'])]
     public function authenticateGuest(
@@ -91,11 +119,11 @@ class AuthenticationController extends AbstractController
     ): JsonResponse
     {
         $content = json_decode($request->getContent(), true);
-        $email = trim((string)($content[RequestFieldMapper::USER_NICK] ?? ''));
+        $nick = trim((string)($content[RequestFieldMapper::USER_NICK] ?? ''));
         $deviceId = (string)($content[RequestFieldMapper::DEVICE_ID] ?? '');
         $appVersion = (string)($content[RequestFieldMapper::APP_VERSION] ?? '');
 
-        $authenticationRequest = new GenerateAuthenticationGuestTokenRequest($email, $deviceId, $appVersion);
+        $authenticationRequest = new GenerateAuthenticationGuestTokenRequest($nick, $deviceId, $appVersion);
         $authentication->execute($authenticationRequest, $presenter);
         return $presenter->view();
     }

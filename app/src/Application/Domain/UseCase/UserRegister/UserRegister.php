@@ -90,7 +90,7 @@ class UserRegister
                 $user = new User();
                 $user->setNick($request->getNick());
             }
-
+            $user->setStatus(UserStatusConstants::NEW);
             $user->setEmail($request->getEmail());
 
             $hash = $this->confirmHashGeneratorGateway->generate($user);
