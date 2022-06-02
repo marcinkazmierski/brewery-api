@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Application\Domain\UseCase\GenerateAuthenticationGuestToken;
 
+use App\Application\Domain\Common\Command\CollectUnlockedBeersCommand;
 use App\Application\Domain\Common\Constants\UserStatusConstants;
 use App\Application\Domain\Common\Factory\ErrorResponseFactory\ErrorResponseFromExceptionFactoryInterface;
 use App\Application\Domain\Entity\User;
@@ -22,18 +23,23 @@ class GenerateAuthenticationGuestToken
     /** @var UserTokenRepositoryInterface */
     private UserTokenRepositoryInterface $userTokenRepository;
 
+    /** @var CollectUnlockedBeersCommand */
+    private CollectUnlockedBeersCommand $collectUnlockedBeersCommand;
+
     /** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
     private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
 
     /**
      * @param UserRepositoryInterface $userRepository
      * @param UserTokenRepositoryInterface $userTokenRepository
+     * @param CollectUnlockedBeersCommand $collectUnlockedBeersCommand
      * @param ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory
      */
-    public function __construct(UserRepositoryInterface $userRepository, UserTokenRepositoryInterface $userTokenRepository, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
+    public function __construct(UserRepositoryInterface $userRepository, UserTokenRepositoryInterface $userTokenRepository, CollectUnlockedBeersCommand $collectUnlockedBeersCommand, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
     {
         $this->userRepository = $userRepository;
         $this->userTokenRepository = $userTokenRepository;
+        $this->collectUnlockedBeersCommand = $collectUnlockedBeersCommand;
         $this->errorResponseFromExceptionFactory = $errorResponseFromExceptionFactory;
     }
 
@@ -59,11 +65,11 @@ class GenerateAuthenticationGuestToken
             $user->setStatus(UserStatusConstants::GUEST);
             $user->setNick($request->getNick());
             $this->userRepository->save($user);
+            $this->collectUnlockedBeersCommand->execute($user);
             $response->setUser($user);
 
             $token = $this->userTokenRepository->generateToken($user, $request->getAppVersion());
             $response->setTokenKey($token->getTokenKey());
-            //todo
         } catch (\Throwable $e) {
             $error = $this->errorResponseFromExceptionFactory->create($e);
             $response->setError($error);

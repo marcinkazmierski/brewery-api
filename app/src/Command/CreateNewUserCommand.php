@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Application\Domain\Common\Command\CollectUnlockedBeersCommand;
 use App\Application\Domain\Common\Constants\UserStatusConstants;
 use App\Application\Domain\Entity\User;
 use App\Application\Infrastructure\Repository\UserRepository;
@@ -32,16 +33,21 @@ class CreateNewUserCommand extends Command
     /** @var UserPasswordEncoderInterface */
     private UserPasswordEncoderInterface $passwordEncoder;
 
+
+    /** @var CollectUnlockedBeersCommand */
+    private CollectUnlockedBeersCommand $collectUnlockedBeersCommand;
+
     /**
      * CreateNewUserCommand constructor.
      * @param UserRepository $userRepository
      * @param UserPasswordEncoderInterface $passwordEncoder
      */
-    public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder, CollectUnlockedBeersCommand $collectUnlockedBeersCommand)
     {
         parent::__construct();
         $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
+        $this->collectUnlockedBeersCommand = $collectUnlockedBeersCommand;
     }
 
 
@@ -99,6 +105,7 @@ class CreateNewUserCommand extends Command
                 $encodedPassword = $this->passwordEncoder->encodePassword($user, $password);
                 $user->setPassword($encodedPassword);
                 $this->userRepository->save($user);
+                $this->collectUnlockedBeersCommand->execute($user);
                 $output->writeln(sprintf('New account created! ID: "%d"', $user->getId()));
                 return Command::SUCCESS;
             }
