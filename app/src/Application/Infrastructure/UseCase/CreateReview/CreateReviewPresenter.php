@@ -9,6 +9,7 @@ use App\Application\Domain\UseCase\CreateReview\CreateReviewPresenterInterface;
 use App\Application\Domain\UseCase\CreateReview\CreateReviewResponse;
 use App\Application\Infrastructure\Common\AbstractPresenter;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class CreateReviewPresenter
@@ -56,6 +57,6 @@ class CreateReviewPresenter extends AbstractPresenter implements CreateReviewPre
             ResponseFieldMapper::REVIEW_ID => $this->response->getReview()->getId(),
             ResponseFieldMapper::BEER => $this->beerResponseFactory->create($this->response->getReview()->getBeer(), $this->response->getReview()->getOwner()),
         ];
-        return new JsonResponse($data, JsonResponse::HTTP_OK);
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 }
