@@ -83,9 +83,14 @@ class UserRegister
 
             if ($request->getUser()) {
                 $user = $request->getUser();
+                if ($user->getStatus() == UserStatusConstants::GUEST_WAIT_FOR_CONFIRMATION) {
+                    throw new ValidateException("Invalid status. Account is already registered but not confirmed. Please, check your email.");
+                }
                 if ($user->getStatus() !== UserStatusConstants::GUEST) {
                     throw new ValidateException("Invalid status. Account is already registered.");
                 }
+
+                $user->setStatus(UserStatusConstants::GUEST_WAIT_FOR_CONFIRMATION);
             } else {
                 if (empty($request->getNick())) {
                     throw new ValidateException("Empty nick field");
@@ -96,10 +101,10 @@ class UserRegister
                 $user = new User();
                 $user->setNick($request->getNick());
                 $this->collectUnlockedBeersCommand->execute($user);
+                $user->setStatus(UserStatusConstants::NEW);
             }
-            $user->setStatus(UserStatusConstants::NEW);
-            $user->setEmail($request->getEmail());
 
+            $user->setEmail($request->getEmail());
             $hash = $this->confirmHashGeneratorGateway->generate($user);
             $user->setHash($hash);
             $encodedPassword = $this->passwordEncoder->encodePassword($user, $request->getPassword());

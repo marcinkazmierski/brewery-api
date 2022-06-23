@@ -18,6 +18,8 @@ class UserResponseFactory
         return [
             ResponseFieldMapper::USER_ID => $entity->getId(),
             ResponseFieldMapper::USER_NICK => $entity->getNick(),
+            ResponseFieldMapper::USER_EMAIL => $entity->getEmail() ?? '',
+            ResponseFieldMapper::USER_STATUS => $entity->getStatus(),
         ];
     }
 }

@@ -46,7 +46,7 @@ class UserRegisterConfirm
             if (!($user = $this->userRepository->findOneBy(['hash' => $request->getHash()]))) {
                 throw new ValidateException("Invalid hash");
             }
-            if (!in_array($user->getStatus(), [UserStatusConstants::NEW, UserStatusConstants::GUEST])) {
+            if (!in_array($user->getStatus(), [UserStatusConstants::NEW, UserStatusConstants::GUEST_WAIT_FOR_CONFIRMATION])) {
                 throw new ValidateException("Invalid user status - account activated");
             }
             $user->setStatus(UserStatusConstants::ACTIVE);

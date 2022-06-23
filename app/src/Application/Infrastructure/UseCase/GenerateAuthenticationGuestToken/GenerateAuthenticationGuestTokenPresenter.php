@@ -42,6 +42,7 @@ class GenerateAuthenticationGuestTokenPresenter extends AbstractPresenter implem
             ResponseFieldMapper::USER_TOKEN => $this->response->getTokenKey(),
             ResponseFieldMapper::USER_ID => $this->response->getUser()->getId(),
             ResponseFieldMapper::USER_NICK => $this->response->getUser()->getNick(),
+            ResponseFieldMapper::USER_STATUS => $this->response->getUser()->getStatus(),
         ];
 
         return new JsonResponse($responseData, Response::HTTP_OK);
