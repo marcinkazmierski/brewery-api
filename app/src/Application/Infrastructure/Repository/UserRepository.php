@@ -6,10 +6,11 @@ namespace App\Application\Infrastructure\Repository;
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\Repository\UserRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,37 +21,21 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, UserRepositoryInterface
 {
     /**
-     * @var UserPasswordEncoderInterface
+     * @var UserPasswordHasherInterface
      */
     private $passwordEncoder;
 
     /**
      * UserRepository constructor.
      * @param ManagerRegistry $registry
-     * @param UserPasswordEncoderInterface $encoder
+     * @param UserPasswordHasherInterface $encoder
      */
-    public function __construct(ManagerRegistry $registry, UserPasswordEncoderInterface $encoder)
+    public function __construct(ManagerRegistry $registry, UserPasswordHasherInterface $encoder)
     {
         parent::__construct($registry, User::class);
         $this->passwordEncoder = $encoder;
     }
 
-    /**
-     * @param string $username
-     * @return User|null
-     */
-    public function loadUserByUsername(string $username): ?User
-    {
-        try {
-            return $this->getUserByEmail($username);
-        } catch (\Exception $e) {
-            try {
-                return $this->getUserByNick($username);
-            } catch (\Exception $e) {
-                return null;
-            }
-        }
-    }
 
     /**
      * @param string $email
@@ -110,5 +95,22 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             throw new \Exception("Invalid password");
         }
         return $user;
+    }
+
+    /**
+     * @param string $identifier
+     * @return UserInterface|null
+     */
+    public function loadUserByIdentifier(string $identifier): ?UserInterface
+    {
+        try {
+            return $this->getUserByEmail($identifier);
+        } catch (\Exception $e) {
+            try {
+                return $this->getUserByNick($identifier);
+            } catch (\Exception $e) {
+                return null;
+            }
+        }
     }
 }

@@ -7,13 +7,14 @@ use App\Application\Domain\Common\Constants\UserStatusConstants;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Application\Infrastructure\Repository\UserRepository")
  * @ORM\Table(name="users")
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @var int
@@ -293,5 +294,10 @@ class User implements UserInterface
     public function setStatus(int $status): void
     {
         $this->status = $status;
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->nick;
     }
 }

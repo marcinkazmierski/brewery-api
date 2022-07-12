@@ -38,12 +38,6 @@ interface UserRepositoryInterface
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
     /**
-     * @param string $username
-     * @return User|null;
-     */
-    public function loadUserByUsername(string $username);
-
-    /**
      * @param string $email
      * @return User
      * @throws \Exception

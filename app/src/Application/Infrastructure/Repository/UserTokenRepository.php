@@ -25,8 +25,7 @@ class UserTokenRepository extends ServiceEntityRepository implements UserTokenRe
      * @param User $user
      * @param string $appVersion
      * @return UserToken
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
      */
     public function generateToken(User $user, string $appVersion): UserToken
     {

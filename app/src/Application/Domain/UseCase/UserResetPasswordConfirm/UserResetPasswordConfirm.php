@@ -7,7 +7,7 @@ use App\Application\Domain\Common\Constants\UserStatusConstants;
 use App\Application\Domain\Common\Factory\ErrorResponseFactory\ErrorResponseFromExceptionFactoryInterface;
 use App\Application\Domain\Exception\ValidateException;
 use App\Application\Domain\Repository\UserRepositoryInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class UserResetPasswordConfirm
@@ -18,8 +18,8 @@ class UserResetPasswordConfirm
     /** @var UserRepositoryInterface */
     private UserRepositoryInterface $userRepository;
 
-    /** @var UserPasswordEncoderInterface */
-    private UserPasswordEncoderInterface $passwordEncoder;
+    /** @var UserPasswordHasherInterface */
+    private UserPasswordHasherInterface $passwordEncoder;
 
     /** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
     private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
@@ -27,10 +27,10 @@ class UserResetPasswordConfirm
     /**
      * UserResetPasswordConfirm constructor.
      * @param UserRepositoryInterface $userRepository
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param UserPasswordHasherInterface $passwordEncoder
      * @param ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory
      */
-    public function __construct(UserRepositoryInterface $userRepository, UserPasswordEncoderInterface $passwordEncoder, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
+    public function __construct(UserRepositoryInterface $userRepository, UserPasswordHasherInterface $passwordEncoder, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
     {
         $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
@@ -63,7 +63,7 @@ class UserResetPasswordConfirm
             if ($user->getStatus() !== UserStatusConstants::ACTIVE) {
                 throw new ValidateException("Invalid user status");
             }
-            $encodedPassword = $this->passwordEncoder->encodePassword($user, $request->getNewPassword());
+            $encodedPassword = $this->passwordEncoder->hashPassword($user, $request->getNewPassword());
             $user->setPassword($encodedPassword);
             $user->setHash(null);
             $this->userRepository->save($user);

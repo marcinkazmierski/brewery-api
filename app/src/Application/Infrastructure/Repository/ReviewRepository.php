@@ -6,7 +6,7 @@ namespace App\Application\Infrastructure\Repository;
 use App\Application\Domain\Entity\Review;
 use App\Application\Domain\Repository\ReviewRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

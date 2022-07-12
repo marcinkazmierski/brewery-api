@@ -1,6 +1,6 @@
 # brewery-api
 
-## Komendy [Symfony]
+## Komendy [Symfony 6.0]
 - `php bin/console doctrine:generate:entity` - dodatnie nowej encji
 - `php bin/console doctrine:schema:update --force` - aktualizacja bazy
 - `php bin/console doctrine:fixtures:load` - wczytanie danych do bazy (nadpisuje wszystkie dane)
@@ -10,6 +10,7 @@
 - `php bin/console cache:pool:clear cache.app` - czyszczenie cache dla cache.app pool
 - `symfony console debug:autowiring NAZWA` - wyświetla wszystkie kontenety do DI z NAZWA
 - `php bin/console make:controller` - stwórz automatycznie kontroler 
+- `php bin/phpunit` - run phpunit tests
 
 ## Komendy [custom]
 - `php bin/console users:create EMAIL NICK PASSWORD` - Create new user in database.
@@ -17,7 +18,7 @@
 - `php bin/console beer:collect BEER_CODE USER_EMAIL`
 - `php bin/console beer:create`
 
-## TODO: symfony 5 (https://symfony.com/doc/current/the-fast-track/pl/index.html)
+## TODO: symfony 6 (https://symfony.com/doc/current/the-fast-track/pl/index.html)
 - php: 8.0
 - symfony CLI
 - Uruchomienie lokalnego serwera WWW > 'symfony server:start -d' > 'symfony open:local'

@@ -11,7 +11,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * A console command for creating a new user
@@ -30,8 +30,8 @@ class CreateNewUserCommand extends Command
     /** @var UserRepository */
     private UserRepository $userRepository;
 
-    /** @var UserPasswordEncoderInterface */
-    private UserPasswordEncoderInterface $passwordEncoder;
+    /** @var UserPasswordHasherInterface */
+    private UserPasswordHasherInterface $passwordEncoder;
 
 
     /** @var CollectUnlockedBeersCommand */
@@ -40,9 +40,9 @@ class CreateNewUserCommand extends Command
     /**
      * CreateNewUserCommand constructor.
      * @param UserRepository $userRepository
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param UserPasswordHasherInterface $passwordEncoder
      */
-    public function __construct(UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder, CollectUnlockedBeersCommand $collectUnlockedBeersCommand)
+    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $passwordEncoder, CollectUnlockedBeersCommand $collectUnlockedBeersCommand)
     {
         parent::__construct();
         $this->userRepository = $userRepository;
@@ -102,7 +102,7 @@ class CreateNewUserCommand extends Command
                 $user->setEmail($email);
                 $user->setNick($nick);
                 $user->setStatus(UserStatusConstants::ACTIVE);
-                $encodedPassword = $this->passwordEncoder->encodePassword($user, $password);
+                $encodedPassword = $this->passwordEncoder->hashPassword($user, $password);
                 $user->setPassword($encodedPassword);
                 $this->userRepository->save($user);
                 $this->collectUnlockedBeersCommand->execute($user);

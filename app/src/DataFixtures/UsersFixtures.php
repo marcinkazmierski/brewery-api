@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
@@ -7,18 +8,18 @@ use App\Application\Domain\Entity\Review;
 use App\Application\Domain\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UsersFixtures extends Fixture
 {
-    /** @var UserPasswordEncoderInterface */
-    private $passwordEncoder;
+    /** @var UserPasswordHasherInterface */
+    private UserPasswordHasherInterface $passwordEncoder;
 
     /**
      * UsersFixtures constructor.
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param UserPasswordHasherInterface $passwordEncoder
      */
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordHasherInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
     }
@@ -29,7 +30,7 @@ class UsersFixtures extends Fixture
         $user->setEmail("test@test.pl");
         $user->setNick("Testowy");
         $password = "test";
-        $encodedPassword = $this->passwordEncoder->encodePassword($user, $password);
+        $encodedPassword = $this->passwordEncoder->hashPassword($user, $password);
         $user->setPassword($encodedPassword);
 
         $beer = new Beer();

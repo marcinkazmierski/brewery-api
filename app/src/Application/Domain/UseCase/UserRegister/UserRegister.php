@@ -10,9 +10,8 @@ use App\Application\Domain\Entity\User;
 use App\Application\Domain\Exception\ValidateException;
 use App\Application\Domain\Gateway\NotificationGatewayInterface;
 use App\Application\Domain\Gateway\UserHashGeneratorGatewayInterface;
-use App\Application\Domain\Repository\BeerRepositoryInterface;
 use App\Application\Domain\Repository\UserRepositoryInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class UserRegister
@@ -32,8 +31,8 @@ class UserRegister
     /** @var CollectUnlockedBeersCommand */
     private CollectUnlockedBeersCommand $collectUnlockedBeersCommand;
 
-    /** @var UserPasswordEncoderInterface */
-    private UserPasswordEncoderInterface $passwordEncoder;
+    /** @var UserPasswordHasherInterface */
+    private UserPasswordHasherInterface $passwordEncoder;
 
     /** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
     private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
@@ -43,10 +42,10 @@ class UserRegister
      * @param NotificationGatewayInterface $notificationGateway
      * @param UserHashGeneratorGatewayInterface $confirmHashGeneratorGateway
      * @param CollectUnlockedBeersCommand $collectUnlockedBeersCommand
-     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param UserPasswordHasherInterface $passwordEncoder
      * @param ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory
      */
-    public function __construct(UserRepositoryInterface $userRepository, NotificationGatewayInterface $notificationGateway, UserHashGeneratorGatewayInterface $confirmHashGeneratorGateway, CollectUnlockedBeersCommand $collectUnlockedBeersCommand, UserPasswordEncoderInterface $passwordEncoder, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
+    public function __construct(UserRepositoryInterface $userRepository, NotificationGatewayInterface $notificationGateway, UserHashGeneratorGatewayInterface $confirmHashGeneratorGateway, CollectUnlockedBeersCommand $collectUnlockedBeersCommand, UserPasswordHasherInterface $passwordEncoder, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
     {
         $this->userRepository = $userRepository;
         $this->notificationGateway = $notificationGateway;
@@ -107,7 +106,7 @@ class UserRegister
             $user->setEmail($request->getEmail());
             $hash = $this->confirmHashGeneratorGateway->generate($user);
             $user->setHash($hash);
-            $encodedPassword = $this->passwordEncoder->encodePassword($user, $request->getPassword());
+            $encodedPassword = $this->passwordEncoder->hashPassword($user, $request->getPassword());
             $user->setPassword($encodedPassword);
             $this->userRepository->save($user);
             $this->notificationGateway->userRegister($user, $hash);
