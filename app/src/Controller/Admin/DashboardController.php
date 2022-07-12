@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Application\Domain\Entity\Beer;
 use App\Application\Domain\Entity\Review;
 use App\Application\Domain\Entity\User;
+use App\Application\Domain\Repository\BeerRepositoryInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -17,7 +18,6 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-
         $routeBuilder = $this->container->get(AdminUrlGenerator::class);
         return $this->redirect($routeBuilder->setController(BeerCrudController::class)->generateUrl());
 
@@ -41,20 +41,33 @@ class DashboardController extends AbstractDashboardController
         // return $this->render('some/path/my-dashboard.html.twig');
     }
 
+
+    /**
+     * @return Response
+     */
+    #[Route('/admin/beers', name: 'admin-beers')]
+    public function beers(BeerRepositoryInterface $beerRepository): Response
+    {
+        // todo: use "use case"
+        $beers = $beerRepository->findBy(['status' => 1]);
+        return $this->render("admin/beers.html.twig", ['beers' => $beers]);
+    }
+
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Html');
+            ->setTitle('Zdalny Browar Admin');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
         yield MenuItem::linkToCrud('Beers', 'fas fa-beer', Beer::class);
         yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class);
         yield MenuItem::linkToCrud('Reviews', 'fas fa-comments', Review::class);
 
+        yield MenuItem::linkToRoute('QR beers', 'fas fa-beer', 'admin-beers');
+        yield MenuItem::linkToRoute('API documentation', 'fas fa-book', 'documentation-api');
         yield MenuItem::linkToLogout('Logout', 'fa fa-sign-out');
     }
 }

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Application\Domain\Repository\BeerRepositoryInterface;
 use App\Application\Domain\UseCase\UserRegisterConfirm\UserRegisterConfirm;
 use App\Application\Domain\UseCase\UserRegisterConfirm\UserRegisterConfirmPresenterInterface;
 use App\Application\Domain\UseCase\UserRegisterConfirm\UserRegisterConfirmRequest;
@@ -14,17 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/')]
 class FrontController extends AbstractController
 {
-    protected BeerRepositoryInterface $beerRepository;
-
-    /**
-     * @param BeerRepositoryInterface $beerRepository
-     */
-    public function __construct(BeerRepositoryInterface $beerRepository)
-    {
-        $this->beerRepository = $beerRepository;
-    }
-
-
     /**
      * @return Response
      */
@@ -32,17 +20,6 @@ class FrontController extends AbstractController
     public function index(): Response
     {
         return $this->render("front/index.html.twig", []);
-    }
-
-    /**
-     * @return Response
-     */
-    #[Route('/beers', name: 'beers')]
-    public function beers(): Response
-    {
-        // todo: use "use case"
-        $beers = $this->beerRepository->findBy(['status' => 1]);
-        return $this->render("front/beers.html.twig", ['beers' => $beers]);
     }
 
     /**

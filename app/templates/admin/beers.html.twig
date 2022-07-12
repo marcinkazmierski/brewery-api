@@ -1,9 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends '@EasyAdmin/layout.html.twig' %}
+
 {% block title %}Zdalny Browar | Kody QR{% endblock %}
-{% block body %}
-    <div class="px-4 py-5 my-5 text-center">
+{% block main %}
+    <div class="text-center">
         <h1 class="display-5 fw-bold">Zdalny Browar - Nasze Piwa | Kody QR</h1>
-        <div class="col-lg-8 mx-auto">
+        <div class="col-md-12 mx-auto">
             <div class="row justify-content-center">
                 <p class="lead mb-4">
                     Jeśli nie masz etykiety z kodem QR piwa, to możesz skorzystać z poniższych, aby dodać swoje piwko do
@@ -11,7 +12,7 @@
                 </p>
                 {% for beer in beers %}
                     <div class="col-md-3">
-                        <div class="card" style="margin-bottom: 20px;">
+                        <div class="custom-card" style="padding: 20px;">
                             <img src="{{ qr_code_path(absolute_url(path('index', {'code':beer.code}))) }}"
                                  class="card-img-top"
                                  alt="{{ beer.title }} QR code">
