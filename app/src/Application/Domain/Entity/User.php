@@ -78,6 +78,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private int $status = UserStatusConstants::NEW;
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private array $roles = ['ROLE_USER'];
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -92,7 +97,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    /**
+     * @param array $roles
+     * @return void
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * @param string $role
+     * @return void
+     */
+    public function addRole(string $role): void
+    {
+        $this->roles[] = $role;
     }
 
     /**
@@ -167,7 +194,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->email;
     }
-
 
 
     /**

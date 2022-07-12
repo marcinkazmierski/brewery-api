@@ -15,12 +15,15 @@
 ### New symfony security
 - https://symfony.com/doc/current/security/custom_authenticator.html
 - /admin
+- w pierwszej kolejności należy utworzyć usera z rolą: ROLE_ADMIN
+- na stronie /login zalogować się jako admin 
 
 ### Easy Admin
 - https://symfony.com/doc/current/the-fast-track/pl/9-backend.html
 
 ## Komendy [custom]
 - `php bin/console users:create EMAIL NICK PASSWORD` - Create new user in database.
+- `php bin/console users:create EMAIL NICK PASSWORD --admin` - Create new admin in database.
 - `php bin/console code:generator:usecase MyUseCase` - generowanie nowego use case w strukturze Domain/Infrastructure
 - `php bin/console beer:collect BEER_CODE USER_EMAIL`
 - `php bin/console beer:create`

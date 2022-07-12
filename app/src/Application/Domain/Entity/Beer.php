@@ -305,4 +305,12 @@ class Beer
     {
         $this->activeForAllUsers = $activeForAllUsers;
     }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
 }

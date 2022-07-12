@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Application\Domain\Entity\Beer;
+use App\Application\Domain\Entity\Review;
+use App\Application\Domain\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -17,10 +19,10 @@ class DashboardController extends AbstractDashboardController
     {
 
         $routeBuilder = $this->container->get(AdminUrlGenerator::class);
-              $url = $routeBuilder->setController(BeerCrudController::class)->generateUrl();
-              dump($url);
+        return $this->redirect($routeBuilder->setController(BeerCrudController::class)->generateUrl());
 
-        return parent::index();
+
+        // return parent::index();
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
@@ -49,6 +51,10 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
-        yield MenuItem::linkToCrud('Beers', 'fas fa-comments', Beer::class);
+        yield MenuItem::linkToCrud('Beers', 'fas fa-beer', Beer::class);
+        yield MenuItem::linkToCrud('Users', 'fas fa-users', User::class);
+        yield MenuItem::linkToCrud('Reviews', 'fas fa-comments', Review::class);
+
+        yield MenuItem::linkToLogout('Logout', 'fa fa-sign-out');
     }
 }

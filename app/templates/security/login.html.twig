@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+
+{% block body %}
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold">Zdalny Browar - Panel Administratora</h1>
+        <div class="col-lg-3 mx-auto">
+            <form method="post" class="text-start">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                <div class="mb-3">
+                    <label for="inputEmail" class="form-label">E-mail</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
+                           autocomplete="email" required autofocus>
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputPassword" class="form-label">Hasło</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control"
+                           autocomplete="current-password" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+
+                <p class="text-end">
+                    <button class="btn btn-primary" type="submit">
+                        Zaloguj się
+                    </button>
+                    <a href="{{ path('index') }}" class="btn btn-light">
+                        Powrót do strony głównej
+                    </a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+

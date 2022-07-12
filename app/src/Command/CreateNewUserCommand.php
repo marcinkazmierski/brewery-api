@@ -24,6 +24,7 @@ class CreateNewUserCommand extends Command
     const PARAM_NICK = 'nick';
     const PARAM_EMAIL = 'email';
     const PARAM_PASSWORD = 'password';
+    const OPTION_IS_ADMIN = 'admin';
 
     protected static $defaultName = 'users:create';
 
@@ -77,7 +78,7 @@ class CreateNewUserCommand extends Command
                 self::PARAM_PASSWORD,
                 InputArgument::REQUIRED,
                 'Password'
-            );
+            )->addOption(self::OPTION_IS_ADMIN);
     }
 
 
@@ -104,6 +105,10 @@ class CreateNewUserCommand extends Command
                 $user->setStatus(UserStatusConstants::ACTIVE);
                 $encodedPassword = $this->passwordEncoder->hashPassword($user, $password);
                 $user->setPassword($encodedPassword);
+
+                if ($input->getOption(self::OPTION_IS_ADMIN)) {
+                    $user->addRole('ROLE_ADMIN');
+                }
                 $this->userRepository->save($user);
                 $this->collectUnlockedBeersCommand->execute($user);
                 $output->writeln(sprintf('New account created! ID: "%d"', $user->getId()));
