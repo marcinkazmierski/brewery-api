@@ -12,8 +12,12 @@ RUN docker-php-ext-install pdo pdo_mysql gd sockets zip bcmath
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install imap
 
-RUN pecl install xdebug \
-    && docker-php-ext-enable xdebug
+RUN apt-get install -y libicu-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl
+
+#RUN pecl install xdebug \
+#    && docker-php-ext-enable xdebug
 
 ENV LC_ALL pl_PL.UTF-8
 ENV LANG pl_PL.UTF-8

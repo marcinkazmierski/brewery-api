@@ -56,6 +56,6 @@ DirectoryIndex index.php
     # Rewrite all other queries to the front controller.
     RewriteRule ^ %{ENV:BASE}/index.php [L]
 
-    RedirectMatch 301 ^/admin(\/+)?$ /pl/admin
+    # RedirectMatch 301 ^/admin(\/+)?$ /pl/admin
 </IfModule>
 

@@ -12,11 +12,19 @@
 - `php bin/console make:controller` - stwórz automatycznie kontroler 
 - `php bin/phpunit` - run phpunit tests
 
+### New symfony security
+- https://symfony.com/doc/current/security/custom_authenticator.html
+- /admin
+
+### Easy Admin
+- https://symfony.com/doc/current/the-fast-track/pl/9-backend.html
+
 ## Komendy [custom]
 - `php bin/console users:create EMAIL NICK PASSWORD` - Create new user in database.
 - `php bin/console code:generator:usecase MyUseCase` - generowanie nowego use case w strukturze Domain/Infrastructure
 - `php bin/console beer:collect BEER_CODE USER_EMAIL`
 - `php bin/console beer:create`
+
 
 ## TODO: symfony 6 (https://symfony.com/doc/current/the-fast-track/pl/index.html)
 - php: 8.0
@@ -31,7 +39,6 @@
 - generowanie controllera: 'symfony console make:controller ConferenceController'
 - tworzenie encji 'symfony console make:entity Conference'
 - migracje: 'symfony console make:migration' > Aktualizacja bazy danych, wgranie migracji: 'symfony console doctrine:migrations:migrate'
-- panel admina: 'symfony composer req "admin:^3"' 
 - generowanie CRUD dla wszystkich encji dla panelu: 'symfony console make:admin:crud'
 - do zarządzania stringami: https://packagist.org/packages/symfony/string
 - API: 'symfony composer req api' (https://api-platform.com/docs/distribution/)
