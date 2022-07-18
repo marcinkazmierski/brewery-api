@@ -110,7 +110,6 @@ class AuthenticationController extends AbstractController
      * @param GenerateAuthenticationGuestTokenPresenterInterface $presenter
      * @return JsonResponse
      */
-    //todo: swagger
     #[Route('/authenticate/guest', name: 'authenticate-guest', methods: ['POST'])]
     public function authenticateGuest(
         Request                                            $request,

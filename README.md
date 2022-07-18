@@ -21,6 +21,9 @@
 ### Easy Admin
 - https://symfony.com/doc/current/the-fast-track/pl/9-backend.html
 
+### Sentry.io
+Integracja z Sentry https://docs.sentry.io/platforms/php/guides/symfony/
+
 ## Komendy [custom]
 - `php bin/console users:create EMAIL NICK PASSWORD` - Create new user in database.
 - `php bin/console users:create EMAIL NICK PASSWORD --admin` - Create new admin in database.

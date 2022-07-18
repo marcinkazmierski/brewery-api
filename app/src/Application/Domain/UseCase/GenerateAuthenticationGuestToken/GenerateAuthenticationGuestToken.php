@@ -57,6 +57,10 @@ class GenerateAuthenticationGuestToken
                 throw new ValidateException("Nick too short. Min 3 chars.");
             }
 
+            if (!preg_match("/^[a-z0-9ąęółśżźćń]+$/i", $request->getNick())) {
+                throw new ValidateException("Invalid characters in nick. A-Z and 0-9 only.");
+            }
+
             if ($this->userRepository->findOneBy(['nick' => $request->getNick()])) {
                 throw new ValidateException("Nick exists");
             }
