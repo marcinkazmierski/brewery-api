@@ -10,6 +10,7 @@ use App\Application\Domain\UseCase\GetBeers\GetBeersPresenterInterface;
 use App\Application\Domain\UseCase\GetBeers\GetBeersResponse;
 use App\Application\Infrastructure\Common\AbstractPresenter;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class GetBeersPresenter
@@ -51,14 +52,20 @@ class GetBeersPresenter extends AbstractPresenter implements GetBeersPresenterIn
             return $this->viewErrorResponse($this->response->getError(), $statusCode);
         }
 
-        $beers = [];
+        $userBeers = [];
+        $othersBeers = [];
         foreach ($this->response->getAllBeers() as $beer) {
-            $beers[] = $this->beerResponseFactory->create($beer, $this->response->getOwner());
+            $raw = $this->beerResponseFactory->create($beer, $this->response->getOwner());
+            if ($this->response->getOwner()->getUnlockedBeers()->contains($beer)) {
+                $userBeers[] = $raw;
+            } else {
+                $othersBeers[] = $raw;
+            }
         }
 
         $data = [
-            ResponseFieldMapper::BEERS => $beers,
+            ResponseFieldMapper::BEERS => array_merge($userBeers, $othersBeers),
         ];
-        return new JsonResponse($data, JsonResponse::HTTP_OK);
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 }
