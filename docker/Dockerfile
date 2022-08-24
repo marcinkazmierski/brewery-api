@@ -1,7 +1,7 @@
 FROM php:8.0-apache
 
 COPY php/php.ini /usr/local/etc/php/
-COPY php/xdebug.ini /usr/local/etc/php/conf.d/
+#COPY php/xdebug.ini /usr/local/etc/php/conf.d/
 
 # Dependencies
 RUN apt-get update
@@ -30,6 +30,7 @@ RUN service apache2 restart
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN mkdir -p /usr/local/bin
 RUN wget https://get.symfony.com/cli/installer -O - | bash
-RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+RUN mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
+
 
 

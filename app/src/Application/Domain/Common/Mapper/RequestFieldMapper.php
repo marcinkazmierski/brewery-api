@@ -18,4 +18,5 @@ abstract class RequestFieldMapper
     const REVIEW_RATING = 'reviewRating';
     const USER_NICK = 'nick';
     const DEVICE_ID = 'deviceId';
+    const NOTIFICATION_TOKEN = 'notificationToken';
 }

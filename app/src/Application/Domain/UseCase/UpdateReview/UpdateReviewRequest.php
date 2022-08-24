@@ -12,16 +12,16 @@ use App\Application\Domain\Entity\User;
 class UpdateReviewRequest
 {
     /** @var User */
-    private $user;
+    private User $user;
 
     /** @var float */
-    private $rating;
+    private float $rating;
 
     /** @var string */
-    private $text;
+    private string $text;
 
     /** @var int */
-    private $reviewId;
+    private int $reviewId;
 
     /**
      * UpdateReviewRequest constructor.

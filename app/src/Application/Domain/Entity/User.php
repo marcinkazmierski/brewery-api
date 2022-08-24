@@ -83,6 +83,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = ['ROLE_USER'];
 
     /**
+     * @var ?string
+     * @ORM\Column(type="string", unique=true, nullable=true)
+     */
+    private ?string $notificationToken;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -202,6 +208,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNotificationToken(): ?string
+    {
+        return $this->notificationToken;
+    }
+
+    /**
+     * @param string|null $notificationToken
+     * @return void
+     */
+    public function setNotificationToken(?string $notificationToken): void
+    {
+        $this->notificationToken = $notificationToken;
     }
 
     /**
