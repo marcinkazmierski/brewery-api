@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Application\Domain\UseCase\StoreNotificationToken;
 
 use App\Application\Domain\Common\Factory\ErrorResponseFactory\ErrorResponseFromExceptionFactoryInterface;
-use App\Application\Domain\Entity\User;
 use App\Application\Domain\Exception\ValidateException;
 use App\Application\Domain\Repository\UserRepositoryInterface;
 
