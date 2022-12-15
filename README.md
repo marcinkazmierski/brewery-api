@@ -30,6 +30,8 @@ Integracja z Sentry https://docs.sentry.io/platforms/php/guides/symfony/
 - `php bin/console code:generator:usecase MyUseCase` - generowanie nowego use case w strukturze Domain/Infrastructure
 - `php bin/console beer:collect BEER_CODE USER_EMAIL`
 - `php bin/console beer:create`
+- `php bin/console users:push-notifications --all "Tytuł" "Body wiadomości"` - wysyłka push do wszystkich userów
+- `php bin/console users:push-notifications "Mamy nowe piwko!" "Na amerykańskim chmielu cascade" nickname` - wysyłka push tylko do usera o nicku "nickname"
 
 
 ## TODO: symfony 6 (https://symfony.com/doc/current/the-fast-track/pl/index.html)

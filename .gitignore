@@ -7,3 +7,5 @@ docker/app/apache/logs/*.log
 
 /docker/apache/logs/*
 !/docker/apache/logs/.gitkeep
+/app/firebase/*
+!/app/firebase/.gitkeep

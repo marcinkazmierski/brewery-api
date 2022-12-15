@@ -130,6 +130,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
+    "kreait/firebase-bundle": {
+        "version": "4.1.0"
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
