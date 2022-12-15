@@ -4,7 +4,8 @@ namespace App\Command;
 
 use App\Application\Domain\Common\Constants\UserStatusConstants;
 use App\Application\Domain\Repository\UserRepositoryInterface;
-use Google\CRC32\PHP;
+use Kreait\Firebase\Exception\FirebaseException;
+use Kreait\Firebase\Exception\MessagingException;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
@@ -25,10 +26,7 @@ class UsersPushNotificationsCommand extends Command
 {
     private UserRepositoryInterface $userRepository;
 
-    /**
-     * @var KernelInterface
-     */
-    protected $kernel;
+    protected KernelInterface $kernel;
 
     /**
      * @param UserRepositoryInterface $userRepository
@@ -41,7 +39,9 @@ class UsersPushNotificationsCommand extends Command
         parent::__construct();
     }
 
-
+    /**
+     * @return void
+     */
     protected function configure(): void
     {
         $this
@@ -51,6 +51,13 @@ class UsersPushNotificationsCommand extends Command
             ->addOption('all', null, InputOption::VALUE_NONE, 'Send to all users');
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws FirebaseException
+     * @throws MessagingException
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
