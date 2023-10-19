@@ -39,7 +39,7 @@ class CollectBeer
      * @param CollectBeerPresenterInterface $presenter
      */
     public function execute(
-        CollectBeerRequest $request,
+        CollectBeerRequest            $request,
         CollectBeerPresenterInterface $presenter)
     {
         $response = new CollectBeerResponse();
@@ -49,7 +49,7 @@ class CollectBeer
             }
             /** @var Beer $beer */
             $beer = $this->beerRepository->findOneBy(['code' => $request->getBeerCode()]);
-            if (!$beer) {
+            if (!$beer || !$beer->getStatus()) {
                 throw new ValidateException("Invalid beerCode value");
             }
             $user = $request->getUser();

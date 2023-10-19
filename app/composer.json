@@ -50,7 +50,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "endroid/installer": true
+            "endroid/installer": true,
+            "php-http/discovery": true
         }
     },
     "autoload": {
