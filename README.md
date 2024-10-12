@@ -53,3 +53,8 @@ Integracja z Sentry https://docs.sentry.io/platforms/php/guides/symfony/
 
 ## Ficzery do zrobienia:
 - kolejkowanie asynchroniczne emaili
+
+## PHPStan
+
+- https://www.drupal.org/docs/develop/development-tools/phpstan/getting-started
+- `php vendor/bin/phpstan.phar`

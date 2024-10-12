@@ -56,7 +56,7 @@ class CreateReview
                 throw new ValidateException("Empty beerId field");
             }
 
-            /** @var Beer $beer */
+            /** @var ?Beer $beer */
             $beer = $this->beerRepository->find($request->getBeerId());
             if (empty($beer)) {
                 throw new ValidateException("Invalid beerId");
@@ -65,7 +65,7 @@ class CreateReview
                 throw new ValidateException("Beer locked for this user");
             }
 
-            /** @var Review $review */
+            /** @var ?Review $review */
             $review = $this->reviewRepository->findOneBy(['owner' => $request->getUser(), 'beer' => $beer]);
             if (!empty($review)) {
                 throw new ValidateException("Review exist!");
