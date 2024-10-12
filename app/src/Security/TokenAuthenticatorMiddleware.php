@@ -83,7 +83,12 @@ class TokenAuthenticatorMiddleware extends AbstractAuthenticator
         if (empty($credentials)) {
             throw new AuthenticationException("Unauthorized: empty X-AUTH-TOKEN header field.");
         }
-        $token = $this->userTokenRepository->getTokenByTokenKey($credentials);
+
+		try {
+			$token = $this->userTokenRepository->getTokenByTokenKey($credentials);
+		} catch (\Throwable $exception) {
+			throw new AuthenticationException($exception->getMessage());
+		}
 
         return new SelfValidatingPassport(new UserBadge($token->getUser()->getUserIdentifier()), []);
     }
