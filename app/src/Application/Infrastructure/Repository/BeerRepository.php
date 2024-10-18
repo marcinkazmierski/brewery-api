@@ -5,11 +5,12 @@ namespace App\Application\Infrastructure\Repository;
 
 use App\Application\Domain\Entity\Beer;
 use App\Application\Domain\Repository\BeerRepositoryInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryProxy;
 use Doctrine\Persistence\ManagerRegistry;
 
 
-class BeerRepository extends ServiceEntityRepositoryProxy implements BeerRepositoryInterface {
+class BeerRepository extends ServiceEntityRepository implements BeerRepositoryInterface {
 
 	public function __construct(ManagerRegistry $registry) {
 		parent::__construct($registry, Beer::class);

@@ -5,10 +5,11 @@ namespace App\Application\Infrastructure\Repository;
 
 use App\Application\Domain\Entity\Review;
 use App\Application\Domain\Repository\ReviewRepositoryInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryProxy;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ReviewRepository extends ServiceEntityRepositoryProxy implements ReviewRepositoryInterface {
+class ReviewRepository extends ServiceEntityRepository implements ReviewRepositoryInterface {
 
 	public function __construct(ManagerRegistry $registry) {
 		parent::__construct($registry, Review::class);

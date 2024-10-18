@@ -5,10 +5,11 @@ namespace App\Application\Infrastructure\Repository;
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\Entity\UserToken;
 use App\Application\Domain\Repository\UserTokenRepositoryInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryProxy;
 use Doctrine\Persistence\ManagerRegistry;
 
-class UserTokenRepository extends ServiceEntityRepositoryProxy implements UserTokenRepositoryInterface
+class UserTokenRepository extends ServiceEntityRepository implements UserTokenRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

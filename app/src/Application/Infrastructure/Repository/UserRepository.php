@@ -5,13 +5,14 @@ namespace App\Application\Infrastructure\Repository;
 
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\Repository\UserRepositoryInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryProxy;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserRepository extends ServiceEntityRepositoryProxy implements UserLoaderInterface, UserRepositoryInterface
+class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, UserRepositoryInterface
 {
     /**
      * @var UserPasswordHasherInterface
