@@ -5,25 +5,18 @@ namespace App\Application\Infrastructure\Repository;
 
 use App\Application\Domain\Entity\User;
 use App\Application\Domain\Repository\UserRepositoryInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Exception\ORMException;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryProxy;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class UserRepository extends ServiceEntityRepository implements UserLoaderInterface, UserRepositoryInterface
+class UserRepository extends ServiceEntityRepositoryProxy implements UserLoaderInterface, UserRepositoryInterface
 {
     /**
      * @var UserPasswordHasherInterface
      */
-    private $passwordEncoder;
+    private UserPasswordHasherInterface $passwordEncoder;
 
     /**
      * UserRepository constructor.
@@ -73,13 +66,13 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
      */
     public function save(User $entity): void
     {
-        try {
-            $this->_em->persist($entity);
-            $this->_em->flush();
-        } catch (ORMException $e) {
-            $this->_em->rollback();
-            throw new \Exception($e->getMessage());
-        }
+		try {
+			$this->getEntityManager()->persist($entity);
+			$this->getEntityManager()->flush();
+		} catch (\Throwable $e) {
+			$this->getEntityManager()->rollback();
+			throw new \Exception($e->getMessage());
+		}
     }
 
     /**
@@ -113,4 +106,20 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             }
         }
     }
+
+	public function findById($id): ?User {
+		return $this->find($id);
+	}
+
+	public function findOneByCriteria(array $criteria, array $orderBy = NULL): ?User {
+		return $this->findOneBy($criteria, $orderBy);
+	}
+
+	public function getAll(): array {
+		return $this->findAll();
+	}
+
+	public function findByCriteria(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL): array {
+		return $this->findBy($criteria, $orderBy, $limit, $offset);
+	}
 }

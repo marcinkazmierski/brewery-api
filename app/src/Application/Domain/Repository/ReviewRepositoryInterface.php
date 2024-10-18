@@ -8,25 +8,25 @@ use App\Application\Domain\Entity\Review;
 
 interface ReviewRepositoryInterface
 {
-    /**
-     * @param $id
-     * @param null $lockMode
-     * @param null $lockVersion
-     * @return Review|null
-     */
-    public function find($id, $lockMode = null, $lockVersion = null);
+
+	/**
+	 * @param $id
+	 *
+	 * @return \App\Application\Domain\Entity\Review|null
+	 */
+    public function findById($id): ?Review;
 
     /**
      * @param array $criteria
      * @param array|null $orderBy
      * @return Review|null
      */
-    public function findOneBy(array $criteria, array $orderBy = null);
+    public function findOneByCriteria(array $criteria, array $orderBy = null): ?Review;
 
     /**
      * @return Review[]
      */
-    public function findAll();
+    public function getAll(): array;
 
     /**
      * @param array $criteria
@@ -35,7 +35,7 @@ interface ReviewRepositoryInterface
      * @param null $offset
      * @return Review[]
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findByCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null): array;
 
     /**
      * @param Review $entity
