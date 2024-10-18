@@ -40,6 +40,7 @@ class GetApiDocumentation
             $openapi = \OpenApi\scan(self::CONTROLLERS_PATH);
             $yaml = $openapi->toYaml();
             $response->setApiDocumentation($yaml);
+			//@todo: https://zircote.github.io/swagger-php/
         } catch (\Throwable $e) {
             $error = $this->errorResponseFromExceptionFactory->create($e);
             $response->setError($error);

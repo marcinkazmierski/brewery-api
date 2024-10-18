@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     mailer_sender: '%env(MAILER_SENDER)%'
+    application_version: '%env(APPLICATION_VERSION)%'
 services:
     Monolog\Formatter\JsonFormatter: ~
     # default configuration for services in *this* file

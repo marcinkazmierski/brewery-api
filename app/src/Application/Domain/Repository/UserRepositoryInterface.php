@@ -8,25 +8,25 @@ use App\Application\Domain\Entity\User;
 
 interface UserRepositoryInterface
 {
-    /**
-     * @param $id
-     * @param null $lockMode
-     * @param null $lockVersion
-     * @return User|null
-     */
-    public function find($id, $lockMode = null, $lockVersion = null);
+
+	/**
+	 * @param $id
+	 *
+	 * @return \App\Application\Domain\Entity\User|null
+	 */
+    public function findById($id): ?User;
 
     /**
      * @param array $criteria
      * @param array|null $orderBy
      * @return User|null
      */
-    public function findOneBy(array $criteria, array $orderBy = null);
+    public function findOneByCriteria(array $criteria, array $orderBy = null): ?User;
 
     /**
      * @return User[]
      */
-    public function findAll();
+    public function getAll(): array;
 
     /**
      * @param array $criteria
@@ -35,7 +35,7 @@ interface UserRepositoryInterface
      * @param null $offset
      * @return User[]
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findByCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null): array;
 
     /**
      * @param string $email

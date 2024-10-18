@@ -6,14 +6,9 @@ use App\Application\Domain\Entity\User;
 use App\Application\Domain\Entity\UserToken;
 use App\Application\Domain\Repository\UserTokenRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryProxy;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @method UserToken|null find($id, $lockMode = null, $lockVersion = null)
- * @method UserToken|null findOneBy(array $criteria, array $orderBy = null)
- * @method UserToken[]    findAll()
- * @method UserToken[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class UserTokenRepository extends ServiceEntityRepository implements UserTokenRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
@@ -33,8 +28,8 @@ class UserTokenRepository extends ServiceEntityRepository implements UserTokenRe
         $token->setTokenKey(bin2hex(random_bytes(64)));
         $token->setUser($user);
         $token->setAppVersion($appVersion);
-        $this->_em->persist($token);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($token);
+        $this->getEntityManager()->flush();
         return $token;
     }
 
@@ -81,4 +76,20 @@ class UserTokenRepository extends ServiceEntityRepository implements UserTokenRe
         ;
     }
     */
+	public function findById($id): ?UserToken {
+		return $this->find($id);
+	}
+
+
+	public function findOneByCriteria(array $criteria, array $orderBy = NULL): ?UserToken {
+		return $this->findOneBy($criteria, $orderBy);
+	}
+
+	public function getAll(): array {
+		return $this->findAll();
+	}
+
+	public function findByCriteria(array $criteria, array $orderBy = NULL, $limit = NULL, $offset = NULL): array {
+		return $this->findBy($criteria, $orderBy, $limit, $offset);
+	}
 }

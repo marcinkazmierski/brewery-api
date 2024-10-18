@@ -8,25 +8,25 @@ use App\Application\Domain\Entity\Beer;
 
 interface BeerRepositoryInterface
 {
-    /**
-     * @param $id
-     * @param null $lockMode
-     * @param null $lockVersion
-     * @return Beer|null
-     */
-    public function find($id, $lockMode = null, $lockVersion = null);
+
+	/**
+	 * @param $id
+	 *
+	 * @return \App\Application\Domain\Entity\Beer|null
+	 */
+    public function findById($id): ?Beer;
 
     /**
      * @param array $criteria
      * @param array|null $orderBy
      * @return Beer|null
      */
-    public function findOneBy(array $criteria, array $orderBy = null);
+    public function findOneByCriteria(array $criteria, array $orderBy = null): ?Beer;
 
     /**
      * @return Beer[]
      */
-    public function findAll();
+    public function getAll(): array;
 
     /**
      * @param array $criteria
@@ -35,7 +35,7 @@ interface BeerRepositoryInterface
      * @param null $offset
      * @return Beer[]
      */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+    public function findByCriteria(array $criteria, array $orderBy = null, $limit = null, $offset = null): array;
 
     /**
      * @param Beer $entity

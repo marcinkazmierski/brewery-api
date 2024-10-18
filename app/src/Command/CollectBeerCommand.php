@@ -7,6 +7,7 @@ use App\Application\Domain\UseCase\CollectBeer\CollectBeer;
 use App\Application\Domain\UseCase\CollectBeer\CollectBeerPresenterInterface;
 use App\Application\Domain\UseCase\CollectBeer\CollectBeerRequest;
 use App\Application\Infrastructure\Repository\UserRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,12 +19,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  *     $ php bin/console beer:collect BEER_CODE USER_EMAIL
  */
+#[AsCommand(name: 'beer:collect')]
 class CollectBeerCommand extends Command
 {
     const PARAM_BEER = 'beer-code';
     const PARAM_EMAIL = 'user-email';
-
-    protected static $defaultName = 'beer:collect';
 
     /** @var UserRepository */
     private UserRepository $userRepository;
@@ -51,8 +51,7 @@ class CollectBeerCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure(): void {
         $this
             // the short description shown while running "php bin/console list"
             ->setDescription('Add beer to user collection.')

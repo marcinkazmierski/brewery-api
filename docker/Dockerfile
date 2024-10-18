@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 COPY php/php.ini /usr/local/etc/php/
 #COPY php/xdebug.ini /usr/local/etc/php/conf.d/

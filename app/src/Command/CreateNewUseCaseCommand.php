@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,13 +19,13 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  *     $ php bin/console code:generator:usecase MyUseCaseName
  */
+#[AsCommand(name: 'code:generator:usecase')]
 class CreateNewUseCaseCommand extends Command
 {
     const PARAM_USE_CASE_NAME = 'use_case_name';
     const DOMAIN_PATH = '/src/Application/Domain/UseCase/';
     const INFRASTRUCTURE_PATH = '/src/Application/Infrastructure/UseCase/';
 
-    protected static $defaultName = 'code:generator:usecase';
 
     /**
      * @var LoggerInterface
@@ -54,8 +55,7 @@ class CreateNewUseCaseCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure(): void {
         $this
             ->addArgument(
                 self::PARAM_USE_CASE_NAME,
