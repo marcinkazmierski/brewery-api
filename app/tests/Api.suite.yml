@@ -1,0 +1,17 @@
+actor: ApiTester
+suite_namespace: App\Tests\Api
+modules:
+    # enable helpers as array
+    enabled:
+        - REST:
+              url: http://localhost
+              depends: PhpBrowser
+              part: Json
+        - App\Tests\Support\Helper\ApiHelper
+        - Db:
+              dsn: 'mysql:host=mysql;dbname=main_db'
+              user: 'test'
+              password: 'test'
+              populate: true # load dump before all tests
+              cleanup: false # load dump for each test
+              # dump: 'tests/_data/dump.sql'

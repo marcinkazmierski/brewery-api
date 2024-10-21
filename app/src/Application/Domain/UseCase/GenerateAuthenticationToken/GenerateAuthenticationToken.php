@@ -11,54 +11,59 @@ use App\Application\Domain\Repository\UserTokenRepositoryInterface;
 
 /**
  * Class GenerateAuthenticationToken
+ *
  * @package App\Application\Domain\UseCase\GenerateAuthenticationToken
  */
-class GenerateAuthenticationToken
-{
-    /** @var UserRepositoryInterface */
-    private UserRepositoryInterface $userRepository;
+class GenerateAuthenticationToken {
 
-    /** @var UserTokenRepositoryInterface */
-    private UserTokenRepositoryInterface $userTokenRepository;
+	/** @var UserRepositoryInterface */
+	private UserRepositoryInterface $userRepository;
 
-    /** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
-    private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
+	/** @var UserTokenRepositoryInterface */
+	private UserTokenRepositoryInterface $userTokenRepository;
 
-    /**
-     * GenerateAuthenticationToken constructor.
-     * @param UserRepositoryInterface $userRepository
-     * @param UserTokenRepositoryInterface $userTokenRepository
-     * @param ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory
-     */
-    public function __construct(UserRepositoryInterface $userRepository, UserTokenRepositoryInterface $userTokenRepository, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory)
-    {
-        $this->userRepository = $userRepository;
-        $this->userTokenRepository = $userTokenRepository;
-        $this->errorResponseFromExceptionFactory = $errorResponseFromExceptionFactory;
-    }
+	/** @var ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory */
+	private ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory;
+
+	/**
+	 * GenerateAuthenticationToken constructor.
+	 *
+	 * @param UserRepositoryInterface $userRepository
+	 * @param UserTokenRepositoryInterface $userTokenRepository
+	 * @param ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory
+	 */
+	public function __construct(UserRepositoryInterface $userRepository, UserTokenRepositoryInterface $userTokenRepository, ErrorResponseFromExceptionFactoryInterface $errorResponseFromExceptionFactory) {
+		$this->userRepository = $userRepository;
+		$this->userTokenRepository = $userTokenRepository;
+		$this->errorResponseFromExceptionFactory = $errorResponseFromExceptionFactory;
+	}
 
 
-    /**
-     * @param GenerateAuthenticationTokenRequest $request
-     * @param GenerateAuthenticationTokenPresenterInterface $presenter
-     */
-    public function execute(
-        GenerateAuthenticationTokenRequest $request,
-        GenerateAuthenticationTokenPresenterInterface $presenter)
-    {
-        $response = new GenerateAuthenticationTokenResponse();
-        try {
-            $user = $this->userRepository->getUserByEmailAndPassword($request->getEmail(), $request->getPassword());
-            if ($user->getStatus() !== UserStatusConstants::ACTIVE) {
-                throw new ValidateException("Invalid user status - inactive account");
-            }
-            $token = $this->userTokenRepository->generateToken($user, $request->getAppVersion());
-            $response->setTokenKey($token->getTokenKey());
-            $response->setUser($user);
-        } catch (\Throwable $e) {
-            $error = $this->errorResponseFromExceptionFactory->create($e);
-            $response->setError($error);
-        }
-        $presenter->present($response);
-    }
+	/**
+	 * @param GenerateAuthenticationTokenRequest $request
+	 * @param GenerateAuthenticationTokenPresenterInterface $presenter
+	 */
+	public function execute(
+		GenerateAuthenticationTokenRequest            $request,
+		GenerateAuthenticationTokenPresenterInterface $presenter) {
+		$response = new GenerateAuthenticationTokenResponse();
+		try {
+			try {
+				$user = $this->userRepository->getUserByEmailAndPassword($request->getEmail(), $request->getPassword());
+			} catch (\Exception $e) {
+				throw new ValidateException("Invalid email or password.");
+			}
+			if ($user->getStatus() !== UserStatusConstants::ACTIVE) {
+				throw new ValidateException("Invalid user status - inactive account");
+			}
+			$token = $this->userTokenRepository->generateToken($user, $request->getAppVersion());
+			$response->setTokenKey($token->getTokenKey());
+			$response->setUser($user);
+		} catch (\Throwable $e) {
+			$error = $this->errorResponseFromExceptionFactory->create($e);
+			$response->setError($error);
+		}
+		$presenter->present($response);
+	}
+
 }
