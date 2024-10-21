@@ -67,6 +67,13 @@ Integracja z Sentry https://docs.sentry.io/platforms/php/guides/symfony/
 - https://www.drupal.org/docs/develop/development-tools/phpstan/getting-started
 - `php vendor/bin/phpstan.phar`
 
+## Testy (codeception)
+
+- `vendor/bin/phpunit` - uruchomienie unit testów
+- `vendor/bin/phpunit --coverage-html var/cache/coverage` - generuje raport pokrycia kodu testami [todo]
+- `vendor/bin/codecept run` - uruchomienie testów codeception: integracyjne/akceptacyjne
+- `vendor/bin/codecept g:cest api User` - dodanie nowego pustego testu akceptacyjnego o nazwie UserCest
+
 # Update Symfony to 7.1, todo:
 
 - swagger: https://github.com/zircote/swagger-php

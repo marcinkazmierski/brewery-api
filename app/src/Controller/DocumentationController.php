@@ -12,44 +12,9 @@ use OpenApi\Annotations as OA;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @OA\Info(title="Brewery REST API", version="0.2")
- */
-#[Route('/documentation')]
-class DocumentationController extends AbstractController
-{
-    /**
-     * @param GetApiDocumentation $getApiDocumentation
-     * @param GetApiDocumentationPresenterInterface $presenter
-     * @return Response
-     */
-    #[Route('/yaml', name: 'documentation-api-yaml', methods: ['GET'])]
-    public function generateDocsYaml(
-        GetApiDocumentation                   $getApiDocumentation,
-        GetApiDocumentationPresenterInterface $presenter
-    ): Response
-    {
-        $getApiDocumentation->execute(new GetApiDocumentationRequest(), $presenter);
-        return $presenter->view();
-    }
-
-    /**
-     * @Route(
-     *     "/api",
-     *     methods={"GET"},
-     *     name="documentation_api"
-     * )
-     *
-     * @return Response
-     */
-    #[Route('/api', name: 'documentation-api', methods: ['GET'])]
-    public function api(): Response
-    {
-        return $this->render('documentation/api.html.twig', []);
-    }
-}
-
-
-/**
+ * @OA\OpenApi(
+ * 	@OA\Info(title="Brewery REST API", version="1.0")
+ * ),
  * @OA\Schema(
  *    schema="ErrorResponse",
  *    type = "object",
@@ -57,8 +22,11 @@ class DocumentationController extends AbstractController
  *        property = "error",
  *        type = "object",
  *        @OA\Property( property = "code", type = "string", example="1001"),
- *        @OA\Property( property = "message", type = "string", example="General error"),
- *        @OA\Property( property = "userMessage", type = "string", example="Failed! Something has gone wrong. Please contact a system administrator."),
+ *        @OA\Property( property = "message", type = "string", example="General
+ *     error"),
+ *        @OA\Property( property = "userMessage", type = "string",
+ *     example="Failed! Something has gone wrong. Please contact a system
+ *     administrator."),
  *    ),
  * ),
  *
@@ -148,8 +116,10 @@ class DocumentationController extends AbstractController
  *     @OA\Property(property="beerHops", ref="#/components/schemas/text"),
  *     @OA\Property(property="beerIcon", ref="#/components/schemas/text"),
  *     @OA\Property(property="beerMalts", ref="#/components/schemas/text"),
- *     @OA\Property(property="beerTags", type="array", @OA\Items(ref="#/components/schemas/text")),
- *     @OA\Property(property="beerReviews", type="array", @OA\Items(ref="#/components/schemas/Review")),
+ *     @OA\Property(property="beerTags", type="array",
+ *     @OA\Items(ref="#/components/schemas/text")),
+ *     @OA\Property(property="beerReviews", type="array",
+ *     @OA\Items(ref="#/components/schemas/Review")),
  *     @OA\Property(property="userBeerReview", ref="#/components/schemas/Review"),
  * ),
  *
@@ -183,16 +153,53 @@ class DocumentationController extends AbstractController
  *     ),
  *     @OA\Response(
  *         response="badRequest",
- *         description="Bad Request. Path parameters do not reflect any resources in the database and/or body parameter are invalid.",
+ *         description="Bad Request. Path parameters do not reflect any
+ *     resources in the database and/or body parameter are invalid.",
  *         @OA\JsonContent(ref="#/components/schemas/ErrorResponse"),
  *     ),
  *     @OA\Response(
  *         response="noContent",
- *         description="No Content. The server successfully processed the request and is not returning any content.",
+ *         description="No Content. The server successfully processed the
+ *     request and is not returning any content.",
  *     ),
  *     @OA\Response(
  *         response="created",
- *         description="The request has been fulfilled, resulting in the creation of a new resource.",
+ *         description="The request has been fulfilled, resulting in the
+ *     creation of a new resource.",
  *     ),
  * ),
  */
+#[Route('/documentation')]
+class DocumentationController extends AbstractController {
+
+	/**
+	 * @param GetApiDocumentation $getApiDocumentation
+	 * @param GetApiDocumentationPresenterInterface $presenter
+	 *
+	 * @return Response
+	 */
+	#[Route('/yaml', name: 'documentation-api-yaml', methods: ['GET'])]
+	public function generateDocsYaml(
+		GetApiDocumentation                   $getApiDocumentation,
+		GetApiDocumentationPresenterInterface $presenter
+	): Response {
+		$input = new GetApiDocumentationRequest($this->getParameter('kernel.project_dir') . '/src/Controller');
+		$getApiDocumentation->execute($input, $presenter);
+		return $presenter->view();
+	}
+
+	/**
+	 * @Route(
+	 *     "/api",
+	 *     methods={"GET"},
+	 *     name="documentation_api"
+	 * )
+	 *
+	 * @return Response
+	 */
+	#[Route('/api', name: 'documentation-api', methods: ['GET'])]
+	public function api(): Response {
+		return $this->render('documentation/api.html.twig', []);
+	}
+
+}
