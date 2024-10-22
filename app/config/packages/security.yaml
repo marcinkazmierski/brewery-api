@@ -26,6 +26,7 @@ security:
                 - App\Security\TokenAuthenticatorMiddleware
         main:
             lazy: true
+            provider: custom_user_provider
             custom_authenticator: App\Security\AdminAuthenticator
             logout:
                 path: app_logout

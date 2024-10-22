@@ -19,87 +19,98 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 #[AsCommand(
-    name: 'users:push-notifications',
-    description: 'Send push notifications via firebase.',
+	name: 'users:push-notifications',
+	description: 'Send push notifications via firebase.',
 )]
-class UsersPushNotificationsCommand extends Command
-{
-    private UserRepositoryInterface $userRepository;
+class UsersPushNotificationsCommand extends Command {
 
-    protected KernelInterface $kernel;
+	private UserRepositoryInterface $userRepository;
 
-    /**
-     * @param UserRepositoryInterface $userRepository
-     * @param KernelInterface $kernel
-     */
-    public function __construct(UserRepositoryInterface $userRepository, KernelInterface $kernel)
-    {
-        $this->userRepository = $userRepository;
-        $this->kernel = $kernel;
-        parent::__construct();
-    }
+	protected KernelInterface $kernel;
 
-    /**
-     * @return void
-     */
-    protected function configure(): void
-    {
-        $this
-            ->addArgument('title', InputArgument::REQUIRED, 'Message title')
-            ->addArgument('body', InputArgument::REQUIRED, 'Message body')
-            ->addArgument('nick', InputArgument::OPTIONAL, 'User nick')
-            ->addOption('all', null, InputOption::VALUE_NONE, 'Send to all users');
-    }
+	/**
+	 * @param UserRepositoryInterface $userRepository
+	 * @param KernelInterface $kernel
+	 */
+	public function __construct(UserRepositoryInterface $userRepository, KernelInterface $kernel) {
+		$this->userRepository = $userRepository;
+		$this->kernel = $kernel;
+		parent::__construct();
+	}
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     * @throws FirebaseException
-     * @throws MessagingException
-     */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $io = new SymfonyStyle($input, $output);
-        $title = $input->getArgument('title');
-        $body = $input->getArgument('body');
-        $nick = $input->getArgument('nick');
-        $deviceTokens = [];
+	/**
+	 * @return void
+	 */
+	protected function configure(): void {
+		$this
+			->addArgument('title', InputArgument::REQUIRED, 'Message title')
+			->addArgument('body', InputArgument::REQUIRED, 'Message body')
+			->addArgument('nick', InputArgument::OPTIONAL, 'User nick')
+			->addOption('all', NULL, InputOption::VALUE_NONE, 'Send to all users');
+	}
 
-        if ($input->getOption('all')) {
-            foreach ($this->userRepository->findBy(['status' => [UserStatusConstants::ACTIVE, UserStatusConstants::GUEST, UserStatusConstants::GUEST_WAIT_FOR_CONFIRMATION]]) as $user) {
-                if (!empty($user->getNotificationToken())) {
-                    $deviceTokens[] = $user->getNotificationToken();
-                }
-            }
-        } else if ($nick) {
-            $io->note(sprintf('Your nick: %s', $nick));
-            $user = $this->userRepository->getUserByNick($nick);
-            if (!empty($user->getNotificationToken())) {
-                $deviceTokens[] = $user->getNotificationToken();
-            }
-        }
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 *
+	 * @return int
+	 * @throws FirebaseException
+	 * @throws MessagingException
+	 * @throws \Exception
+	 */
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$io = new SymfonyStyle($input, $output);
+		$title = $input->getArgument('title');
+		$body = $input->getArgument('body');
+		$nick = $input->getArgument('nick');
+		$deviceTokens = [];
 
-        if (!empty($deviceTokens)) {
-            $io->text(sprintf("Title: %s", $title));
-            $io->text(sprintf("Body:  %s", $body));
+		if ($input->getOption('all')) {
+			foreach ($this->userRepository->findByCriteria([
+				'status' => [
+					UserStatusConstants::ACTIVE,
+					UserStatusConstants::GUEST,
+					UserStatusConstants::GUEST_WAIT_FOR_CONFIRMATION,
+				],
+			]) as $user) {
+				if (!empty($user->getNotificationToken())) {
+					$deviceTokens[] = $user->getNotificationToken();
+				}
+			}
+		}
+		else {
+			if ($nick) {
+				$io->note(sprintf('Your nick: %s', $nick));
+				$user = $this->userRepository->getUserByNick($nick);
+				if (!empty($user->getNotificationToken())) {
+					$deviceTokens[] = $user->getNotificationToken();
+				}
+			}
+		}
 
-            $factory = (new Factory())->withServiceAccount($this->kernel->getProjectDir() . '/firebase/credentials.json');
-            $messaging = $factory->createMessaging();
-            $message = CloudMessage::new()
-                ->withNotification(Notification::create($title, $body));
-            $report = $messaging->sendMulticast($message, $deviceTokens);
+		if (!empty($deviceTokens)) {
+			$io->text(sprintf("Title: %s", $title));
+			$io->text(sprintf("Body:  %s", $body));
 
-            $io->success('Successful sends: ' . $report->successes()->count());
-            $io->warning('Failed sends: ' . $report->failures()->count());
+			$factory = (new Factory())->withServiceAccount($this->kernel->getProjectDir() . '/firebase/credentials.json');
+			$messaging = $factory->createMessaging();
+			$message = CloudMessage::new()
+				->withNotification(Notification::create($title, $body));
+			$report = $messaging->sendMulticast($message, $deviceTokens);
 
-            if ($report->hasFailures()) {
-                foreach ($report->failures()->getItems() as $failure) {
-                    $io->error($failure->error()->getMessage() . "; TARGET: " . $failure->target()->value());
-                }
-            }
-        }
+			$io->success('Successful sends: ' . $report->successes()->count());
+			$io->warning('Failed sends: ' . $report->failures()->count());
 
-        return Command::SUCCESS;
-    }
+			if ($report->hasFailures()) {
+				foreach ($report->failures()->getItems() as $failure) {
+					$io->error($failure->error()
+							->getMessage() . "; TARGET: " . $failure->target()
+							->value());
+				}
+			}
+		}
+
+		return Command::SUCCESS;
+	}
+
 }

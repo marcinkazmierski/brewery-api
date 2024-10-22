@@ -1,7 +1,7 @@
-FROM php:8.1-apache
+FROM php:8.3-apache
 
 COPY php/php.ini /usr/local/etc/php/
-#COPY php/xdebug.ini /usr/local/etc/php/conf.d/
+COPY php/xdebug.ini /usr/local/etc/php/conf.d/
 
 # Dependencies
 RUN apt-get update
@@ -16,8 +16,8 @@ RUN apt-get install -y libicu-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl
 
-#RUN pecl install xdebug \
-#    && docker-php-ext-enable xdebug
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
 ENV LC_ALL pl_PL.UTF-8
 ENV LANG pl_PL.UTF-8

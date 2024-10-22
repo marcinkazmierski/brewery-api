@@ -6,6 +6,7 @@ namespace App\Command;
 use App\Application\Domain\UseCase\CreateBeer\CreateBeer;
 use App\Application\Domain\UseCase\CreateBeer\CreateBeerPresenterInterface;
 use App\Application\Domain\UseCase\CreateBeer\CreateBeerRequest;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,10 +19,9 @@ use Symfony\Component\Console\Question\Question;
  *
  *     $ php bin/console beer:create
  */
+#[AsCommand(name: 'beer:create')]
 class CreateNewBeerCommand extends Command {
 
-
-	protected static $defaultName = 'beer:create';
 
 
 	private CreateBeer $useCase;
@@ -43,7 +43,7 @@ class CreateNewBeerCommand extends Command {
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function configure() {
+	protected function configure(): void {
 		$this
 			// the short description shown while running "php bin/console list"
 			->setDescription('Create new beer in database.')

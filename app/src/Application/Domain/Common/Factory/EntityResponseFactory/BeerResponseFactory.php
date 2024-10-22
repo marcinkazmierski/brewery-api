@@ -48,7 +48,7 @@ class BeerResponseFactory
         }
 
         /** @var Review $review */
-        $userReview = $this->reviewRepository->findOneBy(['owner' => $owner, 'beer' => $entity]);
+        $userReview = $this->reviewRepository->findOneByCriteria(['owner' => $owner, 'beer' => $entity]);
 
         $status = UserBeerStatusConstants::DISABLED;
         if ($owner->getUnlockedBeers()->contains($entity)) {

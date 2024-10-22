@@ -11,32 +11,35 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/')]
-class FrontController extends AbstractController
-{
-    /**
-     * @return Response
-     */
-    #[Route('', name: 'index')]
-    public function index(): Response
-    {
-        return $this->render("front/index.html.twig", []);
-    }
+class FrontController extends AbstractController {
 
-    /**
-     * Activate user account.
-     * @param string $hash
-     * @param UserRegisterConfirm $useCase
-     * @param UserRegisterConfirmPresenterInterface $presenter
-     * @return Response
-     */
-    #[Route('/confirm/{hash}', name: 'confirm-user-account', methods: ['GET'])]
-    public function confirm(
-        string              $hash,
-        UserRegisterConfirm $useCase, UserRegisterConfirmPresenterInterface $presenter
-    ): Response
-    {
-        $input = new UserRegisterConfirmRequest($hash);
-        $useCase->execute($input, $presenter);
-        return $presenter->view();
-    }
+	/**
+	 * @return Response
+	 */
+	#[Route('', name: 'index')]
+	public function index(): Response {
+		return $this->render("front/index.html.twig", [
+			'application_version' => $this->getParameter('application_version'),
+		]);
+	}
+
+	/**
+	 * Activate user account.
+	 *
+	 * @param string $hash
+	 * @param UserRegisterConfirm $useCase
+	 * @param UserRegisterConfirmPresenterInterface $presenter
+	 *
+	 * @return Response
+	 */
+	#[Route('/confirm/{hash}', name: 'confirm-user-account', methods: ['GET'])]
+	public function confirm(
+		string              $hash,
+		UserRegisterConfirm $useCase, UserRegisterConfirmPresenterInterface $presenter
+	): Response {
+		$input = new UserRegisterConfirmRequest($hash);
+		$useCase->execute($input, $presenter);
+		return $presenter->view();
+	}
+
 }

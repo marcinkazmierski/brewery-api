@@ -76,7 +76,7 @@ class UserRegister
                 throw new ValidateException("Invalid password field. Minimum password length: 8");
             }
 
-            if ($this->userRepository->findOneBy(['email' => $request->getEmail()])) {
+            if ($this->userRepository->findOneByCriteria(['email' => $request->getEmail()])) {
                 throw new ValidateException("Email exists");
             }
 
@@ -100,7 +100,7 @@ class UserRegister
                 if (!preg_match("/^[a-z0-9ąęółśżźćń]+$/i", $request->getNick())) {
                     throw new ValidateException("Invalid characters in nick. A-Z and 0-9 only.");
                 }
-                if ($this->userRepository->findOneBy(['nick' => $request->getNick()])) {
+                if ($this->userRepository->findOneByCriteria(['nick' => $request->getNick()])) {
                     throw new ValidateException("Nick exists");
                 }
                 $user = new User();
