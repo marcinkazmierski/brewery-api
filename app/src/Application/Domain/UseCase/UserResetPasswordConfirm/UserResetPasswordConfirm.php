@@ -51,7 +51,7 @@ class UserResetPasswordConfirm
             if (empty($request->getEmail())) {
                 throw new ValidateException("Empty email field");
             }
-            if (empty($request->getHash()) || !($user = $this->userRepository->findOneBy(['hash' => $request->getHash()]))) {
+            if (empty($request->getHash()) || !($user = $this->userRepository->findOneByCriteria(['hash' => $request->getHash()]))) {
                 throw new ValidateException("Invalid hash");
             }
             if (empty($request->getNewPassword()) || strlen($request->getNewPassword()) < 8) {

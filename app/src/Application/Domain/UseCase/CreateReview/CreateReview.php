@@ -57,7 +57,7 @@ class CreateReview
             }
 
             /** @var ?Beer $beer */
-            $beer = $this->beerRepository->find($request->getBeerId());
+            $beer = $this->beerRepository->findById($request->getBeerId());
             if (empty($beer)) {
                 throw new ValidateException("Invalid beerId");
             }
@@ -66,7 +66,7 @@ class CreateReview
             }
 
             /** @var ?Review $review */
-            $review = $this->reviewRepository->findOneBy(['owner' => $request->getUser(), 'beer' => $beer]);
+            $review = $this->reviewRepository->findOneByCriteria(['owner' => $request->getUser(), 'beer' => $beer]);
             if (!empty($review)) {
                 throw new ValidateException("Review exist!");
             }

@@ -32,7 +32,7 @@ class CollectUnlockedBeersCommand
      */
     public function execute(User $user): void
     {
-        $beers = $this->beerRepository->findBy(['status' => 1, 'activeForAllUsers' => 1]);
+        $beers = $this->beerRepository->findByCriteria(['status' => 1, 'activeForAllUsers' => 1]);
         foreach ($beers as $beer) {
             if (!$user->getUnlockedBeers()->contains($beer)) {
                 $user->getUnlockedBeers()->add($beer);

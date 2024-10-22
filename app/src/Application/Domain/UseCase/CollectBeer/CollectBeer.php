@@ -48,7 +48,7 @@ class CollectBeer
                 throw new ValidateException("Empty beerCode field");
             }
             /** @var Beer $beer */
-            $beer = $this->beerRepository->findOneBy(['code' => $request->getBeerCode()]);
+            $beer = $this->beerRepository->findOneByCriteria(['code' => $request->getBeerCode()]);
             if (!$beer || !$beer->getStatus()) {
                 throw new ValidateException("Invalid beerCode value");
             }

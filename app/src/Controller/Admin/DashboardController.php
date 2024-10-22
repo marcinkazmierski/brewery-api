@@ -42,14 +42,16 @@ class DashboardController extends AbstractDashboardController
     }
 
 
-    /**
-     * @return Response
-     */
+	/**
+	 * @param \App\Application\Domain\Repository\BeerRepositoryInterface $beerRepository
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
     #[Route('/admin/beers', name: 'admin-beers')]
     public function beers(BeerRepositoryInterface $beerRepository): Response
     {
         // todo: use "use case"
-        $beers = $beerRepository->findBy(['status' => 1]);
+        $beers = $beerRepository->findById(['status' => 1]);
         return $this->render("admin/beers.html.twig", ['beers' => $beers]);
     }
 

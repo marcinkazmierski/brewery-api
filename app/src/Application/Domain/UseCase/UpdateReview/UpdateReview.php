@@ -41,7 +41,7 @@ class UpdateReview
     {
         $response = new UpdateReviewResponse();
         try {
-            $review = $this->reviewRepository->find($request->getReviewId());
+            $review = $this->reviewRepository->findById($request->getReviewId());
             if (!$review) {
                 throw new ValidateException("Review not exist");
             }

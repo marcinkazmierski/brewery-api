@@ -42,7 +42,7 @@ class StoreNotificationToken
                 throw new ValidateException("Empty token field");
             }
 
-            foreach ($this->userRepository->findBy(['notificationToken' => $request->getToken()]) as $u) {
+            foreach ($this->userRepository->findByCriteria(['notificationToken' => $request->getToken()]) as $u) {
                 $u->setNotificationToken(null);
                 $this->userRepository->save($u);
             }

@@ -43,7 +43,7 @@ class UserRegisterConfirm
             if (empty($request->getHash())) {
                 throw new ValidateException("Empty hash field");
             }
-            if (!($user = $this->userRepository->findOneBy(['hash' => $request->getHash()]))) {
+            if (!($user = $this->userRepository->findOneByCriteria(['hash' => $request->getHash()]))) {
                 throw new ValidateException("Invalid hash");
             }
             if (!in_array($user->getStatus(), [UserStatusConstants::NEW, UserStatusConstants::GUEST_WAIT_FOR_CONFIRMATION])) {

@@ -53,7 +53,7 @@ class CreateBeer
             if (empty($request->getCode()) || strlen($request->getCode()) < 5) {
                 throw new ValidateException("Empty or too short (min 5 chars) code field");
             }
-            if ($this->beerRepository->findOneBy(['code' => $request->getCode()])) {
+            if ($this->beerRepository->findOneByCriteria(['code' => $request->getCode()])) {
                 throw new ValidateException("Beer already exist with this code");
             }
             if (empty($request->getIcon()) || !@getimagesize($request->getIcon())) {

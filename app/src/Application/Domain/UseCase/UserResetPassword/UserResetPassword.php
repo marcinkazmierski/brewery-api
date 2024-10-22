@@ -56,7 +56,7 @@ class UserResetPassword
             if (empty($request->getEmail())) {
                 throw new ValidateException("Empty email field");
             }
-            $user = $this->userRepository->findOneBy(['email' => $request->getEmail()]);
+            $user = $this->userRepository->findOneByCriteria(['email' => $request->getEmail()]);
             if (!$user) {
                 throw new ValidateException("Email not exists");
             }
