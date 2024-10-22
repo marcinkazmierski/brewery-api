@@ -51,7 +51,7 @@ class DashboardController extends AbstractDashboardController
     public function beers(BeerRepositoryInterface $beerRepository): Response
     {
         // todo: use "use case"
-        $beers = $beerRepository->findById(['status' => 1]);
+        $beers = $beerRepository->findByCriteria(['status' => 1]);
         return $this->render("admin/beers.html.twig", ['beers' => $beers]);
     }
 
