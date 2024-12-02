@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tests\Api;
 
 use App\Tests\Support\ApiTester;

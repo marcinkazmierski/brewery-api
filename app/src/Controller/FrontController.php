@@ -23,6 +23,15 @@ class FrontController extends AbstractController {
 		]);
 	}
 
+
+	#[Route('beer/{code}', name: 'index')]
+	public function beer(string $code): Response {
+		dump($code);
+		return $this->render("front/beer.html.twig", [
+			'application_version' => $this->getParameter('application_version'),
+		]);
+	}
+
 	/**
 	 * Activate user account.
 	 *

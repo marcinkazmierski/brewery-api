@@ -1,0 +1,16 @@
+h1 .badge {
+    font-size: 9px;
+}
+
+.header img {
+    max-width: 200px;
+}
+
+.mobile-app {
+    background-color: #ffc107;
+    color: #000;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 30px 0;
+    text-align: center;
+}
